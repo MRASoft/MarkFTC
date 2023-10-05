@@ -1,7 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+
+@TeleOp(name = "OpMode")
 public class OpMode extends LinearOpMode {
     // Declare OpMode members.
+    private ColorSensor frontColorSensor;
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftWheel  = null;
     private DcMotor frontRightWheel = null;
@@ -20,6 +29,8 @@ public class OpMode extends LinearOpMode {
         frontRightWheel = hardwareMap.get(DcMotor.class, "frontRight");
         backLeftWheel   = hardwareMap.get(DcMotor.class, "backLeft");
         backRightWheel  = hardwareMap.get(DcMotor.class, "backRight");
+        frontColorSensor = hardwareMap.get(ColorSensor.class, "frontColorSensor");
+      
 
         frontLeftWheel.setDirection(DcMotor.Direction.FORWARD);
         frontRightWheel.setDirection(DcMotor.Direction.REVERSE);
@@ -38,16 +49,35 @@ public class OpMode extends LinearOpMode {
             double frontRightPower;
             double backLeftPower;
             double backRightPower;
+          
+			telemetry.addData("Alpha", frontColorSensor.alpha());  // Turn the LED on
+            telemetry.addData("red", frontColorSensor.red());
+            telemetry.addData("green", frontColorSensor.green());
+            telemetry.addData("blue", frontColorSensor.blue());
+            telemetry.addData("argb", frontColorSensor.argb());
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-            frontLeftPower = 1;
-            frontRightPower = 1;
-            backLeftPower = 1;
-            backRightPower = 1;
+          
+          	if (frontColorSensor.blue() > 0)
+            {
+   	            frontLeftPower = 0;
+    	        frontRightPower = 0;
+           		backLeftPower = 0;
+            	backRightPower = 0;
+            }
+            else
+            {
+                frontLeftPower = 1;
+    	        frontRightPower = 1;
+           		backLeftPower = 1;
+            	backRightPower = 1;
+            }
+          
+
 
             // Send calculated power to wheels
             frontLeftWheel.setPower(frontLeftPower);
