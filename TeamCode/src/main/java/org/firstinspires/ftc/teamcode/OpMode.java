@@ -17,6 +17,12 @@ public class OpMode extends LinearOpMode {
     private DcMotor backLeftWheel  = null;
     private DcMotor backRightWheel = null;
 
+	// Initialize directions
+	 //  backRightWheel = new robotDirection();
+	// private robotDirection goForward = new this.robotDirection();
+	// goBackward.robotDirection(-1, -1, -1, -1);
+	// goForward.robotDirection(1, 1, 1, 1);
+
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -61,29 +67,8 @@ public class OpMode extends LinearOpMode {
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-          
-          	if (frontColorSensor.blue() > 0)
-            {
-   	            frontLeftPower = 0;
-    	        frontRightPower = 0;
-           		backLeftPower = 0;
-            	backRightPower = 0;
-            }
-            else
-            {
-                frontLeftPower = 1;
-    	        frontRightPower = 1;
-           		backLeftPower = 1;
-            	backRightPower = 1;
-            }
-          
-
-
-            // Send calculated power to wheels
-            frontLeftWheel.setPower(frontLeftPower);
-            frontRightWheel.setPower(frontRightPower);
-            backLeftWheel.setPower(backLeftPower);
-            backRightWheel.setPower(backRightPower);
+			// driveSeconds(this.goForward, 5);
+	
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -91,4 +76,25 @@ public class OpMode extends LinearOpMode {
             telemetry.update();
         }
     }
+
+
+  	// Drive A specific direction for the number of seconds
+  	private void driveSeconds(direction newDirection, double seconds) {
+		frontLeftWheel.setPower(newDirection.frontLeftPower);
+        frontRightWheel.setPower(newDirection.frontRightPower);
+        backLeftWheel.setPower(newDirection.backLeftPower);
+        backRightWheel.setPower(newDirection.backRightPower);
+
+        if (opModeIsActive()) {
+
+        }
+  	}
+}
+
+public class robotDirection {
+	double frontLeftPower;
+	double frontRightPower;
+	double backLeftPower;
+	double backRightPower;
+
 }
