@@ -1,13 +1,40 @@
 package org.firstinspires.ftc.teamcode;
 
+//Importing
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-@TeleOp(name = "OpMode")
-public class OpMode extends LinearOpMode {
+//##################################
+//#                                #
+//# Made by Coder Ricky Adams (14) #
+//#      for the 2023-2024         #
+//#       Centerstage FTC,         #
+//#     with teammates Michael     #
+//#    Shenback and Max Corum      #
+//# (and a little help from Ethan) #
+//#  as engineers. Use this as a   #
+//#  basis for any code you need   #
+//#     for future events.         #
+//#                                #
+//#  -Team Dinomite8472 10/7/2023  #
+//#                                #
+//##################################
+
+
+//Note to used Android studio to show errors in code, and the robot
+//control console (ip address to connect directly to control hub,
+//in my case http://192.168.43.1:8080/?page=connection.html&pop=true)
+//to export the code into the mini i-pad (Driver hub)
+
+
+//Replace ' name = "OpMode3" ' with the name you want
+//to display on control hub, and ' class OpMode3 ' with
+//the name of the file.
+@TeleOp(name = "OpMode3")
+public class OpMode3 extends LinearOpMode {
     // Declare OpMode members.
     private ColorSensor frontColorSensor;
     private ElapsedTime runtime = new ElapsedTime();
@@ -17,9 +44,11 @@ public class OpMode extends LinearOpMode {
     private DcMotor backRightWheel = null;
 
     // Initialize directions
-    private final robotDirection goForward = new robotDirection(1, 1, 1, 1);
-    private final robotDirection goBackward = new robotDirection(-1, -1, -1, -1);
-    private final robotDirection fullStop = new robotDirection(0, 0, 0, 0);
+    private final robotDirection goForward = new robotDirection(1, 1, 1, 1, "Forward");
+    private final robotDirection goBackward = new robotDirection(-1, -1, -1, -1, "Back");
+    private final robotDirection fullStop = new robotDirection(0, 0, 0, 0, "Pause");
+    private final robotDirection strafeLeft = new robotDirection(1, 1, -1, -1, "SLeft");
+    private final robotDirection strafeRight = new robotDirection(-1, -1, 1, 1, "SRight");
 
     // Store the current direction
     private robotDirection currentDirection = fullStop;
@@ -31,6 +60,10 @@ public class OpMode extends LinearOpMode {
         telemetry.update();
 
         // Initialize the hardware variables
+        
+        //***VERY IMPORTANT**
+        //Replace the device name (ex frontLeft) with the NAME OF THE
+        //MOTORS DEFINED IN THE DRIVER HUB
         frontLeftWheel = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRightWheel = hardwareMap.get(DcMotor.class, "frontRight");
         backLeftWheel  = hardwareMap.get(DcMotor.class, "backLeft");
@@ -47,11 +80,21 @@ public class OpMode extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
+
         // Go forward for five seconds
         driveSeconds(goForward, 5);
 
+        //Stop of 2 Seconds
+        driveSeconds(fullStop, 2);
+
         // Go backward for three seconds
         driveSeconds(goBackward, 3);
+
+        //Strafe left for 3.5 seconds
+        driveSeconds(strafeLeft, 3.5);
+
+        //Strafe right for 3.5 seconds
+        driveSeconds(strafeRight, 3.5);
 
         // Now just monitor the color
         while (opModeIsActive()) {
@@ -62,7 +105,7 @@ public class OpMode extends LinearOpMode {
             telemetry.addData("blue", frontColorSensor.blue());
             telemetry.addData("argb", frontColorSensor.argb());
 
-            // Show the elapsed game time and wheel power.
+            //*Must add to have data show up on the driver hub*
             telemetry.update();
         }
     }
@@ -76,11 +119,14 @@ public class OpMode extends LinearOpMode {
         // Set the drive time
         ElapsedTime driveTime = new ElapsedTime();
 
-        if (opModeIsActive() && driveTime.seconds() < seconds) {
-            telemetry.addData("Current Direction", "fl (%.2f), fr (%.2f), bl (%.2f), br (%.2f)", currentDirection.frontLeftPower, currentDirection.frontRightPower, currentDirection.backLeftPower, currentDirection.backRightPower);
-            telemetry.addData("Direction Time", driveTime.seconds() + "/" + seconds);
+        while (opModeIsActive() && driveTime.seconds() < seconds) {
+            //telemetry.addData("Current Direction", "fl (%.2f), fr (%.2f), bl (%.2f), br (%.2f)", currentDirection.frontLeftPower, currentDirection.frontRightPower, currentDirection.backLeftPower, currentDirection.backRightPower);
+            telemetry.addData("Direction", currentDirection.direction);
+            telemetry.addData("Direction Time", formatSeconds(driveTime.seconds()) + "/" + seconds);
+            telemetry.update();
             setPower();
         }
+
 
         // Stop the robot
         currentDirection = fullStop;
@@ -88,11 +134,23 @@ public class OpMode extends LinearOpMode {
         setPower();
     }
 
+    //This is used in defining directions (goForward) so you can just
+    //replace the numbers with the power you want it to go at (will
+    //vary in speed depending on the battery level)
     private void setPower() {
         frontLeftWheel.setPower(currentDirection.frontLeftPower);
         frontRightWheel.setPower(currentDirection.frontRightPower);
         backLeftWheel.setPower(currentDirection.backLeftPower);
         backRightWheel.setPower(currentDirection.backRightPower);
+    }
+
+    //Very complicated code to make it so that when it is showing
+    //seconds it has gone (directionTime) will be a one decimal number,
+    //ex 0.2. Add 0's to both tens to increase the number of decimal
+    //places shown.
+    private String formatSeconds(double inputSeconds){
+        double fixedValue = Math.floor(inputSeconds * 10) / 10;
+        return String.valueOf(fixedValue);
     }
 }
 
@@ -101,11 +159,13 @@ class robotDirection {
     double frontRightPower;
     double backLeftPower;
     double backRightPower;
+    String direction;
 
-    robotDirection(double frontLeft, double frontRight, double backLeft, double backRight) {
+    robotDirection(double frontLeft, double frontRight, double backLeft, double backRight, String directionName) {
         this.frontLeftPower = frontLeft;
         this.frontRightPower = frontRight;
         this.backLeftPower = backLeft;
         this.backRightPower = backRight;
+        this.direction = directionName;
     }
 }
