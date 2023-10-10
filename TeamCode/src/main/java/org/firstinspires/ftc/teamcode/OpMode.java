@@ -103,6 +103,12 @@ public class OpMode3 extends LinearOpMode {
         //Strafe right for 3.5 seconds
         //driveSeconds(strafeRight, 3.5);
 
+        //
+        boolean colorWasFound;
+        colorWasFound = driveUntilColor(goForward, "red", 5);
+        telemetry.addData("Found color", colorWasFound);
+        telemetry.update();
+
         // Now just monitor the color
         while (opModeIsActive()) {
             // Get the color sensor data
