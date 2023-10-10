@@ -35,6 +35,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 //the name of the file.
 @TeleOp(name = "OpMode3")
 public class OpMode3 extends LinearOpMode {
+
+    private String action;
     // Declare OpMode members.
     private ColorSensor frontColorSensor;
     private ElapsedTime runtime = new ElapsedTime();
@@ -49,6 +51,11 @@ public class OpMode3 extends LinearOpMode {
     private final robotDirection fullStop = new robotDirection(0, 0, 0, 0, "Pause");
     private final robotDirection strafeLeft = new robotDirection(1, 1, -1, -1, "SLeft");
     private final robotDirection strafeRight = new robotDirection(-1, -1, 1, 1, "SRight");
+
+    //Set color thresholds
+    private final int blueThreshold = 1000;
+    private final int redThreshold = 1000;
+    private final int greenThreshold = 1000;
 
     // Store the current direction
     private robotDirection currentDirection = fullStop;
@@ -82,19 +89,19 @@ public class OpMode3 extends LinearOpMode {
 
 
         // Go forward for five seconds
-        driveSeconds(goForward, 5);
+        //driveSeconds(goForward, 5);
 
         //Stop of 2 Seconds
-        driveSeconds(fullStop, 2);
+        //driveSeconds(fullStop, 2);
 
         // Go backward for three seconds
-        driveSeconds(goBackward, 3);
+        //driveSeconds(goBackward, 3);
 
         //Strafe left for 3.5 seconds
-        driveSeconds(strafeLeft, 3.5);
+        //driveSeconds(strafeLeft, 3.5);
 
         //Strafe right for 3.5 seconds
-        driveSeconds(strafeRight, 3.5);
+        //driveSeconds(strafeRight, 3.5);
 
         // Now just monitor the color
         while (opModeIsActive()) {
@@ -132,6 +139,49 @@ public class OpMode3 extends LinearOpMode {
         currentDirection = fullStop;
 
         setPower();
+    }
+
+    private boolean driveUntilColor(robotDirection newDirection, String colorType, int searchTime) {
+        // Will keep going until is true
+        boolean colorFound = false;
+        int threshold = 0;
+
+        // Set the current direction
+        currentDirection = newDirection;
+
+        // Set the drive time
+        ElapsedTime driveTime = new ElapsedTime();
+
+        while (opModeIsActive() && driveTime.seconds() < searchTime && colorFound == false) {
+            switch (colorType){
+                case "blue":
+                    colorFound = frontColorSensor.blue() > blueThreshold;
+                    break;
+                case "red":
+                    colorFound = frontColorSensor.red() > redThreshold;
+                    break;
+                case "green":
+                    colorFound = frontColorSensor.green() > greenThreshold;
+                    break;
+            }
+            if (colorFound) {
+                telemetry.addData("Found ", colorType);
+            }
+            else {
+                telemetry.addData("Searching for:", colorType);
+                telemetry.addData("In Direction:", currentDirection.direction);
+                telemetry.addData("Time remaining until return", formatSeconds(driveTime.seconds()) + "/" + searchTime);
+                telemetry.update();
+                setPower();
+            }
+        }
+
+        // Stop the robot
+        currentDirection = fullStop;
+
+        setPower();
+
+        return colorFound;
     }
 
     //This is used in defining directions (goForward) so you can just
