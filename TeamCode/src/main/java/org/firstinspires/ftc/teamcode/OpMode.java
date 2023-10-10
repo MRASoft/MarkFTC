@@ -37,6 +37,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 public class OpMode3 extends LinearOpMode {
 
     private String action;
+    private final int waitTime = 5;
+
     // Declare OpMode members.
     private ColorSensor frontColorSensor;
     private ElapsedTime runtime = new ElapsedTime();
@@ -67,7 +69,7 @@ public class OpMode3 extends LinearOpMode {
         telemetry.update();
 
         // Initialize the hardware variables
-        
+
         //***VERY IMPORTANT**
         //Replace the device name (ex frontLeft) with the NAME OF THE
         //MOTORS DEFINED IN THE DRIVER HUB
@@ -108,9 +110,13 @@ public class OpMode3 extends LinearOpMode {
         colorWasFound = driveUntilColor(goForward, "red", 5);
         telemetry.addData("Found color", colorWasFound);
         telemetry.update();
+        ElapsedTime waitTimer = new ElapsedTime();
+        while (opModeIsActive() && waitTimer.seconds() < waitTime) {
+            //AHHHHHHHHHHHHHHHHHHHHHHHHH
+        }
 
         // Now just monitor the color
-        while (opModeIsActive()) {
+        /*while (opModeIsActive()) {
             // Get the color sensor data
             telemetry.addData("Alpha", frontColorSensor.alpha());
             telemetry.addData("red", frontColorSensor.red());
@@ -121,6 +127,7 @@ public class OpMode3 extends LinearOpMode {
             //*Must add to have data show up on the driver hub*
             telemetry.update();
         }
+        */
     }
 
 
