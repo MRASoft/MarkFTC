@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 //##################################
 //#                                #
@@ -36,6 +37,7 @@ public class OpMode3 extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
+    TouchSensor touch;
 
     // Declare OpMode members.
     private DcMotor frontLeftWheel  = null;
@@ -58,6 +60,10 @@ public class OpMode3 extends LinearOpMode {
         frontRightWheel = hardwareMap.get(DcMotor.class, "frontRight");
         backLeftWheel = hardwareMap.get(DcMotor.class, "backLeft");
         backRightWheel = hardwareMap.get(DcMotor.class, "backRight");
+
+        //Load touch sensor
+        touch = hardwareMap.get(TouchSensor.class, "armTouchSensor");
+
 
         // Set the wheel directions
         frontLeftWheel.setDirection(DcMotor.Direction.FORWARD);
@@ -103,47 +109,56 @@ public class OpMode3 extends LinearOpMode {
                 frontRightWheel.setPower(noPower);
             }
             if (gamepad1.dpad_up) {
-                telemetry.addData("Direction", "Foreward");
+                telemetry.addData("Direction", "Forward");
                 backLeftWheel.setPower(-tSpeed);
                 backRightWheel.setPower(tSpeed);
                 frontLeftWheel.setPower(tSpeed);
                 frontRightWheel.setPower(-tSpeed);
             } else if (gamepad1.dpad_down) {
-                telemetry.addData("Direction", "Bac");
+                telemetry.addData("Direction", "Back");
                 backLeftWheel.setPower(tSpeed);
                 backRightWheel.setPower(-tSpeed);
                 frontLeftWheel.setPower(-tSpeed);
                 frontRightWheel.setPower(tSpeed);
-            } else if (gamepad1.x) {
-                telemetry.addData("Direction", "Ex Girlfriend");
-                backLeftWheel.setPower(-tSpeed);
-                backRightWheel.setPower(-tSpeed);
-                frontLeftWheel.setPower(tSpeed);
-                frontRightWheel.setPower(tSpeed);
-            } else if (gamepad1.b) {
-                telemetry.addData("Direction", "Bee");
-                backLeftWheel.setPower(tSpeed);
-                frontLeftWheel.setPower(-tSpeed);
-                backRightWheel.setPower(tSpeed);
-                frontRightWheel.setPower(-tSpeed);
             } else if (gamepad1.dpad_left) {
-                telemetry.addData("Direction", "Lect");
+                telemetry.addData("Direction", "Left");
                 backLeftWheel.setPower(-tSpeed);
                 backRightWheel.setPower(-tSpeed);
                 frontLeftWheel.setPower(-tSpeed);
                 frontRightWheel.setPower(-tSpeed);
             } else if (gamepad1.dpad_right) {
-                telemetry.addData("Direction", "Write");
+                telemetry.addData("Direction", "Right");
                 backLeftWheel.setPower(tSpeed);
                 backRightWheel.setPower(tSpeed);
                 frontLeftWheel.setPower(tSpeed);
                 frontRightWheel.setPower(tSpeed);
+            } else if (gamepad1.x) {
+                telemetry.addData("Direction", "X");
+                backLeftWheel.setPower(-tSpeed);
+                backRightWheel.setPower(-tSpeed);
+                frontLeftWheel.setPower(tSpeed);
+                frontRightWheel.setPower(tSpeed);
+            } else if (gamepad1.b) {
+                telemetry.addData("Direction", "B");
+                backLeftWheel.setPower(tSpeed);
+                frontLeftWheel.setPower(-tSpeed);
+                backRightWheel.setPower(tSpeed);
+                frontRightWheel.setPower(-tSpeed);
             } else {
                 backLeftWheel.setPower(noPower);
                 backRightWheel.setPower(noPower);
                 frontLeftWheel.setPower(noPower);
                 frontRightWheel.setPower(noPower);
             }
+
+            if (touch.isPressed()){
+                telemetry.addData("Touch status", "On");
+            }
+            else
+            {
+                telemetry.addData("Touch status", "Off");
+            }
+
             // Put run blocks here.
             // Put loop blocks here.
             telemetry.update();
