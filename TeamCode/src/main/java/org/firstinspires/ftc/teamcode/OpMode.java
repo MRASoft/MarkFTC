@@ -2,10 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 //Importing
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 //##################################
 //#                                #
@@ -40,27 +44,10 @@ public class OpMode3 extends LinearOpMode {
     private final int waitTime = 5;
 
     // Declare OpMode members.
-    private ColorSensor frontColorSensor;
-    private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftWheel  = null;
     private DcMotor frontRightWheel = null;
     private DcMotor backLeftWheel  = null;
     private DcMotor backRightWheel = null;
-
-    // Initialize directions
-    private final robotDirection goForward = new robotDirection(1, 1, 1, 1, "Forward");
-    private final robotDirection goBackward = new robotDirection(-1, -1, -1, -1, "Back");
-    private final robotDirection fullStop = new robotDirection(0, 0, 0, 0, "Pause");
-    private final robotDirection strafeLeft = new robotDirection(1, 1, -1, -1, "SLeft");
-    private final robotDirection strafeRight = new robotDirection(-1, -1, 1, 1, "SRight");
-
-    //Set color thresholds
-    private final int blueThreshold = 1000;
-    private final int redThreshold = 1000;
-    private final int greenThreshold = 1000;
-
-    // Store the current direction
-    private robotDirection currentDirection = fullStop;
 
     @Override
     public void runOpMode() {
@@ -75,9 +62,8 @@ public class OpMode3 extends LinearOpMode {
         //MOTORS DEFINED IN THE DRIVER HUB
         frontLeftWheel = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRightWheel = hardwareMap.get(DcMotor.class, "frontRight");
-        backLeftWheel  = hardwareMap.get(DcMotor.class, "backLeft");
+        backLeftWheel = hardwareMap.get(DcMotor.class, "backLeft");
         backRightWheel = hardwareMap.get(DcMotor.class, "backRight");
-        frontColorSensor = hardwareMap.get(ColorSensor.class, "frontColorSensor");
 
         // Set the wheel directions
         frontLeftWheel.setDirection(DcMotor.Direction.FORWARD);
@@ -87,125 +73,89 @@ public class OpMode3 extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        runtime.reset();
 
+        int noPower = 0;
+        float vertical;
+        float horizontal;
+        double tSpeed = 0.5;
+        int bumperSpeed = 1;
 
-        // Go forward for five seconds
-        //driveSeconds(goForward, 5);
+        // Put initialization blocks here.
+        waitForStart();
 
-        //Stop of 2 Seconds
-        //driveSeconds(fullStop, 2);
+        while (opModeIsActive()) {
+            vertical = gamepad1.right_stick_x;
+            horizontal = -gamepad1.right_stick_y;
 
-        // Go backward for three seconds
-        //driveSeconds(goBackward, 3);
+            backLeftWheel.setPower(vertical - horizontal);
+            backRightWheel.setPower(vertical + horizontal);
+            frontLeftWheel.setPower(vertical + horizontal);
+            frontRightWheel.setPower(vertical - horizontal);
 
-        //Strafe left for 3.5 seconds
-        //driveSeconds(strafeLeft, 3.5);
-
-        //Strafe right for 3.5 seconds
-        //driveSeconds(strafeRight, 3.5);
-
-        //
-        boolean colorWasFound;
-        colorWasFound = driveUntilColor(goForward, "red", 5);
-        telemetry.addData("Found color", colorWasFound);
-        telemetry.update();
-        ElapsedTime waitTimer = new ElapsedTime();
-        while (opModeIsActive() && waitTimer.seconds() < waitTime) {
-            //AHHHHHHHHHHHHHHHHHHHHHHHHH
-        }
-
-        // Now just monitor the color
-        /*while (opModeIsActive()) {
-            // Get the color sensor data
-            telemetry.addData("Alpha", frontColorSensor.alpha());
-            telemetry.addData("red", frontColorSensor.red());
-            telemetry.addData("green", frontColorSensor.green());
-            telemetry.addData("blue", frontColorSensor.blue());
-            telemetry.addData("argb", frontColorSensor.argb());
-
-            //*Must add to have data show up on the driver hub*
+            if (gamepad1.left_bumper) {
+                backLeftWheel.setPower(bumperSpeed);
+                frontLeftWheel.setPower(-bumperSpeed);
+                backRightWheel.setPower(bumperSpeed);
+                frontRightWheel.setPower(-bumperSpeed);
+            } else if (gamepad1.right_bumper) {
+                backLeftWheel.setPower(-bumperSpeed);
+                backRightWheel.setPower(-bumperSpeed);
+                frontLeftWheel.setPower(bumperSpeed);
+                frontRightWheel.setPower(bumperSpeed);
+            } else {
+                backLeftWheel.setPower(noPower);
+                backRightWheel.setPower(noPower);
+                frontLeftWheel.setPower(noPower);
+                frontRightWheel.setPower(noPower);
+            }
+            if (gamepad1.dpad_up) {
+                telemetry.addData("Direction", "Foreward");
+                backLeftWheel.setPower(-tSpeed);
+                backRightWheel.setPower(tSpeed);
+                frontLeftWheel.setPower(tSpeed);
+                frontRightWheel.setPower(-tSpeed);
+            } else if (gamepad1.dpad_down) {
+                telemetry.addData("Direction", "Bac");
+                backLeftWheel.setPower(tSpeed);
+                backRightWheel.setPower(-tSpeed);
+                frontLeftWheel.setPower(-tSpeed);
+                frontRightWheel.setPower(tSpeed);
+            } else if (gamepad1.x) {
+                telemetry.addData("Direction", "Ex Girlfriend");
+                backLeftWheel.setPower(-tSpeed);
+                backRightWheel.setPower(-tSpeed);
+                frontLeftWheel.setPower(tSpeed);
+                frontRightWheel.setPower(tSpeed);
+            } else if (gamepad1.b) {
+                telemetry.addData("Direction", "Bee");
+                backLeftWheel.setPower(tSpeed);
+                frontLeftWheel.setPower(-tSpeed);
+                backRightWheel.setPower(tSpeed);
+                frontRightWheel.setPower(-tSpeed);
+            } else if (gamepad1.dpad_left) {
+                telemetry.addData("Direction", "Lect");
+                backLeftWheel.setPower(-tSpeed);
+                backRightWheel.setPower(-tSpeed);
+                frontLeftWheel.setPower(-tSpeed);
+                frontRightWheel.setPower(-tSpeed);
+            } else if (gamepad1.dpad_right) {
+                telemetry.addData("Direction", "Write");
+                backLeftWheel.setPower(tSpeed);
+                backRightWheel.setPower(tSpeed);
+                frontLeftWheel.setPower(tSpeed);
+                frontRightWheel.setPower(tSpeed);
+            } else {
+                backLeftWheel.setPower(noPower);
+                backRightWheel.setPower(noPower);
+                frontLeftWheel.setPower(noPower);
+                frontRightWheel.setPower(noPower);
+            }
+            // Put run blocks here.
+            // Put loop blocks here.
             telemetry.update();
         }
-        */
     }
 
-
-    // Drive A specific direction for the number of seconds
-    private void driveSeconds(robotDirection newDirection, double seconds) {
-        // Set the current direction
-        currentDirection = newDirection;
-
-        // Set the drive time
-        ElapsedTime driveTime = new ElapsedTime();
-
-        while (opModeIsActive() && driveTime.seconds() < seconds) {
-            //telemetry.addData("Current Direction", "fl (%.2f), fr (%.2f), bl (%.2f), br (%.2f)", currentDirection.frontLeftPower, currentDirection.frontRightPower, currentDirection.backLeftPower, currentDirection.backRightPower);
-            telemetry.addData("Direction", currentDirection.direction);
-            telemetry.addData("Direction Time", formatSeconds(driveTime.seconds()) + "/" + seconds);
-            telemetry.update();
-            setPower();
-        }
-
-
-        // Stop the robot
-        currentDirection = fullStop;
-
-        setPower();
-    }
-
-    private boolean driveUntilColor(robotDirection newDirection, String colorType, int searchTime) {
-        // Will keep going until is true
-        boolean colorFound = false;
-        int threshold = 0;
-
-        // Set the current direction
-        currentDirection = newDirection;
-
-        // Set the drive time
-        ElapsedTime driveTime = new ElapsedTime();
-
-        while (opModeIsActive() && driveTime.seconds() < searchTime && colorFound == false) {
-            switch (colorType){
-                case "blue":
-                    colorFound = frontColorSensor.blue() > blueThreshold;
-                    break;
-                case "red":
-                    colorFound = frontColorSensor.red() > redThreshold;
-                    break;
-                case "green":
-                    colorFound = frontColorSensor.green() > greenThreshold;
-                    break;
-            }
-            if (colorFound) {
-                telemetry.addData("Found ", colorType);
-            }
-            else {
-                telemetry.addData("Searching for:", colorType);
-                telemetry.addData("In Direction:", currentDirection.direction);
-                telemetry.addData("Time remaining until return", formatSeconds(driveTime.seconds()) + "/" + searchTime);
-                telemetry.update();
-                setPower();
-            }
-        }
-
-        // Stop the robot
-        currentDirection = fullStop;
-
-        setPower();
-
-        return colorFound;
-    }
-
-    //This is used in defining directions (goForward) so you can just
-    //replace the numbers with the power you want it to go at (will
-    //vary in speed depending on the battery level)
-    private void setPower() {
-        frontLeftWheel.setPower(currentDirection.frontLeftPower);
-        frontRightWheel.setPower(currentDirection.frontRightPower);
-        backLeftWheel.setPower(currentDirection.backLeftPower);
-        backRightWheel.setPower(currentDirection.backRightPower);
-    }
 
     //Very complicated code to make it so that when it is showing
     //seconds it has gone (directionTime) will be a one decimal number,
@@ -214,21 +164,5 @@ public class OpMode3 extends LinearOpMode {
     private String formatSeconds(double inputSeconds){
         double fixedValue = Math.floor(inputSeconds * 10) / 10;
         return String.valueOf(fixedValue);
-    }
-}
-
-class robotDirection {
-    double frontLeftPower;
-    double frontRightPower;
-    double backLeftPower;
-    double backRightPower;
-    String direction;
-
-    robotDirection(double frontLeft, double frontRight, double backLeft, double backRight, String directionName) {
-        this.frontLeftPower = frontLeft;
-        this.frontRightPower = frontRight;
-        this.backLeftPower = backLeft;
-        this.backRightPower = backRight;
-        this.direction = directionName;
     }
 }
