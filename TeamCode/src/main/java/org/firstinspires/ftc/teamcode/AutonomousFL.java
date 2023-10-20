@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 //Importing
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 //##################################
 //#                                #
@@ -33,14 +36,15 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@TeleOp(name = "AutonomousFL")
-public class Autonomous extends LinearOpMode {
+@Autonomous(name = "AutonomousFL")
+public class AutonomousFL extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
 
     // Declare OpMode members.
     private ColorSensor frontColorSensor;
+    private DistanceSensor distanceSensor;
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftWheel  = null;
     private DcMotor frontRightWheel = null;
@@ -78,6 +82,7 @@ public class Autonomous extends LinearOpMode {
         backLeftWheel  = hardwareMap.get(DcMotor.class, "backLeft");
         backRightWheel = hardwareMap.get(DcMotor.class, "backRight");
         frontColorSensor = hardwareMap.get(ColorSensor.class, "frontColorSensor");
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
 
         // Set the wheel directions
         frontLeftWheel.setDirection(DcMotor.Direction.FORWARD);
@@ -105,7 +110,16 @@ public class Autonomous extends LinearOpMode {
         //Strafe right for 3.5 seconds
         //driveSeconds(strafeRight, 3.5);
 
-        //
+        boolean distanceWasReached;
+        distanceWasReached = driveUntilDistanceAway(goForward, 12.7, 8.6);
+        telemetry.addData("Got to ", distanceWasReached);
+        telemetry.update();
+        ElapsedTime waitTimer = new ElapsedTime();
+        while (opModeIsActive() && waitTimer.seconds() < waitTime) {
+            //AHHHHHHHHHHHHHHHHHHHHHHHHH
+        }
+
+        /*
         boolean colorWasFound;
         colorWasFound = driveUntilColor(goForward, "red", 5);
         telemetry.addData("Found color", colorWasFound);
@@ -114,6 +128,7 @@ public class Autonomous extends LinearOpMode {
         while (opModeIsActive() && waitTimer.seconds() < waitTime) {
             //AHHHHHHHHHHHHHHHHHHHHHHHHH
         }
+        */
 
         // Now just monitor the color
         /*while (opModeIsActive()) {
@@ -154,7 +169,7 @@ public class Autonomous extends LinearOpMode {
         setPower();
     }
 
-    private boolean driveUntilColor(robotDirection newDirection, String colorType, int searchTime) {
+    private boolean driveUntilColor(robotDirection newDirection, String colorType, double searchTime) {
         // Will keep going until is true
         boolean colorFound = false;
         int threshold = 0;
@@ -195,6 +210,44 @@ public class Autonomous extends LinearOpMode {
         setPower();
 
         return colorFound;
+    }
+
+    private boolean driveUntilDistanceAway(robotDirection newDirection, double distance, double searchTime) {
+        // Will keep going until is true
+        boolean distanceReached = false;
+
+        // Set the current direction
+        currentDirection = newDirection;
+
+        // Set the drive time
+        ElapsedTime driveTime = new ElapsedTime();
+
+        while (opModeIsActive() && driveTime.seconds() < searchTime && distanceReached == false) {
+
+            // Get current distance
+            double currentDistance = distanceSensor.getDistance(DistanceUnit.CM);
+
+            if (distance > currentDistance) {
+                distanceReached = true;
+            }
+
+            if (distanceReached) {
+                telemetry.addData("Got to ", distance);
+            } else {
+                telemetry.addData("Distance:", currentDistance + "/" + distance);
+                telemetry.addData("In Direction:", currentDirection.direction);
+                telemetry.addData("Time remaining until return", formatSeconds(driveTime.seconds()) + "/" + searchTime);
+                telemetry.update();
+                setPower();
+            }
+        }
+
+        // Stop the robot
+        currentDirection = fullStop;
+
+        setPower();
+
+        return distanceReached;
     }
 
     //This is used in defining directions (goForward) so you can just
