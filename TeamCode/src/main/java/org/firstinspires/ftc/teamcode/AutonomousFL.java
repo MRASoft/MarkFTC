@@ -43,13 +43,17 @@ public class AutonomousFL extends LinearOpMode {
     private final int waitTime = 5;
 
     // Declare OpMode members.
-    private ColorSensor frontColorSensor;
+    private ColorSensor backColorSensor;
+    private ColorSensor leftColorSensor;
+    private ColorSensor rightColorSensor;
     private DistanceSensor distanceSensor;
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftWheel  = null;
     private DcMotor frontRightWheel = null;
     private DcMotor backLeftWheel  = null;
     private DcMotor backRightWheel = null;
+    private DcMotor leftArm = null;
+    private DcMotor rightArm = null;
 
     // Initialize directions
     private final robotDirection goForward = new robotDirection(1, 1, 1, 1, "Forward");
@@ -57,6 +61,9 @@ public class AutonomousFL extends LinearOpMode {
     private final robotDirection fullStop = new robotDirection(0, 0, 0, 0, "Pause");
     private final robotDirection strafeLeft = new robotDirection(1, 1, -1, -1, "SLeft");
     private final robotDirection strafeRight = new robotDirection(-1, -1, 1, 1, "SRight");
+    private final armDirection armStop = new armDirection(0, 0, "AStop");
+    private final armDirection armUp = new armDirection(0.5, 0.5, "AUp");
+    private final armDirection armDown = new armDirection(-0.5, -0.5, "ADown");
 
     //Set color thresholds
     private final int blueThreshold = 1000;
@@ -65,6 +72,7 @@ public class AutonomousFL extends LinearOpMode {
 
     // Store the current direction
     private robotDirection currentDirection = fullStop;
+    private armDirection currentArmDirection = armStop;
 
     @Override
     public void runOpMode() {
@@ -77,12 +85,20 @@ public class AutonomousFL extends LinearOpMode {
         //***VERY IMPORTANT**
         //Replace the device name (ex frontLeft) with the NAME OF THE
         //MOTORS DEFINED IN THE DRIVER HUB
-        frontLeftWheel = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRightWheel = hardwareMap.get(DcMotor.class, "frontRight");
-        backLeftWheel  = hardwareMap.get(DcMotor.class, "backLeft");
-        backRightWheel = hardwareMap.get(DcMotor.class, "backRight");
-        frontColorSensor = hardwareMap.get(ColorSensor.class, "frontColorSensor");
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+        frontLeftWheel = hardwareMap.get(DcMotor.class, "FrontLeft");
+        frontRightWheel = hardwareMap.get(DcMotor.class, "FrontRight");
+        backLeftWheel  = hardwareMap.get(DcMotor.class, "BackLeft");
+        backRightWheel = hardwareMap.get(DcMotor.class, "BackRight");
+        leftArm = hardwareMap.get(DcMotor.class, "LeftArm");
+        rightArm = hardwareMap.get(DcMotor.class, "RightArm");
+
+        //color 3
+        backColorSensor = hardwareMap.get(ColorSensor.class, "BackColorSensor");
+        //
+        leftColorSensor = hardwareMap.get(ColorSensor.class, "LeftColorSensor");
+        //
+        rightColorSensor = hardwareMap.get(ColorSensor.class, "RightColorSensor");
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "DistanceSensor");
 
         // Set the wheel directions
         frontLeftWheel.setDirection(DcMotor.Direction.FORWARD);
@@ -114,30 +130,28 @@ public class AutonomousFL extends LinearOpMode {
         distanceWasReached = driveUntilDistanceAway(goForward, 12.7, 8.6);
         telemetry.addData("Got to ", distanceWasReached);
         telemetry.update();
-        ElapsedTime waitTimer = new ElapsedTime();
-        while (opModeIsActive() && waitTimer.seconds() < waitTime) {
+        ElapsedTime waitTimerD = new ElapsedTime();
+        while (opModeIsActive() && waitTimerD.seconds() < waitTime) {
             //AHHHHHHHHHHHHHHHHHHHHHHHHH
         }
 
-        /*
         boolean colorWasFound;
-        colorWasFound = driveUntilColor(goForward, "red", 5);
+        colorWasFound = driveUntilColor(goForward, "red", 5, backColorSensor);
         telemetry.addData("Found color", colorWasFound);
         telemetry.update();
-        ElapsedTime waitTimer = new ElapsedTime();
-        while (opModeIsActive() && waitTimer.seconds() < waitTime) {
+        ElapsedTime waitTimerC = new ElapsedTime();
+        while (opModeIsActive() && waitTimerC.seconds() < waitTime) {
             //AHHHHHHHHHHHHHHHHHHHHHHHHH
         }
-        */
 
         // Now just monitor the color
         /*while (opModeIsActive()) {
             // Get the color sensor data
-            telemetry.addData("Alpha", frontColorSensor.alpha());
-            telemetry.addData("red", frontColorSensor.red());
-            telemetry.addData("green", frontColorSensor.green());
-            telemetry.addData("blue", frontColorSensor.blue());
-            telemetry.addData("argb", frontColorSensor.argb());
+            telemetry.addData("Alpha", backColorSensor.alpha());
+            telemetry.addData("red", backColorSensor.red());
+            telemetry.addData("green", backColorSensor.green());
+            telemetry.addData("blue", backColorSensor.blue());
+            telemetry.addData("argb", backColorSensor.argb());
 
             //*Must add to have data show up on the driver hub*
             telemetry.update();
@@ -169,7 +183,29 @@ public class AutonomousFL extends LinearOpMode {
         setPower();
     }
 
-    private boolean driveUntilColor(robotDirection newDirection, String colorType, double searchTime) {
+    private void armSeconds(armDirection newArmDirection, double seconds) {
+        // Set the current direction
+        currentArmDirection = newArmDirection;
+
+        // Set the drive time
+        ElapsedTime driveTime = new ElapsedTime();
+
+        while (opModeIsActive() && driveTime.seconds() < seconds) {
+            //telemetry.addData("Current Direction", "al (%.2f), ar (%.2f), currentArmDirection.leftArmPower, currentArmDirection.rightArmPower);
+            telemetry.addData("Direction", currentArmDirection.direction);
+            telemetry.addData("Direction Time", formatSeconds(driveTime.seconds()) + "/" + seconds);
+            telemetry.update();
+            setPower();
+        }
+
+
+        // Stop the robot
+        currentArmDirection = armStop;
+
+        setPower();
+    }
+
+    private boolean driveUntilColor(robotDirection newDirection, String colorType, double searchTime, ColorSensor colorSensorType) {
         // Will keep going until is true
         boolean colorFound = false;
         int threshold = 0;
@@ -183,13 +219,13 @@ public class AutonomousFL extends LinearOpMode {
         while (opModeIsActive() && driveTime.seconds() < searchTime && colorFound == false) {
             switch (colorType){
                 case "blue":
-                    colorFound = frontColorSensor.blue() > blueThreshold;
+                    colorFound = colorSensorType.blue() > blueThreshold;
                     break;
                 case "red":
-                    colorFound = frontColorSensor.red() > redThreshold;
+                    colorFound = colorSensorType.red() > redThreshold;
                     break;
                 case "green":
-                    colorFound = frontColorSensor.green() > greenThreshold;
+                    colorFound = colorSensorType.green() > greenThreshold;
                     break;
             }
             if (colorFound) {
