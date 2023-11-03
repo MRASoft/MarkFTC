@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 //Importing
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 //##################################
 //#                                #
@@ -34,8 +35,8 @@ import com.qualcomm.robotcore.hardware.CRServo;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@Autonomous(name = "AutoRedFront")
-public class AutonomousRedFront extends LinearOpMode {
+@Autonomous(name = "AutoRedBack")
+public class AutonomousRedBack extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
