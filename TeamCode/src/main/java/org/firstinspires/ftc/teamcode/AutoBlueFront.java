@@ -151,8 +151,6 @@ public class AutoBlueFront extends LinearOpMode {
 
         //driveSeconds(strafeRight, 0.2;
         driveSeconds(strafeRight, 0.2);
-        driveSeconds(slowForward, 1.5);
-        driveSeconds(strafeRight, 4.3);
 
         boolean colorWasFound;
         colorWasFound = driveUntilColor(slowForward, "blue", 30, backColorSensor);

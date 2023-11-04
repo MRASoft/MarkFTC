@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 //##################################
 //#                                #
@@ -39,12 +41,13 @@ public class AutoRedFront extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
+    double Distance;
 
     // Declare OpMode members.
     private ColorSensor backColorSensor;
     private ColorSensor leftColorSensor;
     private ColorSensor rightColorSensor;
-    //private DistanceSensor distanceSensor;
+    private DistanceSensor distanceSensor;
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftWheel  = null;
     private DcMotor frontRightWheel = null;
@@ -104,7 +107,7 @@ public class AutoRedFront extends LinearOpMode {
         leftColorSensor = hardwareMap.get(ColorSensor.class, "Color2");
         //color 1
         rightColorSensor = hardwareMap.get(ColorSensor.class, "Color1");
-        //distanceSensor = hardwareMap.get(DistanceSensor.class, "Distance1");
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "Distance1");
 
         // Set the wheel directions
         frontLeftWheel.setDirection(DcMotor.Direction.REVERSE);
@@ -140,7 +143,7 @@ public class AutoRedFront extends LinearOpMode {
 
         //driveSeconds(strafeRight, 0.2;
         driveSeconds(strafeLeft, 0.2);
-        /*
+/*
         boolean distanceWasReached;
         distanceWasReached = driveUntilDistanceAway(goForward, 12.7, 8.6);
         telemetry.addData("Got to ", distanceWasReached);
@@ -149,7 +152,7 @@ public class AutoRedFront extends LinearOpMode {
         while (opModeIsActive() && waitTimerD.seconds() < waitTime) {
             //AHHHHHHHHHHHHHHHHHHHHHHHHH
         }
-        */
+*/
 
 
         boolean colorWasFound;
@@ -187,7 +190,8 @@ public class AutoRedFront extends LinearOpMode {
             telemetry.addData("green", backColorSensor.green());
             telemetry.addData("blue", backColorSensor.blue());
             telemetry.addData("argb", backColorSensor.argb());
-
+            telemetry.addData("DistinanceCM", distanceSensor.getDistance(DistanceUnit.CM));
+            Distance = distanceSensor.getDistance(DistanceUnit.CM);
             //*Must add to have data show up on the driver hub*
             telemetry.update();
         }
@@ -281,7 +285,7 @@ public class AutoRedFront extends LinearOpMode {
 
         return colorFound;
     }
-    /*
+
     private boolean driveUntilDistanceAway(robotDirection newDirection, double distance, double searchTime) {
         // Will keep going until is true
         boolean distanceReached = false;
@@ -319,7 +323,7 @@ public class AutoRedFront extends LinearOpMode {
 
         return distanceReached;
     }
-    */
+
 
     //This is used in defining directions (goForward) so you can just
     //replace the numbers with the power you want it to go at (will
