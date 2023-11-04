@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 //Importing
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 //##################################
 //#                                #
@@ -35,8 +34,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@Autonomous(name = "AutoRedBack")
-public class AutonomousRedBack extends LinearOpMode {
+@Autonomous(name = "AutoRedFront")
+public class AutoRedFront extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
@@ -105,7 +104,7 @@ public class AutonomousRedBack extends LinearOpMode {
         leftColorSensor = hardwareMap.get(ColorSensor.class, "Color2");
         //color 1
         rightColorSensor = hardwareMap.get(ColorSensor.class, "Color1");
-        //distanceSensor = hardwareMap.get(DistanceSensor.class, "DistanceSensor");
+        //distanceSensor = hardwareMap.get(DistanceSensor.class, "Distance1");
 
         // Set the wheel directions
         frontLeftWheel.setDirection(DcMotor.Direction.REVERSE);
@@ -138,6 +137,9 @@ public class AutonomousRedBack extends LinearOpMode {
         //Strafe right for 3.5 seconds
         //driveSeconds(strafeRight, 3.5);
 
+
+        //driveSeconds(strafeRight, 0.2;
+        driveSeconds(strafeLeft, 0.2);
         /*
         boolean distanceWasReached;
         distanceWasReached = driveUntilDistanceAway(goForward, 12.7, 8.6);
@@ -149,10 +151,6 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         */
 
-        //driveSeconds(strafeRight, 0.2;
-        driveSeconds(strafeLeft, 0.2);
-        driveSeconds(slowForward, 1.5);
-        driveSeconds(strafeLeft, 5);
 
         boolean colorWasFound;
         colorWasFound = driveUntilColor(slowForward, "red", 30, backColorSensor);
@@ -163,6 +161,7 @@ public class AutonomousRedBack extends LinearOpMode {
         {
             driveSeconds(fullStop, 1);
         }
+        driveSeconds(strafeLeft, 4.3);
         driveSeconds(slowForward, 1.3);
         Drop3.setPower(-0.5);
         Drop4.setPower(0.5);
@@ -171,10 +170,8 @@ public class AutonomousRedBack extends LinearOpMode {
         Drop4.setPower(-0.5);
         driveSeconds(fullStop, 0.5);
         driveSeconds(slowBackward, 1.3);
-        driveSeconds(strafeRight, 5);
-        driveSeconds(slowForward, 1.3);
-        driveSeconds(fullStop, 5);
-        driveSeconds(goBackward, 2);
+        driveSeconds(strafeRight, 4);
+        driveSeconds(slowForward, 1.7);
         driveSeconds(fullStop, 2);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////

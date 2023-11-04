@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
 @Autonomous(name = "AutoBlueBack")
-public class AutonomousBlueBack extends LinearOpMode {
+public class AutoBlueBack extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
@@ -152,7 +152,7 @@ public class AutonomousBlueBack extends LinearOpMode {
         //driveSeconds(strafeRight, 0.2;
         driveSeconds(strafeRight, 0.2);
         driveSeconds(slowForward, 1.5);
-        driveSeconds(strafeRight, 5);
+        driveSeconds(strafeRight, 4.3);
 
         boolean colorWasFound;
         colorWasFound = driveUntilColor(slowForward, "blue", 30, backColorSensor);
@@ -171,10 +171,8 @@ public class AutonomousBlueBack extends LinearOpMode {
         Drop4.setPower(-0.5);
         driveSeconds(fullStop, 0.5);
         driveSeconds(slowBackward, 1.3);
-        driveSeconds(strafeLeft, 5);
-        driveSeconds(slowForward, 1.3);
-        driveSeconds(fullStop, 5);
-        driveSeconds(goBackward, 2);
+        driveSeconds(strafeRight, 4);
+        driveSeconds(slowForward, 1.7);
         driveSeconds(fullStop, 2);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
