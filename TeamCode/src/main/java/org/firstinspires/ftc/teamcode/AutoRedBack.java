@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 //Importing
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 //##################################
 //#                                #
@@ -34,8 +35,8 @@ import com.qualcomm.robotcore.hardware.CRServo;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@Autonomous(name = "AutoRedFront")
-public class AutonomousRedFront extends LinearOpMode {
+@Autonomous(name = "AutoRedBack")
+public class AutoRedBack extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
@@ -151,7 +152,7 @@ public class AutonomousRedFront extends LinearOpMode {
         //driveSeconds(strafeRight, 0.2;
         driveSeconds(strafeLeft, 0.2);
         driveSeconds(slowForward, 1.5);
-        driveSeconds(strafeLeft, 5);
+        driveSeconds(strafeLeft, 4.3);
 
         boolean colorWasFound;
         colorWasFound = driveUntilColor(slowForward, "red", 30, backColorSensor);
@@ -170,10 +171,8 @@ public class AutonomousRedFront extends LinearOpMode {
         Drop4.setPower(-0.5);
         driveSeconds(fullStop, 0.5);
         driveSeconds(slowBackward, 1.3);
-        driveSeconds(strafeRight, 5);
-        driveSeconds(slowForward, 1.3);
-        driveSeconds(fullStop, 5);
-        driveSeconds(goBackward, 2);
+        driveSeconds(strafeLeft, 3);
+        driveSeconds(slowForward, 1.7);
         driveSeconds(fullStop, 2);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////

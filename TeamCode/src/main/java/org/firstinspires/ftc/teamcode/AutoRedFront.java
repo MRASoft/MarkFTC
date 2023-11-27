@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 //Importing
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 //##################################
 //#                                #
@@ -35,17 +36,18 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@Autonomous(name = "AutoBlueFront")
-public class AutonomousBlueFront extends LinearOpMode {
+@Autonomous(name = "AutoRedFront")
+public class AutoRedFront extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
+    double Distance;
 
     // Declare OpMode members.
     private ColorSensor backColorSensor;
     private ColorSensor leftColorSensor;
     private ColorSensor rightColorSensor;
-    //private DistanceSensor distanceSensor;
+    private DistanceSensor distanceSensor;
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftWheel  = null;
     private DcMotor frontRightWheel = null;
@@ -89,7 +91,7 @@ public class AutonomousBlueFront extends LinearOpMode {
 
         //***VERY IMPORTANT**
         //Replace the device name (ex frontLeft) with the NAME OF THE
-        /*MOTORS DEFINED IN THE DRIVER HUB
+        //MOTORS DEFINED IN THE DRIVER HUB
         frontLeftWheel = hardwareMap.get(DcMotor.class, "FrontLeft");
         frontRightWheel = hardwareMap.get(DcMotor.class, "FrontRight");
         backLeftWheel  = hardwareMap.get(DcMotor.class, "BackLeft");
@@ -105,7 +107,7 @@ public class AutonomousBlueFront extends LinearOpMode {
         leftColorSensor = hardwareMap.get(ColorSensor.class, "Color2");
         //color 1
         rightColorSensor = hardwareMap.get(ColorSensor.class, "Color1");
-        //distanceSensor = hardwareMap.get(DistanceSensor.class, "DistanceSensor");
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "Distance1");
 
         // Set the wheel directions
         frontLeftWheel.setDirection(DcMotor.Direction.REVERSE);
@@ -114,7 +116,7 @@ public class AutonomousBlueFront extends LinearOpMode {
         backRightWheel.setDirection(DcMotor.Direction.FORWARD);
         Drop1.setDirection(CRServo.Direction.FORWARD);
         Drop2.setDirection(CRServo.Direction.FORWARD);
-*/
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -138,7 +140,10 @@ public class AutonomousBlueFront extends LinearOpMode {
         //Strafe right for 3.5 seconds
         //driveSeconds(strafeRight, 3.5);
 
-        /*
+
+        //driveSeconds(strafeRight, 0.2;
+        driveSeconds(strafeLeft, 0.2);
+/*
         boolean distanceWasReached;
         distanceWasReached = driveUntilDistanceAway(goForward, 12.7, 8.6);
         telemetry.addData("Got to ", distanceWasReached);
@@ -147,15 +152,11 @@ public class AutonomousBlueFront extends LinearOpMode {
         while (opModeIsActive() && waitTimerD.seconds() < waitTime) {
             //AHHHHHHHHHHHHHHHHHHHHHHHHH
         }
+*/
 
-
-        //driveSeconds(strafeRight, 0.2;
-        driveSeconds(strafeRight, 0.2);
-        driveSeconds(slowForward, 1.5);
-        driveSeconds(strafeRight, 5);
 
         boolean colorWasFound;
-        colorWasFound = driveUntilColor(slowForward, "blue", 30, backColorSensor);
+        colorWasFound = driveUntilColor(slowForward, "red", 30, backColorSensor);
         telemetry.addData("Found color", colorWasFound);
         telemetry.update();
         ElapsedTime waitTimerC = new ElapsedTime();
@@ -163,6 +164,7 @@ public class AutonomousBlueFront extends LinearOpMode {
         {
             driveSeconds(fullStop, 1);
         }
+        driveSeconds(strafeLeft, 4.3);
         driveSeconds(slowForward, 1.3);
         Drop3.setPower(-0.5);
         Drop4.setPower(0.5);
@@ -171,37 +173,16 @@ public class AutonomousBlueFront extends LinearOpMode {
         Drop4.setPower(-0.5);
         driveSeconds(fullStop, 0.5);
         driveSeconds(slowBackward, 1.3);
-        driveSeconds(strafeLeft, 5);
-        driveSeconds(slowForward, 1.3);
-        driveSeconds(fullStop, 5);
-        driveSeconds(goBackward, 2);
+        driveSeconds(strafeRight, 4);
+        driveSeconds(slowForward, 1.7);
         driveSeconds(fullStop, 2);
-*/
-
-        driveSeconds(slowForward, 5);
-        boolean centerResults = ImageDetection.findPixel(hardwareMap, telemetry, 5);
-        telemetry.addData("Center Results: ", centerResults);
-        telemetry.update();
-
-        driveSeconds(strafeLeft, 5);
-
-        boolean leftResults = ImageDetection.findPixel(hardwareMap, telemetry, 5);
-        telemetry.addData("Left Results: ", leftResults);
-        telemetry.update();
-
-        driveSeconds(strafeRight, 5);
-
-        boolean rightResults = ImageDetection.findPixel(hardwareMap, telemetry, 5);
-        telemetry.addData("Right Results: ", rightResults);
-        telemetry.update();
-
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving stop here////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        /* Now just monitor the color
+        // Now just monitor the color
         while (opModeIsActive()) {
             // Get the color sensor data
             telemetry.addData("Alpha", backColorSensor.alpha());
@@ -209,10 +190,11 @@ public class AutonomousBlueFront extends LinearOpMode {
             telemetry.addData("green", backColorSensor.green());
             telemetry.addData("blue", backColorSensor.blue());
             telemetry.addData("argb", backColorSensor.argb());
-
+            telemetry.addData("DistinanceCM", distanceSensor.getDistance(DistanceUnit.CM));
+            Distance = distanceSensor.getDistance(DistanceUnit.CM);
             //*Must add to have data show up on the driver hub*
             telemetry.update();
-        }*/
+        }
     }
 
 
@@ -229,14 +211,14 @@ public class AutonomousBlueFront extends LinearOpMode {
             telemetry.addData("Direction", currentDirection.direction);
             telemetry.addData("Direction Time", formatSeconds(driveTime.seconds()) + "/" + seconds);
             telemetry.update();
-            //setPower();
+            setPower();
         }
 
 
         // Stop the robot
         currentDirection = fullStop;
 
-        //setPower();
+        setPower();
     }
 
     private void armSeconds(armDirection newArmDirection, double seconds) {
@@ -303,7 +285,7 @@ public class AutonomousBlueFront extends LinearOpMode {
 
         return colorFound;
     }
-    /*
+
     private boolean driveUntilDistanceAway(robotDirection newDirection, double distance, double searchTime) {
         // Will keep going until is true
         boolean distanceReached = false;
@@ -341,7 +323,7 @@ public class AutonomousBlueFront extends LinearOpMode {
 
         return distanceReached;
     }
-    */
+
 
     //This is used in defining directions (goForward) so you can just
     //replace the numbers with the power you want it to go at (will
