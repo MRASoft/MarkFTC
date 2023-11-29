@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Func;
+
 //##################################
 //#                                #
 //# Made by Coder Ricky Adams (14) #
@@ -66,6 +68,9 @@ public class AutoBlueFront extends LinearOpMode {
     private final robotDirection fullStop = new robotDirection(0, 0, 0, 0, "Pause");
     private final robotDirection strafeRight = new robotDirection(-0.25, 0.25, 0.25, -0.28, "SLeft");
     private final robotDirection strafeLeft = new robotDirection(0.25, -0.25, -0.25, 0.28, "SRight");
+
+    private final robotDirection turnRight = new robotDirection(-0.25, 0.25, 0.25, -0.28, "TLeft");
+    private final robotDirection turnLeft = new robotDirection(0.25, -0.25, -0.25, 0.28, "TRight");
     private final armDirection armStop = new armDirection(0, 0, "AStop");
     private final armDirection armUp = new armDirection(0.5, 0.5, "AUp");
     private final armDirection armDown = new armDirection(-0.5, -0.5, "ADown");
@@ -95,23 +100,100 @@ public class AutoBlueFront extends LinearOpMode {
         //////////////////////////////////////////// Driving starts here//////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        // Define Var
+        boolean isFound = false;
+        String whereFound = "Center";
+
         // Starting on center, backdrop on left, facing towards middle
 
         // Go close to pixel
         driveSeconds(slowForward, 5);
 
+        // Turn right
+        driveSeconds(turnRight, 2.5);
+
         // Check for pixel
-        boolean centerResults = ImageDetection.findPixel(hardwareMap, telemetry, 5);
-        telemetry.addData("Center Results: ", centerResults);
+        isFound = ImageDetection.findPixel(hardwareMap, telemetry, 5);
+        telemetry.addData("Right Results: ", isFound);
         telemetry.update();
 
+        Functions.pause(2);
 
+        // If pixel found, set it to have been on the right
+        if (isFound == true) {
+            whereFound = "Right";
+        }
 
-        driveSeconds(strafeLeft, 3);
+        // Turn left
+        driveSeconds(turnLeft, 2.5);
 
-        boolean leftResults = ImageDetection.findPixel(hardwareMap, telemetry, 5);
-        telemetry.addData("Left Results: ", leftResults);
-        telemetry.update();
+        // If pixel found, skip looking on the center
+        if (isFound == false) {
+            // Check for pixel
+            isFound = ImageDetection.findPixel(hardwareMap, telemetry, 5);
+            telemetry.addData("Center Results: ", isFound);
+            telemetry.update();
+
+            Functions.pause(2);
+
+            // If pixel found, set it to have been in the center
+            if (isFound == true) {
+                whereFound = "Center";
+            }
+        }
+
+        // Turn left
+        driveSeconds(turnLeft, 2.5);
+
+        // If pixel found, skip looking on the left
+        if (isFound == false) {
+            // Check for pixel
+            isFound = ImageDetection.findPixel(hardwareMap, telemetry, 5);
+            telemetry.addData("Left Results: ", isFound);
+            telemetry.update();
+
+            Functions.pause(2);
+
+            // If pixel found, set it to have been on the left
+            if (isFound == true) {
+                whereFound = "Left";
+            }
+        }
+
+        // If pixel is NOT found, show that it is not, and default to center
+        if (isFound == false) {
+            whereFound = "Center";
+            telemetry.addData("***PIXEL FOUND == ", isFound, ", DEFAULTING TO CENTER***");
+            telemetry.update();
+
+            Functions.pause(2);
+        }
+
+        // Drive to backdrop
+        driveSeconds(slowForward, 4);
+
+        // Go to the spot based on the results of whereFound
+        switch (whereFound) {
+            case "Left":
+                driveSeconds(strafeLeft, 0.75);
+                break;
+            case "Right":
+                driveSeconds(strafeRight, 0.75);
+                break;
+            case "Center":
+                // Do nothing
+                break;
+        }
+
+        // Get to backdrop so that you can place the pixel on the board (used in all cases)
+        driveSeconds(slowForward, 1);
+
+        // Drop pixel
+        //armSeconds(armDown, 1);
+        //armSeconds(armUp, 1);
+
+        // Drive back a bit so that the other pixel drops to the floor, and the robot is in the backstage
+        driveSeconds(slowBackward, 0.4);
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
