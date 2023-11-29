@@ -103,7 +103,6 @@ public class AutoBlueFront extends LinearOpMode {
         // Define Var
         boolean isFound = false;
         String whereFound = "Center";
-        String notFound = "False";
 
         // Starting on center, backdrop on left, facing towards middle
 
@@ -115,7 +114,7 @@ public class AutoBlueFront extends LinearOpMode {
 
         // Check for pixel
         isFound = ImageDetection.findPixel(hardwareMap, telemetry, 5);
-        telemetry.addData("Right Results: ", isFound);
+        telemetry.addData("Right Results: ", String.valueOf(isFound));
         telemetry.update();
 
         Functions.pause(2);
@@ -132,7 +131,7 @@ public class AutoBlueFront extends LinearOpMode {
         if (isFound == false) {
             // Check for pixel
             isFound = ImageDetection.findPixel(hardwareMap, telemetry, 5);
-            telemetry.addData("Center Results: ", isFound);
+            telemetry.addData("Center Results: ", String.valueOf(isFound));
             telemetry.update();
 
             Functions.pause(2);
@@ -150,7 +149,7 @@ public class AutoBlueFront extends LinearOpMode {
         if (isFound == false) {
             // Check for pixel
             isFound = ImageDetection.findPixel(hardwareMap, telemetry, 5);
-            telemetry.addData("Left Results: ", isFound);
+            telemetry.addData("Left Results: ", String.valueOf(isFound));
             telemetry.update();
 
             Functions.pause(2);
@@ -164,7 +163,7 @@ public class AutoBlueFront extends LinearOpMode {
         // If pixel is NOT found, show that it is not, and default to center
         if (isFound == false) {
             whereFound = "Center";
-            telemetry.addData("***PIXEL FOUND == ", notFound, ", DEFAULTING TO CENTER***");
+            telemetry.addData("***PIXEL FOUND == ", String.valueOf(isFound), ", DEFAULTING TO CENTER***");
             telemetry.update();
 
             Functions.pause(2);
