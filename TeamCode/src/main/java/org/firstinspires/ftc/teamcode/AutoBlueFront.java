@@ -103,6 +103,7 @@ public class AutoBlueFront extends LinearOpMode {
         // Define Var
         boolean isFound = false;
         String whereFound = "Center";
+        String notFound = "False";
 
         // Starting on center, backdrop on left, facing towards middle
 
@@ -163,7 +164,7 @@ public class AutoBlueFront extends LinearOpMode {
         // If pixel is NOT found, show that it is not, and default to center
         if (isFound == false) {
             whereFound = "Center";
-            telemetry.addData("***PIXEL FOUND == ", isFound, ", DEFAULTING TO CENTER***");
+            telemetry.addData("***PIXEL FOUND == ", notFound, ", DEFAULTING TO CENTER***");
             telemetry.update();
 
             Functions.pause(2);
