@@ -89,7 +89,7 @@ public class AutoBlueFront extends LinearOpMode {
 
         //***VERY IMPORTANT**
         //Replace the device name (ex frontLeft) with the NAME OF THE
-        //MOTORS DEFINED IN THE DRIVER HUB
+        /*MOTORS DEFINED IN THE DRIVER HUB
         frontLeftWheel = hardwareMap.get(DcMotor.class, "FrontLeft");
         frontRightWheel = hardwareMap.get(DcMotor.class, "FrontRight");
         backLeftWheel  = hardwareMap.get(DcMotor.class, "BackLeft");
@@ -114,7 +114,7 @@ public class AutoBlueFront extends LinearOpMode {
         backRightWheel.setDirection(DcMotor.Direction.FORWARD);
         Drop1.setDirection(CRServo.Direction.FORWARD);
         Drop2.setDirection(CRServo.Direction.FORWARD);
-
+*/
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -147,10 +147,12 @@ public class AutoBlueFront extends LinearOpMode {
         while (opModeIsActive() && waitTimerD.seconds() < waitTime) {
             //AHHHHHHHHHHHHHHHHHHHHHHHHH
         }
-        */
+
 
         //driveSeconds(strafeRight, 0.2;
         driveSeconds(strafeRight, 0.2);
+        driveSeconds(slowForward, 1.5);
+        driveSeconds(strafeRight, 4.3);
 
         boolean colorWasFound;
         colorWasFound = driveUntilColor(slowForward, "blue", 30, backColorSensor);
@@ -172,13 +174,32 @@ public class AutoBlueFront extends LinearOpMode {
         driveSeconds(strafeRight, 4);
         driveSeconds(slowForward, 1.7);
         driveSeconds(fullStop, 2);
+*/
+
+        driveSeconds(slowForward, 5);
+        boolean centerResults = ImageDetection.findPixel(hardwareMap, telemetry, 5);
+        telemetry.addData("Center Results: ", centerResults);
+        telemetry.update();
+
+        driveSeconds(strafeLeft, 5);
+
+        boolean leftResults = ImageDetection.findPixel(hardwareMap, telemetry, 5);
+        telemetry.addData("Left Results: ", leftResults);
+        telemetry.update();
+
+        driveSeconds(strafeRight, 5);
+
+        boolean rightResults = ImageDetection.findPixel(hardwareMap, telemetry, 5);
+        telemetry.addData("Right Results: ", rightResults);
+        telemetry.update();
+
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving stop here////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        // Now just monitor the color
+        /* Now just monitor the color
         while (opModeIsActive()) {
             // Get the color sensor data
             telemetry.addData("Alpha", backColorSensor.alpha());
@@ -189,7 +210,7 @@ public class AutoBlueFront extends LinearOpMode {
 
             //*Must add to have data show up on the driver hub*
             telemetry.update();
-        }
+        }*/
     }
 
 
@@ -206,14 +227,14 @@ public class AutoBlueFront extends LinearOpMode {
             telemetry.addData("Direction", currentDirection.direction);
             telemetry.addData("Direction Time", formatSeconds(driveTime.seconds()) + "/" + seconds);
             telemetry.update();
-            setPower();
+            //setPower();
         }
 
 
         // Stop the robot
         currentDirection = fullStop;
 
-        setPower();
+        //setPower();
     }
 
     private void armSeconds(armDirection newArmDirection, double seconds) {
