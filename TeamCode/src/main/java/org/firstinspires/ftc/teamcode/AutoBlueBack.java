@@ -153,7 +153,7 @@ public class AutoBlueBack extends LinearOpMode {
         driveSeconds(strafeRight, 0.5);
 
         boolean colorWasFound;
-        colorWasFound = driveUntilColor(slowBackward, "red", 10, backColorSensor);
+        colorWasFound = driveUntilColor(slowForward, "blue", 10, backColorSensor);
         telemetry.addData("Found color", colorWasFound);
         telemetry.update();
         ElapsedTime waitTimerC = new ElapsedTime();
@@ -161,9 +161,9 @@ public class AutoBlueBack extends LinearOpMode {
         {
             driveSeconds(fullStop, 1);
         }
-        driveSeconds(slowBackward, 1.7);
+        driveSeconds(slowForward, 1.7);
         driveSeconds(fullStop, 2);
-        driveSeconds(slowForward, 0.5);
+        driveSeconds(slowBackward, 0.5);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving stop here////////////////////////////////////////////////

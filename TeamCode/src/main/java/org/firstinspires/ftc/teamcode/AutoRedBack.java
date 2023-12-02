@@ -51,6 +51,7 @@ public class AutoRedBack extends LinearOpMode {
     private DcMotor frontRightWheel = null;
     private DcMotor backLeftWheel  = null;
     private DcMotor backRightWheel = null;
+    private DcMotor Lightning = null;
     private CRServo Drop1 = null;
     private CRServo Drop2 = null;
     private CRServo Drop3 = null;
@@ -94,6 +95,7 @@ public class AutoRedBack extends LinearOpMode {
         frontRightWheel = hardwareMap.get(DcMotor.class, "FrontRight");
         backLeftWheel  = hardwareMap.get(DcMotor.class, "BackLeft");
         backRightWheel = hardwareMap.get(DcMotor.class, "BackRight");
+        Lightning = hardwareMap.get(DcMotor.class, "Lightning");
         Drop1 = hardwareMap.get(CRServo.class, "Drop1");
         Drop2 = hardwareMap.get(CRServo.class, "Drop2");
         Drop3 = hardwareMap.get(CRServo.class, "Drop3");
@@ -149,8 +151,15 @@ public class AutoRedBack extends LinearOpMode {
         }
         */
 
+        Drop1.setPower(0.5);
+        Drop2.setPower(0.5);
+        Functions.pause(2);
+        Drop1.setPower(0);
+        Drop2.setPower(0);
+        Functions.pause(2);
+
         //driveSeconds(strafeRight, 0.2;
-        driveSeconds(strafeRight, 0.5);
+        driveSeconds(strafeRight, 0.6);
 
         boolean colorWasFound;
         colorWasFound = driveUntilColor(slowBackward, "red", 10, backColorSensor);

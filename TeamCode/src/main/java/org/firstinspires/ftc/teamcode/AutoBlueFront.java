@@ -124,11 +124,11 @@ public class AutoBlueFront extends LinearOpMode {
 
         // Starting on center, backdrop on left, facing towards middle
 
-        //Drop1.setPower(0.5);
-        //Drop2.setPower(0.5);
-        //Functions.pause(2);
-        //Drop1.setPower(0);
-        //Drop2.setPower(0);
+        Drop1.setPower(0.5);
+        Drop2.setPower(0.5);
+        Functions.pause(2);
+        Drop1.setPower(0);
+        Drop2.setPower(0);
 
         // Go close to pixel
         driveSeconds(halfForward, 0.8);
