@@ -157,7 +157,7 @@ public class AutoBlueFront extends LinearOpMode {
             // Wait
             Functions.pause(2);
 
-            // Back uo
+            // Back uoi
             driveSeconds(halfBackward, 0.3);
 
             // Stop motor
@@ -170,13 +170,10 @@ public class AutoBlueFront extends LinearOpMode {
             driveSeconds(strafeLeft, 2.5);
 
             // Go to center
-            driveSeconds(slowForward, 1.9);
+            driveSeconds(slowForward, 4.7);
 
             // Turn to drop pixel on the backdrop
-            driveSeconds(turnRight, 1.1);
-
-            // Get to backdrop so that you can place the pixel on the board
-            driveSeconds(slowBackward, 0.7);
+            driveSeconds(strafeLeft, 0.7);
         }
 
         // If pixel found, skip looking on Left
@@ -185,10 +182,13 @@ public class AutoBlueFront extends LinearOpMode {
             driveSeconds(halfBackward, 0.4);
 
             // Strafe to Left tape
-            driveSeconds(strafeLeft, 1);
+            driveSeconds(strafeLeft, 0.8);
+
+            // Go to pixel
+            driveSeconds(halfForward, 0.3);
 
             // Check for pixel
-            isFound = ImageDetection.findPixel(hardwareMap, telemetry, 5);
+            isFound = ImageDetection.findPixel(hardwareMap, telemetry, 3.5);
             telemetry.addData("Left Results: ", String.valueOf(isFound));
             telemetry.update();
 
@@ -206,7 +206,7 @@ public class AutoBlueFront extends LinearOpMode {
                 // Wait
                 Functions.pause(2);
 
-                // Back uo
+                // Back uoi
                 driveSeconds(halfBackward, 0.3);
 
                 // Stop motor
@@ -216,16 +216,16 @@ public class AutoBlueFront extends LinearOpMode {
                 driveSeconds(halfBackward, 0.4);
 
                 // Drive to backdrop
-                driveSeconds(strafeLeft, 1.5);
+                driveSeconds(strafeLeft, 2);
 
                 // Go to center
                 driveSeconds(slowForward, 0.8);
 
-                // Turn to drop pixel on the backdrop
-                driveSeconds(turnRight, 1.1);
+                // Go to center
+                driveSeconds(slowForward, 4.7);
 
-                // Get to backdrop so that you can place the pixel on the board
-                driveSeconds(slowBackward, 0.7);
+                // Turn to drop pixel on the backdrop
+                driveSeconds(strafeLeft, 0.7);
             }
         }
 
@@ -236,7 +236,39 @@ public class AutoBlueFront extends LinearOpMode {
             telemetry.addData("***PIXEL FOUND == ", String.valueOf(isFound), ", DEFAULTING TO RIGHT***");
             telemetry.update();
 
-            Functions.pause(1);
+            Functions.pause(0);
+
+            // Drive to pixel
+            driveSeconds(halfForward, 0.65);
+
+            // Drive to pixel
+            driveSeconds(turnRight, 1);
+
+            // Drive to pixel
+            driveSeconds(halfForward, 0.375);
+
+            // Drop Purple Pixel
+            Lightning.setPower(0.25);
+
+            // Wait
+            Functions.pause(2);
+
+            // Back uoi
+            driveSeconds(halfBackward, 0.54);
+
+            // Stop motor
+            Lightning.setPower(0);
+
+
+            // Drive to pixel
+            driveSeconds(halfBackward, 1);
+
+            // Drive to backdrop
+            driveSeconds(strafeLeft, 1.4);
+
+            driveSeconds(halfBackward, 0.5);
+
+
         }
 
         /* Drive to backdrop

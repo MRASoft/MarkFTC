@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
 //Importing
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Func;
 
 //##################################
 //#                                #
@@ -41,36 +42,36 @@ public class AutoRedFront extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
-    double Distance;
 
     // Declare OpMode members.
     private ColorSensor backColorSensor;
     private ColorSensor leftColorSensor;
     private ColorSensor rightColorSensor;
-    private DistanceSensor distanceSensor;
+    //private DistanceSensor distanceSensor;
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftWheel  = null;
     private DcMotor frontRightWheel = null;
     private DcMotor backLeftWheel  = null;
     private DcMotor backRightWheel = null;
+    private DcMotor Lightning = null;
     private CRServo Drop1 = null;
     private CRServo Drop2 = null;
     private CRServo Drop3 = null;
     private CRServo Drop4 = null;
 
     // Initialize directions
-    private final robotDirection goBackward = new robotDirection(1, 1, 1, 1, "Forward");
-    private final robotDirection halfBackward = new robotDirection(0.5, 0.5, 0.5, 0.5, "Forward/2");
-    private final robotDirection slowBackward = new robotDirection(0.25, 0.25, 0.25, 0.25, "ForwardSl");
-    private final robotDirection goForward = new robotDirection(-1, -1, -1, -1, "Back");
-    private final robotDirection halfForward = new robotDirection(-0.5, -0.5, -0.5, -0.5, "Back/2");
-    private final robotDirection slowForward = new robotDirection(-0.25, -0.25, -0.25, -0.25, "BackSl");
+    private final robotDirection goForward = new robotDirection(1, 1, 1, 1, "Forward");
+    private final robotDirection halfForward = new robotDirection(0.5, 0.5, 0.5, 0.5, "Forward/2");
+    private final robotDirection slowForward = new robotDirection(0.25, 0.25, 0.25, 0.25, "ForwardSl");
+    private final robotDirection goBackward = new robotDirection(-1, -1, -1, -1, "Back");
+    private final robotDirection halfBackward = new robotDirection(-0.5, -0.5, -0.5, -0.5, "Back/2");
+    private final robotDirection slowBackward = new robotDirection(-0.25, -0.25, -0.25, -0.25, "BackSl");
     private final robotDirection fullStop = new robotDirection(0, 0, 0, 0, "Pause");
-    private final robotDirection strafeRight = new robotDirection(-0.25, 0.25, 0.25, -0.28, "SLeft");
-    private final robotDirection strafeLeft = new robotDirection(0.25, -0.25, -0.25, 0.28, "SRight");
-    private final armDirection armStop = new armDirection(0, 0, "AStop");
-    private final armDirection armUp = new armDirection(0.5, 0.5, "AUp");
-    private final armDirection armDown = new armDirection(-0.5, -0.5, "ADown");
+    private final robotDirection strafeLeft = new robotDirection(-0.5, 0.5, 0.5, -0.5, "SLeft");
+    private final robotDirection strafeRight = new robotDirection(0.5, -0.5, -0.5, 0.5, "SRight");
+
+    private final robotDirection turnRight = new robotDirection(0.5, -0.5, 0.5, -0.5, "TLeft");
+    private final robotDirection turnLeft = new robotDirection(-0.5, 0.5, -0.5, 0.5, "TRight");
 
     //Set color thresholds
     private final int blueThreshold = 2000;
@@ -79,7 +80,7 @@ public class AutoRedFront extends LinearOpMode {
 
     // Store the current direction
     private robotDirection currentDirection = fullStop;
-    private armDirection currentArmDirection = armStop;
+
 
     @Override
     public void runOpMode() {
@@ -96,18 +97,11 @@ public class AutoRedFront extends LinearOpMode {
         frontRightWheel = hardwareMap.get(DcMotor.class, "FrontRight");
         backLeftWheel  = hardwareMap.get(DcMotor.class, "BackLeft");
         backRightWheel = hardwareMap.get(DcMotor.class, "BackRight");
+        Lightning = hardwareMap.get(DcMotor.class, "Lightning");
         Drop1 = hardwareMap.get(CRServo.class, "Drop1");
         Drop2 = hardwareMap.get(CRServo.class, "Drop2");
         Drop3 = hardwareMap.get(CRServo.class, "Drop3");
         Drop4 = hardwareMap.get(CRServo.class, "Drop4");
-
-        //color 3
-        backColorSensor = hardwareMap.get(ColorSensor.class, "Color3");
-        //color 2
-        leftColorSensor = hardwareMap.get(ColorSensor.class, "Color2");
-        //color 1
-        rightColorSensor = hardwareMap.get(ColorSensor.class, "Color1");
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "Distance1");
 
         // Set the wheel directions
         frontLeftWheel.setDirection(DcMotor.Direction.REVERSE);
@@ -116,7 +110,6 @@ public class AutoRedFront extends LinearOpMode {
         backRightWheel.setDirection(DcMotor.Direction.FORWARD);
         Drop1.setDirection(CRServo.Direction.FORWARD);
         Drop2.setDirection(CRServo.Direction.FORWARD);
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -125,81 +118,211 @@ public class AutoRedFront extends LinearOpMode {
         //////////////////////////////////////////// Driving starts here//////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // Go forward for five seconds
-        //driveSeconds(goForward, 5);
+        // Define Var
+        boolean isFound = false;
+        String whereFound;
 
-        //Stop of 2 Seconds
-        //driveSeconds(fullStop, 2);
+        // Starting on center, backdrop on left, facing towards middle
 
-        // Go backward for three seconds
-        //driveSeconds(goBackward, 3);
+        //Drop1.setPower(0.5);
+        //Drop2.setPower(0.5);
+        //Functions.pause(2);
+        //Drop1.setPower(0);
+        //Drop2.setPower(0);
 
-        //Strafe left for 3.5 seconds
-        //driveSeconds(strafeLeft, 3.5);
+        // Go close to pixel
+        driveSeconds(halfForward, 0.7);
 
-        //Strafe right for 3.5 seconds
-        //driveSeconds(strafeRight, 3.5);
-
-
-        //driveSeconds(strafeRight, 0.2;
-        driveSeconds(strafeLeft, 0.2);
-/*
-        boolean distanceWasReached;
-        distanceWasReached = driveUntilDistanceAway(goForward, 12.7, 8.6);
-        telemetry.addData("Got to ", distanceWasReached);
+        // Check for pixel
+        isFound = ImageDetection.findPixel(hardwareMap, telemetry, 3.5);
+        telemetry.addData("Center Results: ", String.valueOf(isFound));
         telemetry.update();
-        ElapsedTime waitTimerD = new ElapsedTime();
-        while (opModeIsActive() && waitTimerD.seconds() < waitTime) {
-            //AHHHHHHHHHHHHHHHHHHHHHHHHH
+
+        Functions.pause(2);
+
+        // If pixel found, set it to have been in the Center
+        if (isFound == true) {
+            whereFound = "Center";
+
+            telemetry.addData("Found in: ", whereFound);
+            telemetry.update();
+            Functions.pause(1);
+
+            // Drive to pixel
+            driveSeconds(halfForward, 0.3);
+
+            // Drop Purple Pixel
+            Lightning.setPower(0.25);
+
+            // Wait
+            Functions.pause(2);
+
+            // Back uoi
+            driveSeconds(halfBackward, 0.3);
+
+            // Stop motor
+            Lightning.setPower(0);
+
+            // Drive back
+            driveSeconds(halfBackward, 0.4);
+
+            // Drive to backdrop
+            driveSeconds(strafeRight, 2.5);
+
+            // Go to center
+            driveSeconds(slowForward, 4.4);
+
+            // Turn to drop pixel on the backdrop
+            driveSeconds(strafeRight, 0.7);
         }
-*/
+
+        // If pixel found, skip looking on RIght
+        if (isFound == false) {
+            // Back up
+            driveSeconds(halfBackward, 0.6);
+
+            // Strafe to Left tape
+            driveSeconds(strafeRight, 0.8);
+
+            // Go to pixel
+            driveSeconds(halfForward, 0.3);
+
+            // Check for pixel
+            isFound = ImageDetection.findPixel(hardwareMap, telemetry, 3.5);
+            telemetry.addData("Right Results: ", String.valueOf(isFound));
+            telemetry.update();
+
+            Functions.pause(2);
+
+            // If pixel found, set it to have been in the center
+            if (isFound == true) {
+                whereFound = "Right";
+                // Drive to pixel
+                driveSeconds(halfForward, 0.5);
+
+                // Drop Purple Pixel
+                Lightning.setPower(0.25);
+
+                // Wait
+                Functions.pause(2);
+
+                // Back uoi
+                driveSeconds(halfBackward, 0.4);
+
+                // Stop motor
+                Lightning.setPower(0);
+
+                // Drive back
+                driveSeconds(halfBackward, 0.4);
+
+                // Drive to backdrop
+                driveSeconds(strafeRight, 2);
+
+                // Go to center
+                driveSeconds(slowForward, 0.8);
+
+                // Go to center
+                driveSeconds(slowForward, 4.7);
+
+                // Turn to drop pixel on the backdrop
+                driveSeconds(strafeRight, 0.7);
+            }
+        }
 
 
-        boolean colorWasFound;
-        colorWasFound = driveUntilColor(slowForward, "red", 30, backColorSensor);
-        telemetry.addData("Found color", colorWasFound);
+        // If pixel is NOT found, show that it is not, and default to Left
+        if (isFound == false) {
+            whereFound = "Right";
+            telemetry.addData("***PIXEL FOUND == ", String.valueOf(isFound), ", DEFAULTING TO LEFT***");
+            telemetry.update();
+
+            Functions.pause(0);
+
+            // Drive to pixel
+            driveSeconds(halfForward, 0.65);
+
+            // Drive to pixel
+            driveSeconds(turnLeft, 1);
+
+            // Drive to pixel
+            driveSeconds(halfForward, 0.375);
+
+            // Drop Purple Pixel
+            Lightning.setPower(0.25);
+
+            // Wait
+            Functions.pause(2);
+
+            // Back uoi
+            driveSeconds(halfBackward, 0.54);
+
+            // Stop motor
+            Lightning.setPower(0);
+
+
+            // Drive to pixel
+            driveSeconds(halfBackward, 1);
+
+            // Drive to backdrop
+            driveSeconds(strafeRight, 1.4);
+
+            driveSeconds(halfBackward, 0.5);
+
+
+        }
+
+        /* Drive to backdrop
+        driveSeconds(strafeLeft, 1.5);
+
+        telemetry.addData("Found in: ", whereFound);
         telemetry.update();
-        ElapsedTime waitTimerC = new ElapsedTime();
-        if (colorWasFound == true)
-        {
-            driveSeconds(fullStop, 1);
+        Functions.pause(1);
+
+
+        // Go to the spot based on the results of whereFound
+        switch (whereFound) {
+            case "Left":
+                driveSeconds(slowForward, 0.8);
+                break;
+            case "Right":
+                driveSeconds(slowForward, 2.9);
+                break;
+            case "Center":
+                driveSeconds(slowForward, 1.9);
+                break;
         }
-        driveSeconds(strafeLeft, 4.3);
-        driveSeconds(slowForward, 1.3);
-        Drop3.setPower(-0.5);
-        Drop4.setPower(0.5);
-        driveSeconds(fullStop, 0.5);
+
+        // Turn to drop pixel on the backdrop
+        driveSeconds(turnRight, 1.1);
+
+        // Get to backdrop so that you can place the pixel on the board (used in all cases)
+        driveSeconds(slowBackward, 0.7);
+
+        // Drop pixel
+        Drop1.setPower(0.5);
+        Drop2.setPower(0.5);
         Drop3.setPower(0.5);
-        Drop4.setPower(-0.5);
-        driveSeconds(fullStop, 0.5);
-        driveSeconds(slowBackward, 1.3);
-        driveSeconds(strafeRight, 4);
-        driveSeconds(slowForward, 1.7);
-        driveSeconds(fullStop, 2);
+        Drop4.setPower(0.5);
+        Functions.pause(4);
+        */
+
+        // Drive back a bit so that the other pixel drops to the floor, and the robot is in the backstage
+        //driveSeconds(slowBackward, 0.4);
+
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving stop here////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        // Now just monitor the color
-        while (opModeIsActive()) {
-            // Get the color sensor data
-            telemetry.addData("Alpha", backColorSensor.alpha());
-            telemetry.addData("red", backColorSensor.red());
-            telemetry.addData("green", backColorSensor.green());
-            telemetry.addData("blue", backColorSensor.blue());
-            telemetry.addData("argb", backColorSensor.argb());
-            telemetry.addData("DistinanceCM", distanceSensor.getDistance(DistanceUnit.CM));
-            Distance = distanceSensor.getDistance(DistanceUnit.CM);
-            //*Must add to have data show up on the driver hub*
-            telemetry.update();
-        }
+        stop();
+
     }
 
 
     // Drive A specific direction for the number of seconds
     private void driveSeconds(robotDirection newDirection, double seconds) {
+
         // Set the current direction
         currentDirection = newDirection;
 
@@ -217,28 +340,6 @@ public class AutoRedFront extends LinearOpMode {
 
         // Stop the robot
         currentDirection = fullStop;
-
-        setPower();
-    }
-
-    private void armSeconds(armDirection newArmDirection, double seconds) {
-        // Set the current direction
-        currentArmDirection = newArmDirection;
-
-        // Set the drive time
-        ElapsedTime driveTime = new ElapsedTime();
-
-        while (opModeIsActive() && driveTime.seconds() < seconds) {
-            //telemetry.addData("Current Direction", "al (%.2f), ar (%.2f), currentArmDirection.leftArmPower, currentArmDirection.rightArmPower);
-            telemetry.addData("Direction", currentArmDirection.direction);
-            telemetry.addData("Direction Time", formatSeconds(driveTime.seconds()) + "/" + seconds);
-            telemetry.update();
-            setPower();
-        }
-
-
-        // Stop the robot
-        currentArmDirection = armStop;
 
         setPower();
     }
@@ -285,7 +386,7 @@ public class AutoRedFront extends LinearOpMode {
 
         return colorFound;
     }
-
+    /*
     private boolean driveUntilDistanceAway(robotDirection newDirection, double distance, double searchTime) {
         // Will keep going until is true
         boolean distanceReached = false;
@@ -323,16 +424,24 @@ public class AutoRedFront extends LinearOpMode {
 
         return distanceReached;
     }
+    */
 
+    private void setArmPower() {
+        frontLeftWheel.setPower(currentDirection.frontLeftPower);
+        frontRightWheel.setPower(currentDirection.frontRightPower);
+        backLeftWheel.setPower(currentDirection.backLeftPower);
+        backRightWheel.setPower(currentDirection.backRightPower);
+    }
 
     //This is used in defining directions (goForward) so you can just
     //replace the numbers with the power you want it to go at (will
     //vary in speed depending on the battery level)
     private void setPower() {
-        frontLeftWheel.setPower(currentDirection.frontLeftPower);
-        frontRightWheel.setPower(currentDirection.frontRightPower);
-        backLeftWheel.setPower(currentDirection.backLeftPower);
-        backRightWheel.setPower(currentDirection.backRightPower);
+        double batteryModifyer = 1;
+        frontLeftWheel.setPower(currentDirection.frontLeftPower * batteryModifyer);
+        frontRightWheel.setPower(currentDirection.frontRightPower * batteryModifyer);
+        backLeftWheel.setPower(currentDirection.backLeftPower * batteryModifyer);
+        backRightWheel.setPower(currentDirection.backRightPower * batteryModifyer);
     }
 
     //Very complicated code to make it so that when it is showing
