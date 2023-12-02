@@ -38,7 +38,7 @@ import org.firstinspires.ftc.robotcore.external.Func;
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
 @Autonomous(name = "AutoBlueFront")
-public class AutoBlueFront extends LinearOpMode {
+public class AutoBlueFrontBackUp2 extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
@@ -56,7 +56,7 @@ public class AutoBlueFront extends LinearOpMode {
     private DcMotor Lightning = null;
     private CRServo Drop1 = null;
     private CRServo Drop2 = null;
-    private CRServo Drop3 = null;
+    //private CRServo Drop3 = null;
     private CRServo Drop4 = null;
 
     // Initialize directions
@@ -100,7 +100,7 @@ public class AutoBlueFront extends LinearOpMode {
         Lightning = hardwareMap.get(DcMotor.class, "Lightning");
         Drop1 = hardwareMap.get(CRServo.class, "Drop1");
         Drop2 = hardwareMap.get(CRServo.class, "Drop2");
-        Drop3 = hardwareMap.get(CRServo.class, "Drop3");
+        //Drop3 = hardwareMap.get(CRServo.class, "Drop3");
         Drop4 = hardwareMap.get(CRServo.class, "Drop4");
 
         // Set the wheel directions
@@ -186,6 +186,9 @@ public class AutoBlueFront extends LinearOpMode {
 
             // Strafe to Left tape
             driveSeconds(strafeLeft, 1);
+
+            // Drive to pixel
+            driveSeconds(halfForward, 0.3);
 
             // Check for pixel
             isFound = ImageDetection.findPixel(hardwareMap, telemetry, 5);
