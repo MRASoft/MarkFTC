@@ -63,28 +63,37 @@ public class ImageDetection {
     }
 
     public static boolean findPixel(com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double searchTime) {
-        ElapsedTime elapsedTime = new ElapsedTime();
+        try {
 
-        TfodProcessor tfod = new TfodProcessor.Builder()
-                .setModelFileName("/sdcard/FIRST/tflitemodels/CenterStage.tflite")
-                .setModelLabels(new String[]{"Pixel"})
-                .build();
+            ElapsedTime elapsedTime = new ElapsedTime();
 
-        VisionPortal.Builder builder = new VisionPortal.Builder();
+            TfodProcessor tfod = new TfodProcessor.Builder()
+                    .setModelFileName("/sdcard/FIRST/tflitemodels/CenterStage.tflite")
+                    .setModelLabels(new String[]{"Pixel"})
+                    .build();
+            tfod.setMinResultConfidence((float) 0.6);
 
-        builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        builder.addProcessor(tfod);
+            VisionPortal.Builder builder = new VisionPortal.Builder();
 
-        VisionPortal visionPortal = builder.build();
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+            builder.addProcessor(tfod);
 
-        while (elapsedTime.seconds() < searchTime) {
-            List<Recognition> currentRecognitions = tfod.getRecognitions();
+            VisionPortal visionPortal = builder.build();
 
-            if (currentRecognitions.size() > 0){
-                return true;
+            while (elapsedTime.seconds() < searchTime) {
+                List<Recognition> currentRecognitions = tfod.getRecognitions();
+
+                if (currentRecognitions.size() > 0) {
+                    visionPortal.close();
+                    return true;
+                }
             }
-        }
 
-        return false;
+            visionPortal.close();
+            return false;
+        }
+        catch (Exception ex) {
+            return false;
+        }
     }
 }
