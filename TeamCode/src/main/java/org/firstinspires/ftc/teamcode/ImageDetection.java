@@ -84,12 +84,12 @@ public class ImageDetection {
                 List<Recognition> currentRecognitions = tfod.getRecognitions();
 
                 if (currentRecognitions.size() > 0) {
-                    visionPortal.close();
+                    //visionPortal.close();
                     return true;
                 }
             }
 
-            visionPortal.close();
+            //visionPortal.close();
             return false;
         }
         catch (Exception ex) {

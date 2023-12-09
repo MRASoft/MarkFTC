@@ -120,7 +120,7 @@ public class AutoRedFront extends LinearOpMode {
 
         // Define Var
         boolean isFound = false;
-        String whereFound;
+        String whereFound = "Right";
 
         // Starting on center, backdrop on left, facing towards middle
 
@@ -129,6 +129,7 @@ public class AutoRedFront extends LinearOpMode {
         Functions.pause(2);
         Drop1.setPower(0);
         Drop2.setPower(0);
+        Functions.pause(0.5);
 
         // Go close to pixel
         driveSeconds(halfForward, 0.7);
@@ -270,53 +271,9 @@ public class AutoRedFront extends LinearOpMode {
 
 
         }
-
-        /* Drive to backdrop
-        driveSeconds(strafeLeft, 1.5);
-
-        telemetry.addData("Found in: ", whereFound);
-        telemetry.update();
-        Functions.pause(1);
-
-
-        // Go to the spot based on the results of whereFound
-        switch (whereFound) {
-            case "Left":
-                driveSeconds(slowForward, 0.8);
-                break;
-            case "Right":
-                driveSeconds(slowForward, 2.9);
-                break;
-            case "Center":
-                driveSeconds(slowForward, 1.9);
-                break;
-        }
-
-        // Turn to drop pixel on the backdrop
-        driveSeconds(turnRight, 1.1);
-
-        // Get to backdrop so that you can place the pixel on the board (used in all cases)
-        driveSeconds(slowBackward, 0.7);
-
-        // Drop pixel
-        Drop1.setPower(0.5);
-        Drop2.setPower(0.5);
-        Drop3.setPower(0.5);
-        Drop4.setPower(0.5);
-        Functions.pause(4);
-        */
-
-        // Drive back a bit so that the other pixel drops to the floor, and the robot is in the backstage
-        //driveSeconds(slowBackward, 0.4);
-
-
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving stop here////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-        stop();
-
     }
 
 

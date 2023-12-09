@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -148,9 +149,9 @@ public class AutoBlueBack extends LinearOpMode {
             //AHHHHHHHHHHHHHHHHHHHHHHHHH
         }
         */
-
+        Functions.drive(this, hardwareMap, telemetry, 10, 10, 0.01, 10, 10);
         //driveSeconds(strafeRight, 0.2;
-        driveSeconds(strafeRight, 0.5);
+        driveSeconds(strafeRight, 0.7);
 
         boolean colorWasFound;
         colorWasFound = driveUntilColor(slowForward, "blue", 10, backColorSensor);

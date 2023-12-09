@@ -156,10 +156,10 @@ public class AutoRedBack extends LinearOpMode {
         Functions.pause(2);
         Drop1.setPower(0);
         Drop2.setPower(0);
-        Functions.pause(2);
+        Functions.pause(0.5);
 
         //driveSeconds(strafeRight, 0.2;
-        driveSeconds(strafeRight, 0.6);
+        driveSeconds(strafeRight, 0.7);
 
         boolean colorWasFound;
         colorWasFound = driveUntilColor(slowBackward, "red", 10, backColorSensor);

@@ -61,14 +61,13 @@ public class Functions {
             telemetry.addData("encoder-fwd-right-end", BackRight.getCurrentPosition());
             telemetry.addData("encoder-fwd-left-end", BackLeft.getCurrentPosition());
             telemetry.addData("encoder-fwd-right-end", BackRight.getCurrentPosition());
+            telemetry.addData("encoder-fwd-left-endBusy", BackLeft.isBusy());
+            telemetry.addData("encoder-fwd-right-endBusy", BackRight.isBusy());
+            telemetry.addData("encoder-fwd-left-endBusy", BackLeft.isBusy());
+            telemetry.addData("encoder-fwd-right-endBusy", BackRight.isBusy());
             telemetry.update();
             opMode.idle();
         }
-
-        while (opMode.opModeIsActive() && BackRight.isBusy() && FrontRight.isBusy() && BackLeft.isBusy() && FrontLeft.isBusy()) {
-            opMode.idle();
-        }
-
 
         BackLeft.setPower(0);
         BackRight.setPower(0);
