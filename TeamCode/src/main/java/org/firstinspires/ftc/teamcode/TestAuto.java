@@ -48,6 +48,7 @@ public class TestAuto extends LinearOpMode {
     private CRServo Drop2 = null;
     private CRServo Drop3 = null;
     private CRServo Drop4 = null;
+    private DcMotor Lightning = null;
 
 
     @Override
@@ -62,6 +63,7 @@ public class TestAuto extends LinearOpMode {
         //Replace the device name (ex frontLeft) with the NAME OF THE
         //MOTORS DEFINED IN THE DRIVER HUB
         Drone = hardwareMap.get(DcMotor.class, "Drone");
+        Lightning = hardwareMap.get(DcMotor.class, "Lightning");
 
         // Set the wheel directions
         Drone.setDirection(DcMotor.Direction.REVERSE);
@@ -75,6 +77,22 @@ public class TestAuto extends LinearOpMode {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // 16in = 1000
+
+        Functions.drive(this, hardwareMap, telemetry, 2000, 2000, 0.5, 2000, 2000);
+
+        Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
+        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+        Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
+        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+
+        Lightning.setPower(0.25);
+        Functions.pause(2);
+        Lightning.setPower(0);
+
+        Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
+        Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
+        Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
+        Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
 
         Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000);
 

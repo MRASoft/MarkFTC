@@ -36,13 +36,16 @@ public class ImageDetection {
         return false;
     }
 
-    public static boolean findRed(com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double searchTime) {
+    public static boolean findRed(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double searchTime, double confidence) {
         ElapsedTime elapsedTime = new ElapsedTime();
 
+
         TfodProcessor tfod = new TfodProcessor.Builder()
-                .setModelFileName("/sdcard/FIRST/tflitemodels/RedSquarev1.tflite")
-                .setModelLabels(new String[]{"BoxRed"})
+                .setModelFileName("/sdcard/FIRST/tflitemodels/BoxRed.tflite")
+                .setModelLabels(new String[]{"RedBox"})
                 .build();
+
+        tfod.setMinResultConfidence((float) confidence);
 
         VisionPortal.Builder builder = new VisionPortal.Builder();
 
@@ -51,14 +54,45 @@ public class ImageDetection {
 
         VisionPortal visionPortal = builder.build();
 
-        while (elapsedTime.seconds() < searchTime) {
+        while (elapsedTime.seconds() < searchTime && opMode.opModeIsActive()) {
             List<Recognition> currentRecognitions = tfod.getRecognitions();
 
+            telemetry.addData("Time Elapsed", Functions.formatSeconds(elapsedTime.seconds()) + "/" + searchTime);
+            telemetry.update();
             if (currentRecognitions.size() > 0){
+                for (Recognition recognition : currentRecognitions) {
+                    double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+                    double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+
+                    telemetry.addData(""," ");
+                    telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+                    telemetry.update();
+                }
+                Functions.pause(1);
+                visionPortal.close();
                 return true;
             }
         }
+        /*
+        while (elapsedTime.seconds() < searchTime && opMode.opModeIsActive()){
+            List<Recognition> currentRecognitions = tfod.getRecognitions();
+            telemetry.addData("# Objects Detected", currentRecognitions.size());
 
+            // Step through the list of recognitions and display info for each one.
+            for (Recognition recognition : currentRecognitions) {
+                double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+                double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+
+                telemetry.addData(""," ");
+                telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+                telemetry.addData("- Position", "%.0f / %.0f", x, y);
+                telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+                telemetry.update();
+
+            }   // end for() loop
+        }
+        */
+        visionPortal.close();
         return false;
     }
 

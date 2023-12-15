@@ -54,10 +54,12 @@ public class AutoRedFront extends LinearOpMode {
     private DcMotor backLeftWheel  = null;
     private DcMotor backRightWheel = null;
     private DcMotor Lightning = null;
+    /*
     private CRServo Drop1 = null;
     private CRServo Drop2 = null;
     private CRServo Drop3 = null;
     private CRServo Drop4 = null;
+    */
 
     // Initialize directions
     private final robotDirection goForward = new robotDirection(1, 1, 1, 1, "Forward");
@@ -98,18 +100,22 @@ public class AutoRedFront extends LinearOpMode {
         backLeftWheel  = hardwareMap.get(DcMotor.class, "BackLeft");
         backRightWheel = hardwareMap.get(DcMotor.class, "BackRight");
         Lightning = hardwareMap.get(DcMotor.class, "Lightning");
+        /*
         Drop1 = hardwareMap.get(CRServo.class, "Drop1");
         Drop2 = hardwareMap.get(CRServo.class, "Drop2");
         Drop3 = hardwareMap.get(CRServo.class, "Drop3");
         Drop4 = hardwareMap.get(CRServo.class, "Drop4");
+        */
 
         // Set the wheel directions
         frontLeftWheel.setDirection(DcMotor.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotor.Direction.FORWARD);
         backLeftWheel.setDirection(DcMotor.Direction.REVERSE);
         backRightWheel.setDirection(DcMotor.Direction.FORWARD);
+        /*
         Drop1.setDirection(CRServo.Direction.FORWARD);
         Drop2.setDirection(CRServo.Direction.FORWARD);
+        */
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -123,7 +129,7 @@ public class AutoRedFront extends LinearOpMode {
         String whereFound = "Right";
 
         // Starting on center, backdrop on left, facing towards middle
-
+/*
         Drop1.setPower(0.5);
         Drop2.setPower(0.5);
         Functions.pause(2);
@@ -131,15 +137,25 @@ public class AutoRedFront extends LinearOpMode {
         Drop2.setPower(0);
         Functions.pause(0.5);
 
+                Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+
+        isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5);
+        telemetry.addData("Red Results: ", String.valueOf(isFound));
+        telemetry.update();
+        Functions.pause(2);
+
+        Functions.drive(this, hardwareMap, telemetry, -750, -750, 0.5, -750, -750);
+        */
+
         // Go close to pixel
-        driveSeconds(halfForward, 0.7);
+        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
 
         // Check for pixel
-        isFound = ImageDetection.findPixel(hardwareMap, telemetry, 3.5);
+        isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5, 0.8);
         telemetry.addData("Center Results: ", String.valueOf(isFound));
         telemetry.update();
 
-        Functions.pause(2);
+        //Functions.pause(2);
 
         // If pixel found, set it to have been in the Center
         if (isFound == true) {
@@ -150,7 +166,7 @@ public class AutoRedFront extends LinearOpMode {
             Functions.pause(1);
 
             // Drive to pixel
-            driveSeconds(halfForward, 0.3);
+            Functions.drive(this, hardwareMap, telemetry, 1000, 1000, 0.5, 1000, 1000);
 
             // Drop Purple Pixel
             Lightning.setPower(0.25);
@@ -159,16 +175,13 @@ public class AutoRedFront extends LinearOpMode {
             Functions.pause(2);
 
             // Back uoi
-            driveSeconds(halfBackward, 0.3);
+            Functions.drive(this, hardwareMap, telemetry, -1550, -1550, 0.5, -1550, -1550);
 
             // Stop motor
             Lightning.setPower(0);
 
-            // Drive back
-            driveSeconds(halfBackward, 0.4);
-
-            // Drive to backdrop
-            driveSeconds(strafeRight, 2.5);
+            // Strafe to backdrop
+            Functions.drive(this, hardwareMap, telemetry, -2400, 2400, 0.25, 2400, -2400);
 
             // Go to center
             driveSeconds(slowForward, 4.4);
@@ -177,19 +190,20 @@ public class AutoRedFront extends LinearOpMode {
             driveSeconds(strafeRight, 0.7);
         }
 
+
         // If pixel found, skip looking on RIght
         if (isFound == false) {
             // Back up
-            driveSeconds(halfBackward, 0.6);
+            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
 
             // Strafe to Left tape
-            driveSeconds(strafeRight, 0.8);
+            Functions.drive(this, hardwareMap, telemetry, -800, 8800, 0.5, 800, -800);
 
             // Go to pixel
-            driveSeconds(halfForward, 0.3);
+            Functions.drive(this, hardwareMap, telemetry, 300, 300, 0.5, 300, 300);
 
             // Check for pixel
-            isFound = ImageDetection.findPixel(hardwareMap, telemetry, 3.5);
+            isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5, 0.5);
             telemetry.addData("Right Results: ", String.valueOf(isFound));
             telemetry.update();
 
@@ -199,7 +213,7 @@ public class AutoRedFront extends LinearOpMode {
             if (isFound == true) {
                 whereFound = "Right";
                 // Drive to pixel
-                driveSeconds(halfForward, 0.5);
+                Functions.drive(this, hardwareMap, telemetry, 900, 900, 0.5, 900, 900);
 
                 // Drop Purple Pixel
                 Lightning.setPower(0.25);
@@ -208,16 +222,16 @@ public class AutoRedFront extends LinearOpMode {
                 Functions.pause(2);
 
                 // Back uoi
-                driveSeconds(halfBackward, 0.4);
+                Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
 
                 // Stop motor
                 Lightning.setPower(0);
 
                 // Drive back
-                driveSeconds(halfBackward, 0.4);
+                Functions.drive(this, hardwareMap, telemetry, -500, -500, 0.5, -500, -500);
 
                 // Drive to backdrop
-                driveSeconds(strafeRight, 2);
+                Functions.drive(this, hardwareMap, telemetry, -1800, 1800, 0.5, 1800, -1800);
 
                 // Go to center
                 driveSeconds(slowForward, 0.8);
@@ -227,6 +241,7 @@ public class AutoRedFront extends LinearOpMode {
 
                 // Turn to drop pixel on the backdrop
                 driveSeconds(strafeRight, 0.7);
+
             }
         }
 
@@ -239,14 +254,14 @@ public class AutoRedFront extends LinearOpMode {
 
             Functions.pause(0);
 
-            // Drive to pixel
-            driveSeconds(halfForward, 0.65);
+            // Drive to Right tape
+            Functions.drive(this, hardwareMap, telemetry, 1100, 1100, 0.5, 1100, 1100);
 
-            // Drive to pixel
-            driveSeconds(turnLeft, 1);
+            // Turn left
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
 
-            // Drive to pixel
-            driveSeconds(halfForward, 0.375);
+            // Drive to prop
+            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
 
             // Drop Purple Pixel
             Lightning.setPower(0.25);
@@ -254,23 +269,26 @@ public class AutoRedFront extends LinearOpMode {
             // Wait
             Functions.pause(2);
 
+
             // Back uoi
-            driveSeconds(halfBackward, 0.54);
+            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
 
             // Stop motor
             Lightning.setPower(0);
 
+            // Turn right
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
 
-            // Drive to pixel
-            driveSeconds(halfBackward, 1);
+            // Drive Back
+            Functions.drive(this, hardwareMap, telemetry, -1400, -1400, 0.5, -1400, -1400);
 
             // Drive to backdrop
-            driveSeconds(strafeRight, 1.4);
+            Functions.drive(this, hardwareMap, telemetry, -1800, 1800, 0.5, 1800, -1800);
 
             driveSeconds(halfBackward, 0.5);
 
-
         }
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving stop here////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
