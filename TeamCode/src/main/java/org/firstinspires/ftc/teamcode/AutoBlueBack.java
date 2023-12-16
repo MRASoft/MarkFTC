@@ -151,7 +151,7 @@ public class AutoBlueBack extends LinearOpMode {
         Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
 
         // Check for pixel
-        isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.98);
+        isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.8);
         telemetry.addData("Center Results: ", String.valueOf(isFound));
         telemetry.update();
 
@@ -203,7 +203,7 @@ public class AutoBlueBack extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, 300, 300, 0.5, 300, 300);
 
             // Check for pixel
-            isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.97);
+            isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.7);
             telemetry.addData("Right Results: ", String.valueOf(isFound));
             telemetry.update();
 
