@@ -148,10 +148,10 @@ public class AutoRedFront extends LinearOpMode {
         */
 
         // Go close to pixel
-        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.3, 700, 700);
 
         // Check for pixel
-        isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5, 0.8);
+        isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5, 0.7);
         telemetry.addData("Center Results: ", String.valueOf(isFound));
         telemetry.update();
 
@@ -166,7 +166,7 @@ public class AutoRedFront extends LinearOpMode {
             Functions.pause(1);
 
             // Drive to pixel
-            Functions.drive(this, hardwareMap, telemetry, 1000, 1000, 0.5, 1000, 1000);
+            Functions.drive(this, hardwareMap, telemetry, 875, 875, 0.5, 875, 875);
 
             // Drop Purple Pixel
             Lightning.setPower(0.25);
@@ -175,19 +175,37 @@ public class AutoRedFront extends LinearOpMode {
             Functions.pause(2);
 
             // Back uoi
-            Functions.drive(this, hardwareMap, telemetry, -1550, -1550, 0.5, -1550, -1550);
+            Functions.drive(this, hardwareMap, telemetry, -450, -450, 0.5, -450, -450);
 
             // Stop motor
             Lightning.setPower(0);
 
-            // Strafe to backdrop
-            Functions.drive(this, hardwareMap, telemetry, -2400, 2400, 0.25, 2400, -2400);
+            // Turn Left
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
 
-            // Go to center
-            driveSeconds(slowForward, 4.4);
+            // Go to Backdrop
+            Functions.drive(this, hardwareMap, telemetry, -2600, -2600, 0.5, -2600, -2600);
 
-            // Turn to drop pixel on the backdrop
-            driveSeconds(strafeRight, 0.7);
+            // Strafe to drop pixel on the backdrop
+            Functions.drive(this, hardwareMap, telemetry, -250, 250, 0.5, 250, -250);
+
+            // Go a bit backward
+            Functions.drive(this, hardwareMap, telemetry, -300, -300, 0.2, -300, -300);
+
+            // Go a bit forward
+            Functions.drive(this, hardwareMap, telemetry, 75, 75, 0.1, 75, 75);
+
+            // Drop Pixel
+            Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.25);
+
+            // Go a bit forward
+            Functions.drive(this, hardwareMap, telemetry, 125, 125, 0.05, 125, 125);
+
+            // Wait
+            Functions.pause(0.1);
+
+            // Bring up Dropigimigigy6
+            Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2);
         }
 
 
@@ -197,13 +215,13 @@ public class AutoRedFront extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
 
             // Strafe to Left tape
-            Functions.drive(this, hardwareMap, telemetry, -800, 8800, 0.5, 800, -800);
+            Functions.drive(this, hardwareMap, telemetry, -750, 750, 0.5, 750, -750);
 
             // Go to pixel
             Functions.drive(this, hardwareMap, telemetry, 300, 300, 0.5, 300, 300);
 
             // Check for pixel
-            isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5, 0.5);
+            isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5, 0.7);
             telemetry.addData("Right Results: ", String.valueOf(isFound));
             telemetry.update();
 
@@ -213,7 +231,7 @@ public class AutoRedFront extends LinearOpMode {
             if (isFound == true) {
                 whereFound = "Right";
                 // Drive to pixel
-                Functions.drive(this, hardwareMap, telemetry, 900, 900, 0.5, 900, 900);
+                Functions.drive(this, hardwareMap, telemetry, 900, 900, 0.3, 900, 900);
 
                 // Drop Purple Pixel
                 Lightning.setPower(0.25);
@@ -227,21 +245,29 @@ public class AutoRedFront extends LinearOpMode {
                 // Stop motor
                 Lightning.setPower(0);
 
-                // Drive back
-                Functions.drive(this, hardwareMap, telemetry, -500, -500, 0.5, -500, -500);
+                // Turn Right
+                Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
 
-                // Drive to backdrop
-                Functions.drive(this, hardwareMap, telemetry, -1800, 1800, 0.5, 1800, -1800);
+                // Go to Backdrop
+                Functions.drive(this, hardwareMap, telemetry, -1825, -1825, 0.5, -1825, -1825);
 
-                // Go to center
-                driveSeconds(slowForward, 0.8);
+                // Strafe to drop pixel on the backdrop
+                Functions.drive(this, hardwareMap, telemetry, -600, 600, 0.5, 600, -600);
 
-                // Go to center
-                driveSeconds(slowForward, 4.7);
+                // Back uoi
+                Functions.drive(this, hardwareMap, telemetry, -450, -450, 0.3, -450, -450);
 
-                // Turn to drop pixel on the backdrop
-                driveSeconds(strafeRight, 0.7);
+                // Drop Pixel
+                Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.2);
 
+                // Go a bit forward
+                Functions.drive(this, hardwareMap, telemetry, 150, 150, 0.05, 150, 150);
+
+                // Wait
+                Functions.pause(0.5);
+
+                // Bring up Dropigimigigy6
+                Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2);
             }
         }
 
@@ -269,23 +295,32 @@ public class AutoRedFront extends LinearOpMode {
             // Wait
             Functions.pause(2);
 
-
-            // Back uoi
-            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
-
             // Stop motor
             Lightning.setPower(0);
 
-            // Turn right
-            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
+            // Go to Backdrop
+            Functions.drive(this, hardwareMap, telemetry, -2500, -2500, 0.5, -2500, -2500);
 
-            // Drive Back
-            Functions.drive(this, hardwareMap, telemetry, -1400, -1400, 0.5, -1400, -1400);
+            // Strafe to drop pixel on the backdrop
+            Functions.drive(this, hardwareMap, telemetry, -450, 450, 0.5, 450, -450);
 
-            // Drive to backdrop
-            Functions.drive(this, hardwareMap, telemetry, -1800, 1800, 0.5, 1800, -1800);
+            // Back uoi
+            Functions.drive(this, hardwareMap, telemetry, -200, -200, 0.5, -200, -200);
 
-            driveSeconds(halfBackward, 0.5);
+            // Go a bit forward
+            Functions.drive(this, hardwareMap, telemetry, 75, 75, 0.25, 75, 75);
+
+            // Drop Pixel
+            Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.2);
+
+            // Go a bit forward
+            Functions.drive(this, hardwareMap, telemetry, 150, 150, 0.05, 150, 150);
+
+            // Wait
+            Functions.pause(0.1);
+
+            // Bring up Dropigimigigy6
+            Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2);
 
         }
 
@@ -427,4 +462,4 @@ public class AutoRedFront extends LinearOpMode {
         double fixedValue = Math.floor(inputSeconds * 10) / 10;
         return String.valueOf(fixedValue);
     }
-}
+}  
