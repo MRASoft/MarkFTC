@@ -462,4 +462,4 @@ public class AutoRedFront extends LinearOpMode {
         double fixedValue = Math.floor(inputSeconds * 10) / 10;
         return String.valueOf(fixedValue);
     }
-}  
+}
