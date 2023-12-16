@@ -181,7 +181,7 @@ public class AutoRedBack extends LinearOpMode {
             Lightning.setPower(0);
 
             // Strafe to backdrop
-            Functions.drive(this, hardwareMap, telemetry, -5600, 5600, 0.25, 5600, -5600);
+            //Functions.drive(this, hardwareMap, telemetry, -5600, 5600, 0.25, 5600, -5600);
 
             // Go to center
             driveSeconds(slowForward, 4.4);
@@ -234,7 +234,7 @@ public class AutoRedBack extends LinearOpMode {
                 Functions.drive(this, hardwareMap, telemetry, 100, 100, 0.5, 100, 100);
 
                 // Drive to backdrop
-                Functions.drive(this, hardwareMap, telemetry, -6200, 6200, 0.5, 6200, -6200);
+                //Functions.drive(this, hardwareMap, telemetry, -6200, 6200, 0.5, 6200, -6200);
 
                 // Go to center
                 driveSeconds(slowForward, 0.8);
@@ -286,10 +286,10 @@ public class AutoRedBack extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, -1400, -1400, 0.5, -1400, -1400);
 
             // Turn left
-            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
+            //Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
 
             // Drive to backdrop
-            Functions.drive(this, hardwareMap, telemetry, 5600, 5600, 0.5, 5600, 5600);
+            //Functions.drive(this, hardwareMap, telemetry, 5600, 5600, 0.5, 5600, 5600);
 
             driveSeconds(halfBackward, 0.5);
 

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -146,5 +147,28 @@ public class Functions {
         FrontLeft.setPower(0);
         FrontRight.setPower(0);
 
+    }
+
+    public static void dropYellow(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String Direction, double speed) {
+
+        CRServo BackDropExpansion = null;
+        CRServo BackDropControl = null;
+
+        BackDropExpansion = hardwareMap.get(CRServo.class, "BackDropExpansion");
+        BackDropControl = hardwareMap.get(CRServo.class, "BackDropControl");
+
+        if (Direction == "Down") {
+            BackDropExpansion.setPower(-speed);
+            BackDropControl.setPower(speed);
+
+        } else if (Direction == "Up") {
+            BackDropExpansion.setPower(speed);
+            BackDropControl.setPower(-speed);
+        }
+
+        Functions.pause(2);
+
+        BackDropExpansion.setPower(0);
+        BackDropControl.setPower(0);
     }
 }
