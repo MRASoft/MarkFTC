@@ -151,7 +151,7 @@ public class AutoBlueBack extends LinearOpMode {
         Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
 
         // Check for pixel
-        isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.8);
+        isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.98);
         telemetry.addData("Center Results: ", String.valueOf(isFound));
         telemetry.update();
 
@@ -203,7 +203,7 @@ public class AutoBlueBack extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, 300, 300, 0.5, 300, 300);
 
             // Check for pixel
-            isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.5);
+            isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.97);
             telemetry.addData("Right Results: ", String.valueOf(isFound));
             telemetry.update();
 
@@ -255,13 +255,13 @@ public class AutoBlueBack extends LinearOpMode {
             Functions.pause(0);
 
             // Drive to Right tape
-            Functions.drive(this, hardwareMap, telemetry, 1100, 1100, 0.5, 1100, 1100);
+            Functions.drive(this, hardwareMap, telemetry, 1400, 1400, 0.5, 1400, 1400);
 
             // Turn left
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
 
             // Drive to prop
-            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+            Functions.drive(this, hardwareMap, telemetry, 800, 800, 0.5, 800, 800);
 
             // Drop Purple Pixel
             Lightning.setPower(0.25);
@@ -271,11 +271,11 @@ public class AutoBlueBack extends LinearOpMode {
 
 
             // Back uoi
-            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
+            Functions.drive(this, hardwareMap, telemetry, -500, -500, 0.5, -500, -500);
 
             // Stop motor
             Lightning.setPower(0);
-
+/*
             // Turn right
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
 
@@ -286,6 +286,7 @@ public class AutoBlueBack extends LinearOpMode {
             //Functions.drive(this, hardwareMap, telemetry, -1800, 1800, 0.5, 1800, -1800);
 
             driveSeconds(halfBackward, 0.5);
+            */
 
         }
 

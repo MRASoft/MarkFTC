@@ -264,7 +264,7 @@ public class AutoRedBack extends LinearOpMode {
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
 
             // Drive to prop
-            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+            Functions.drive(this, hardwareMap, telemetry, 875, 875, 0.5, 875, 875);
 
             // Drop Purple Pixel
             Lightning.setPower(0.25);
@@ -278,7 +278,7 @@ public class AutoRedBack extends LinearOpMode {
 
             // Stop motor
             Lightning.setPower(0);
-
+/*
             // Turn right
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
 
@@ -292,7 +292,7 @@ public class AutoRedBack extends LinearOpMode {
             //Functions.drive(this, hardwareMap, telemetry, 5600, 5600, 0.5, 5600, 5600);
 
             driveSeconds(halfBackward, 0.5);
-
+*/
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
