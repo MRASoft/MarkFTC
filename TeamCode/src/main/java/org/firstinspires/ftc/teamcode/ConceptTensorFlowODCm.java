@@ -50,32 +50,76 @@ import java.util.List;
 @TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
 
 public class ConceptTensorFlowODCm extends LinearOpMode {
-
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-
-    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
-    // this is only used for Android Studio when using models in Assets.
-    //private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
-    // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
-    // this is used when uploading models directly to the RC using the model upload interface.
-    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/BlueSquarev1.tflite";
-    // Define the labels recognized in the model for TFOD (must be in training order!)
-    private static final String[] LABELS = {
-            "BoxBlue",
-    };
-
-    /**
-     * The variable to store our instance of the TensorFlow Object Detection processor.
-     */
-    private TfodProcessor tfod;
-
-    /**
-     * The variable to store our instance of the vision portal.
-     */
-    private VisionPortal visionPortal;
-
     @Override
     public void runOpMode() {
+
+        boolean Start = false;
+        String Color = null;
+        boolean Blue = false;
+        boolean Red = false;
+
+        while(Start == false)
+        {
+            if (gamepad1.dpad_down) {
+                Start = true;
+            }
+            if (gamepad1.x) {
+                Blue = true;
+                Red = false;
+                Color = "Blue";
+            }
+            if (gamepad1.b) {
+                Blue = false;
+                Red = true;
+                Color = "Red";
+            }
+            telemetry.addData("Running == ", Running);
+            telemetry.addData("Color == (x = Blue, b = Red)", Color);
+            telemetry.update();
+        }
+
+        final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+
+        // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
+        // this is only used for Android Studio when using models in Assets.
+        //private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
+        // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
+        // this is used when uploading models directly to the RC using the model upload interface.
+        String TFOD_MODEL_FILE;
+
+        if(Color == "Blue")
+        {
+            TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/Declan.tflite";
+        }
+
+        if(Color == "Red")
+        {
+            TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/RED2.tflite";
+        }
+
+        // Define the labels recognized in the model for TFOD (must be in training order!)
+
+        String[] LABELS = new String[]{};
+
+        if(Color == "Blue")
+        {
+            LABELS[0] = "BlueBox";
+        }
+        if(Color == "Red")
+        {
+            LABELS[0] = "Middle";
+            LABELS[1] = "Right";
+        }
+
+        /**
+         * The variable to store our instance of the TensorFlow Object Detection processor.
+         */
+        TfodProcessor tfod;
+
+        /**
+         * The variable to store our instance of the vision portal.
+         */
+        VisionPortal visionPortal;
 
         initTfod();
 
@@ -113,7 +157,7 @@ public class ConceptTensorFlowODCm extends LinearOpMode {
     /**
      * Initialize the TensorFlow Object Detection processor.
      */
-    private void initTfod() {
+    public void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
@@ -177,7 +221,7 @@ public class ConceptTensorFlowODCm extends LinearOpMode {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private void telemetryTfod() {
+    public void telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
@@ -191,6 +235,8 @@ public class ConceptTensorFlowODCm extends LinearOpMode {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+            telemetry.update();
+
         }   // end for() loop
 
     }   // end method telemetryTfod()

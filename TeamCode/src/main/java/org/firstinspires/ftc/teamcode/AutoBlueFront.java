@@ -148,7 +148,8 @@ public class AutoBlueFront extends LinearOpMode {
         */
 
         // Go close to pixel
-        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+        Functions.drive(this, hardwareMap, telemetry, 500, 500, 0.6, 500, 500);
+        Functions.drive(this, hardwareMap, telemetry, 200, 200, 0.3, 200, 200);
 
         // Check for pixel
         isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.8);
@@ -163,7 +164,7 @@ public class AutoBlueFront extends LinearOpMode {
 
             telemetry.addData("Found in: ", whereFound);
             telemetry.update();
-            Functions.pause(1);
+            Functions.pause(0.2);
 
             // Drive to pixel
             Functions.drive(this, hardwareMap, telemetry, 1000, 1000, 0.5, 1000, 1000);
@@ -172,7 +173,7 @@ public class AutoBlueFront extends LinearOpMode {
             Lightning.setPower(0.25);
 
             // Wait
-            Functions.pause(2);
+            Functions.pause(1.25);
 
             // Back uoi
             Functions.drive(this, hardwareMap, telemetry, -450, -450, 0.5, -450, -450);
@@ -184,26 +185,36 @@ public class AutoBlueFront extends LinearOpMode {
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
 
             // Go to Backdrop
-            Functions.drive(this, hardwareMap, telemetry, -2600, -2600, 0.5, -2600, -2600);
+            Functions.drive(this, hardwareMap, telemetry, -2600, -2600, 0.6, -2600, -2600);
 
             // Strafe to drop pixel on the backdrop
-            Functions.drive(this, hardwareMap, telemetry, 500, -500, 0.5, -500, 500);
+            Functions.drive(this, hardwareMap, telemetry, 300, -300, 0.5, -300, 300);
 
             // Drop Pixel
-            Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.2);
+            Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.1);
 
             // Wait
-            Functions.pause(0.5);
+            Functions.pause(0.2);
 
             // Bring up Dropigimigigy6
-            Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2);
+            Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.11);
+
+            // Strafe to park
+            Functions.drive(this, hardwareMap, telemetry, 1600, -1600, 0.5, -1600, 1600);
+
+            // Back uoi
+            Functions.drive(this, hardwareMap, telemetry, -450, -450, 0.5, -450, -450);
+
         }
 
 
         // If pixel found, skip looking on Left
         if (isFound == false) {
             // Back up
-            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
+            Functions.drive(this, hardwareMap, telemetry, -650, -650, 0.5, -650, -650);
+
+            // Back up
+            Functions.drive(this, hardwareMap, telemetry, 10, 10, 0.2, 10, 10);
 
             // Strafe to Left tape
             Functions.drive(this, hardwareMap, telemetry, 800, -800, 0.5, -800, 800);
@@ -243,7 +254,7 @@ public class AutoBlueFront extends LinearOpMode {
                 Functions.drive(this, hardwareMap, telemetry, -1500, -1500, 0.5, -1500, -1500);
 
                 // Strafe to drop pixel on the backdrop
-                Functions.drive(this, hardwareMap, telemetry, 600, -600, 0.5, -600, 600);
+                Functions.drive(this, hardwareMap, telemetry, 500, -500, 0.5, -500, 500);
 
                 // Back uoi
                 Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.5, -400, -400);

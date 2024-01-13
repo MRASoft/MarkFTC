@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -35,7 +36,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@Autonomous(name = "TestAuto")
+@TeleOp(name = "TestAuto")
 public class TestAuto extends LinearOpMode {
 
     private String action;
@@ -53,6 +54,7 @@ public class TestAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        boolean Running = true;
         // Report that op mode has been initialized
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -69,6 +71,35 @@ public class TestAuto extends LinearOpMode {
         Drone.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
+        boolean Start = false;
+        boolean DriveTest = false;
+        boolean CameraTest = false;
+        boolean DistanceTest = false;
+
+        while (Start = false) {
+            if (gamepad1.dpad_down)
+            {
+                Start = true;
+            }
+            if (gamepad1.x)
+            {
+                DriveTest = true;
+            }
+            if (gamepad1.b)
+            {
+                CameraTest = true;
+            }
+            if (gamepad1.y)
+            {
+                DistanceTest = true;
+            }
+            telemetry.addData("Running == ", Running);
+            telemetry.addData("Drive Test == ", DriveTest);
+            telemetry.addData("Camera Test == ", CameraTest);
+            telemetry.addData("Distance Test == ", DistanceTest);
+
+            telemetry.update();
+        }
         waitForStart();
         runtime.reset();
 
@@ -76,25 +107,40 @@ public class TestAuto extends LinearOpMode {
         //////////////////////////////////////////// Driving starts here//////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // 16in = 1000
+        double LeftSensorValue;
+        double RightSensorValue;
+        if(DistanceTest == true) {
+            while (opModeIsActive()) {
+                LeftSensorValue = Distance.GetDisance(this, hardwareMap, telemetry, "leftDistanceSensor");
+                RightSensorValue = Distance.GetDisance(this, hardwareMap, telemetry, "rightDistanceSensor");
 
-        Functions.drive(this, hardwareMap, telemetry, 2000, 2000, 0.5, 2000, 2000);
+                telemetry.addData("Left Distance: ", LeftSensorValue);
+                telemetry.addData("Right Distance: ", RightSensorValue);
+                telemetry.update();
+            }
+        }
 
-        Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
-        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
-        Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
-        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+        if(DriveTest == true) {
+            // 16in = 1000
 
-        Lightning.setPower(0.25);
-        Functions.pause(2);
-        Lightning.setPower(0);
+            Functions.drive(this, hardwareMap, telemetry, 2000, 2000, 0.5, 2000, 2000);
 
-        Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
-        Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
-        Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
-        Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
+            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
+            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
 
-        Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000);
+            Lightning.setPower(0.25);
+            Functions.pause(2);
+            Lightning.setPower(0);
+
+            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
+            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
+
+            Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000);
+        }
 
         /*
         Drone.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -118,6 +164,9 @@ public class TestAuto extends LinearOpMode {
         Drone.setPower(0);
 
     */
+
+
+
     }
 
 

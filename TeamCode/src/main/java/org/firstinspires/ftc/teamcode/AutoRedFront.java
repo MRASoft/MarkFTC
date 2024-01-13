@@ -252,7 +252,7 @@ public class AutoRedFront extends LinearOpMode {
                 Functions.drive(this, hardwareMap, telemetry, -1825, -1825, 0.5, -1825, -1825);
 
                 // Strafe to drop pixel on the backdrop
-                Functions.drive(this, hardwareMap, telemetry, -600, 600, 0.5, 600, -600);
+                Functions.drive(this, hardwareMap, telemetry, -644, 644, 0.5, 644, -644);
 
                 // Back uoi
                 Functions.drive(this, hardwareMap, telemetry, -450, -450, 0.3, -450, -450);
