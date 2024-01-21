@@ -25,7 +25,7 @@ public class Functions {
         return String.valueOf(fixedValue);
     }
 
-    public static void drive(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, int BackLeft_target, int BackRight_target, double Speed, int FrontLeft_target, int FrontRight_target) {
+    public static void drive(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, int BackLeft_target, int BackRight_target, double Speed, int FrontLeft_target, int FrontRight_target, boolean testMode) {
         DcMotor BackLeft;
         DcMotor BackRight;
         DcMotor FrontLeft;
@@ -61,8 +61,15 @@ public class Functions {
         FrontLeft.setPower(Speed);
         FrontRight.setPower(Speed);
 
+        DcMotor[] WHEELS = new DcMotor[4];
+        WHEELS[0] = BackLeft;
+        WHEELS[1] = BackRight;
+        WHEELS[2] = FrontLeft;
+        WHEELS[3] = FrontRight;
+
         while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy())
         {
+
             telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
             telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
             telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
@@ -72,6 +79,7 @@ public class Functions {
             telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
             telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
             telemetry.update();
+
             opMode.idle();
         }
 
@@ -83,7 +91,7 @@ public class Functions {
     }
 
 
-    public static void turn(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String direction, double Speed) {
+    public static void turn(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String direction, double Speed, boolean testMode) {
         DcMotor BackLeft;
         DcMotor FrontLeft;
         DcMotor FrontRight;
@@ -130,15 +138,17 @@ public class Functions {
 
         while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy())
         {
-            telemetry.addData("encoder-bk-left-end", BackLeft.getCurrentPosition());
-            telemetry.addData("encoder-bk-right-end", BackRight.getCurrentPosition());
-            telemetry.addData("encoder-fwd-left-end", FrontLeft.getCurrentPosition());
-            telemetry.addData("encoder-fwd-right-end", FrontRight.getCurrentPosition());
-            telemetry.addData("encoder-bk-left-endBusy", BackLeft.isBusy());
-            telemetry.addData("encoder-bk-right-endBusy", BackRight.isBusy());
-            telemetry.addData("encoder-fwd-left-endBusy", FrontLeft.isBusy());
-            telemetry.addData("encoder-fwd-right-endBusy", FrontRight.isBusy());
+
+            telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
+            telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
+            telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
+            telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
+            telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
+            telemetry.addData("bk-right-endBusy", BackRight.isBusy());
+            telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
+            telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
             telemetry.update();
+
             opMode.idle();
         }
 
@@ -149,26 +159,54 @@ public class Functions {
 
     }
 
-    public static void dropYellow(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String Direction, double speed) {
+    public static void dropYellow(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String Direction, double speed, double time, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
 
-        CRServo BackDropExpansion = null;
+        //Define CRServos
         CRServo BackDropControl = null;
+        CRServo ExpandControl = null;
 
-        BackDropExpansion = hardwareMap.get(CRServo.class, "BackDropExpansion");
+        //Set servos
         BackDropControl = hardwareMap.get(CRServo.class, "BackDropControl");
+        ExpandControl = hardwareMap.get(CRServo.class, "ExpandControl");
 
-        if (Direction == "Down") {
-            BackDropExpansion.setPower(-speed);
-            BackDropControl.setPower(speed);
+        //Disable pwm
+        ControlHub_ServoController.pwmDisable();
+        ExpansionHub2_ServoController.pwmDisable();
 
-        } else if (Direction == "Up") {
-            BackDropExpansion.setPower(speed);
-            BackDropControl.setPower(-speed);
-        }
+        //Slide to the Up
+        ExpandControl.setPower(0.7);
+        Functions.pause(3.5);
 
-        Functions.pause(2);
-
-        BackDropExpansion.setPower(0);
+        // Drop Pixel
+        BackDropControl.setPower(0.7);
+        Functions.pause(1.5);
         BackDropControl.setPower(0);
+
+        // Wait
+        Functions.pause(0.6);
+
+        // Bring down Dropigimigigy6
+        BackDropControl.setPower(-0.7);
+        Functions.pause(1);
+        BackDropControl.setPower(0);
+
+        //Slide to the down
+        ExpandControl.setPower(0);
+    }
+
+    public static void slideUp(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
+
+        //Define CRServos
+        CRServo ExpandControl = null;
+
+        //Set servos
+        ExpandControl = hardwareMap.get(CRServo.class, "ExpandControl");
+
+        //Disable pwm
+        ControlHub_ServoController.pwmDisable();
+        ExpansionHub2_ServoController.pwmDisable();
+
+        //Slide to the Up
+        ExpandControl.setPower(0.8);
     }
 }

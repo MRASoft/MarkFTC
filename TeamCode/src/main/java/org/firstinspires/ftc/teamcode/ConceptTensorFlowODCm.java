@@ -26,7 +26,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+/*
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -38,8 +38,14 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-import java.util.List;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.List;
+*/
 /*
  * This OpMode illustrates the basics of TensorFlow Object Detection,
  * including Java Builder structures for specifying Vision parameters.
@@ -47,6 +53,7 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the line to add this OpMode to the Driver Station OpMode list.
  */
+/*
 @TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
 
 public class ConceptTensorFlowODCm extends LinearOpMode {
@@ -73,7 +80,7 @@ public class ConceptTensorFlowODCm extends LinearOpMode {
                 Red = true;
                 Color = "Red";
             }
-            telemetry.addData("Running == ", Running);
+            telemetry.addData("Running == ", "true");
             telemetry.addData("Color == (x = Blue, b = Red)", Color);
             telemetry.update();
         }
@@ -114,11 +121,13 @@ public class ConceptTensorFlowODCm extends LinearOpMode {
         /**
          * The variable to store our instance of the TensorFlow Object Detection processor.
          */
-        TfodProcessor tfod;
 
-        /**
-         * The variable to store our instance of the vision portal.
-         */
+//TfodProcessor tfod;
+
+/**
+ * The variable to store our instance of the vision portal.
+ */
+         /*
         VisionPortal visionPortal;
 
         initTfod();
@@ -153,10 +162,11 @@ public class ConceptTensorFlowODCm extends LinearOpMode {
         visionPortal.close();
 
     }   // end runOpMode()
-
-    /**
-     * Initialize the TensorFlow Object Detection processor.
-     */
+*/
+/**
+ * Initialize the TensorFlow Object Detection processor.
+ */
+     /*
     public void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
@@ -217,10 +227,11 @@ public class ConceptTensorFlowODCm extends LinearOpMode {
         //visionPortal.setProcessorEnabled(tfod, true);
 
     }   // end method initTfod()
-
-    /**
-     * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
-     */
+*/
+/**
+ * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
+ */
+     /*
     public void telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
@@ -242,3 +253,4 @@ public class ConceptTensorFlowODCm extends LinearOpMode {
     }   // end method telemetryTfod()
 
 }   // end class
+*/

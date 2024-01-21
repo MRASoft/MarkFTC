@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 //##################################
@@ -36,7 +37,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@TeleOp(name = "TestAuto")
+@TeleOp(name = "TestAuto00")
 public class TestAuto extends LinearOpMode {
 
     private String action;
@@ -50,6 +51,8 @@ public class TestAuto extends LinearOpMode {
     private CRServo Drop3 = null;
     private CRServo Drop4 = null;
     private DcMotor Lightning = null;
+    public ServoController ControlHub_ServoController;
+    public ServoController ExpansionHub2_ServoController;
 
 
     @Override
@@ -66,6 +69,8 @@ public class TestAuto extends LinearOpMode {
         //MOTORS DEFINED IN THE DRIVER HUB
         Drone = hardwareMap.get(DcMotor.class, "Drone");
         Lightning = hardwareMap.get(DcMotor.class, "Lightning");
+        ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
+        ExpansionHub2_ServoController = hardwareMap.get(ServoController.class, "Expansion Hub 2");
 
         // Set the wheel directions
         Drone.setDirection(DcMotor.Direction.REVERSE);
@@ -75,28 +80,40 @@ public class TestAuto extends LinearOpMode {
         boolean DriveTest = false;
         boolean CameraTest = false;
         boolean DistanceTest = false;
+        boolean testMode = true;
+        boolean armTest = true;
 
         while (Start = false) {
             if (gamepad1.dpad_down)
             {
                 Start = true;
             }
+
             if (gamepad1.x)
             {
                 DriveTest = true;
             }
+
             if (gamepad1.b)
             {
                 CameraTest = true;
             }
+
             if (gamepad1.y)
             {
                 DistanceTest = true;
             }
+
+            if (gamepad1.a)
+            {
+                armTest = true;
+            }
+
             telemetry.addData("Running == ", Running);
             telemetry.addData("Drive Test == ", DriveTest);
             telemetry.addData("Camera Test == ", CameraTest);
             telemetry.addData("Distance Test == ", DistanceTest);
+            telemetry.addData("Arm Test == ", armTest);
 
             telemetry.update();
         }
@@ -123,23 +140,29 @@ public class TestAuto extends LinearOpMode {
         if(DriveTest == true) {
             // 16in = 1000
 
-            Functions.drive(this, hardwareMap, telemetry, 2000, 2000, 0.5, 2000, 2000);
+            Functions.drive(this, hardwareMap, telemetry, 2000, 2000, 0.5, 2000, 2000, testMode);
 
-            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
-            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
-            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
-            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700, testMode);
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700, testMode);
 
             Lightning.setPower(0.25);
             Functions.pause(2);
             Lightning.setPower(0);
 
-            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
-            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
-            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
-            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
+            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700, testMode);
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
+            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700, testMode);
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
 
-            Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000);
+            Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000, testMode);
+        }
+
+        if(armTest == true)
+        {
+            //Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700, testMode);
+            Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.7, 1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
         }
 
         /*
@@ -162,9 +185,7 @@ public class TestAuto extends LinearOpMode {
         }
 
         Drone.setPower(0);
-
-    */
-
+        */
 
 
     }

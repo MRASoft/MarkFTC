@@ -90,6 +90,8 @@ public class AutoBlueBack extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        Boolean testMode = false;
+
         // Initialize the hardware variables
 
         //***VERY IMPORTANT**
@@ -148,7 +150,7 @@ public class AutoBlueBack extends LinearOpMode {
         */
 
         // Go close to pixel
-        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700, testMode);
 
         // Check for pixel
         isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.8);
@@ -166,7 +168,7 @@ public class AutoBlueBack extends LinearOpMode {
             Functions.pause(1);
 
             // Drive to pixel
-            Functions.drive(this, hardwareMap, telemetry, 1000, 1000, 0.5, 1000, 1000);
+            Functions.drive(this, hardwareMap, telemetry, 1000, 1000, 0.5, 1000, 1000, testMode);
 
             // Drop Purple Pixel
             Lightning.setPower(0.25);
@@ -175,7 +177,7 @@ public class AutoBlueBack extends LinearOpMode {
             Functions.pause(2);
 
             // Back uoi
-            Functions.drive(this, hardwareMap, telemetry, -1550, -1550, 0.5, -1550, -1550);
+            Functions.drive(this, hardwareMap, telemetry, -1550, -1550, 0.5, -1550, -1550, testMode);
 
             // Stop motor
             Lightning.setPower(0);
@@ -194,13 +196,13 @@ public class AutoBlueBack extends LinearOpMode {
         // If pixel found, skip looking on RIght
         if (isFound == false) {
             // Back up
-            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
+            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700, testMode);
 
             // Strafe to Left tape
-            Functions.drive(this, hardwareMap, telemetry, -800, 8800, 0.5, 800, -800);
+            Functions.drive(this, hardwareMap, telemetry, -800, 8800, 0.5, 800, -800, testMode);
 
             // Go to pixel
-            Functions.drive(this, hardwareMap, telemetry, 300, 300, 0.5, 300, 300);
+            Functions.drive(this, hardwareMap, telemetry, 300, 300, 0.5, 300, 300, testMode);
 
             // Check for pixel
             isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.7);
@@ -213,7 +215,7 @@ public class AutoBlueBack extends LinearOpMode {
             if (isFound == true) {
                 whereFound = "Right";
                 // Drive to pixel
-                Functions.drive(this, hardwareMap, telemetry, 900, 900, 0.5, 900, 900);
+                Functions.drive(this, hardwareMap, telemetry, 900, 900, 0.5, 900, 900, testMode);
 
                 // Drop Purple Pixel
                 Lightning.setPower(0.25);
@@ -222,13 +224,13 @@ public class AutoBlueBack extends LinearOpMode {
                 Functions.pause(2);
 
                 // Back uoi
-                Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700);
+                Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700, testMode);
 
                 // Stop motor
                 Lightning.setPower(0);
 
                 // Drive back
-                Functions.drive(this, hardwareMap, telemetry, -500, -500, 0.5, -500, -500);
+                Functions.drive(this, hardwareMap, telemetry, -500, -500, 0.5, -500, -500, testMode);
 
                 // Drive to backdrop
                 //Functions.drive(this, hardwareMap, telemetry, -1800, 1800, 0.5, 1800, -1800);
@@ -255,13 +257,13 @@ public class AutoBlueBack extends LinearOpMode {
             Functions.pause(0);
 
             // Drive to Right tape
-            Functions.drive(this, hardwareMap, telemetry, 1400, 1400, 0.5, 1400, 1400);
+            Functions.drive(this, hardwareMap, telemetry, 1400, 1400, 0.5, 1400, 1400, testMode);
 
             // Turn left
-            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5);
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
 
             // Drive to prop
-            Functions.drive(this, hardwareMap, telemetry, 800, 800, 0.5, 800, 800);
+            Functions.drive(this, hardwareMap, telemetry, 800, 800, 0.5, 800, 800, testMode);
 
             // Drop Purple Pixel
             Lightning.setPower(0.25);
@@ -271,7 +273,7 @@ public class AutoBlueBack extends LinearOpMode {
 
 
             // Back uoi
-            Functions.drive(this, hardwareMap, telemetry, -500, -500, 0.5, -500, -500);
+            Functions.drive(this, hardwareMap, telemetry, -500, -500, 0.5, -500, -500, testMode);
 
             // Stop motor
             Lightning.setPower(0);

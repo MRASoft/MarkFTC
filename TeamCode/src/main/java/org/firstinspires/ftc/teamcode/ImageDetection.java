@@ -74,7 +74,7 @@ public class ImageDetection {
 
 
         TfodProcessor tfod = new TfodProcessor.Builder()
-                .setModelFileName("/sdcard/FIRST/tflitemodels/Red.tflite")
+                .setModelFileName("/sdcard/FIRST/tflitemodels/redbox.tflite")
                 .setModelLabels(new String[]{"RedBox"})
                 .build();
 
