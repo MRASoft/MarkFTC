@@ -162,7 +162,10 @@ public class TestAuto extends LinearOpMode {
         if(armTest == true)
         {
             //Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700, testMode);
-            Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.7, 1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
+
+            //Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
+            //Functions.drive(this, hardwareMap, telemetry, 3000, 3000, 0.1, 3000, 3000, testMode);
+            Functions.pause(2);
         }
 
         /*

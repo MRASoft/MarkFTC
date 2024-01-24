@@ -246,9 +246,11 @@ public class AutoRedFront extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, 600, -600, 0.5, -600, 600, testMode);
 
             // Check for pixel
-            isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5, 0.7);
-            telemetry.addData("Right Results: ", String.valueOf(isFound));
-            telemetry.update();
+            //isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5, 0.7);
+            //telemetry.addData("Right Results: ", String.valueOf(isFound));
+            //telemetry.update();
+
+            isFound = true;
 
             // If pixel found, set it to have been in the center
             if (isFound == true) {
@@ -257,9 +259,9 @@ public class AutoRedFront extends LinearOpMode {
                 Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
 
                 // Drive to prop
-                Functions.drive(this, hardwareMap, telemetry, 1500, 1500, 0.5, 1500, 1500, testMode);
+                Functions.drive(this, hardwareMap, telemetry, 1800, 1800, 0.5, 1800, 1800, testMode);
 
-                Functions.drive(this, hardwareMap, telemetry, -200, -200, 0.5, -200, -200, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -300, -300, 0.5, -300, -300, testMode);
 
                 // Drop Purple Pixel
                 Lightning.setPower(0.25);
@@ -277,10 +279,7 @@ public class AutoRedFront extends LinearOpMode {
                 Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
 
                 // Go to Backdrop
-                Functions.drive(this, hardwareMap, telemetry, -1825, -1825, 0.5, -1825, -1825, testMode);
-
-                // Strafe to drop pixel on the backdrop
-                Functions.drive(this, hardwareMap, telemetry, -644, 644, 0.5, 644, -644, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000, testMode);
 
                 // Back uoi
                 Functions.drive(this, hardwareMap, telemetry, -450, -450, 0.3, -450, -450, testMode);
@@ -289,7 +288,16 @@ public class AutoRedFront extends LinearOpMode {
                 Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.2,1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
 
                 // Go a bit forward
-                Functions.drive(this, hardwareMap, telemetry, 150, 150, 0.05, 150, 150, testMode);
+                Functions.drive(this, hardwareMap, telemetry, 125, 125, 0.7, 125, 125, testMode);
+
+                //Strafe left to parking
+                Functions.drive(this, hardwareMap, telemetry, 1300, -1300, 0.5, -1300, 1300, testMode);
+
+                // Wait
+                Functions.pause(0.1);
+
+                //Park
+                Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.2, -400, -400, testMode);
 
                 if (true){return;}
             }

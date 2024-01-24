@@ -160,7 +160,7 @@ public class Functions {
     }
 
     public static void dropYellow(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String Direction, double speed, double time, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
-
+/*
         //Define CRServos
         CRServo BackDropControl = null;
         CRServo ExpandControl = null;
@@ -192,10 +192,12 @@ public class Functions {
 
         //Slide to the down
         ExpandControl.setPower(0);
+        */
+
     }
 
     public static void slideUp(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
-
+/*
         //Define CRServos
         CRServo ExpandControl = null;
 
@@ -208,5 +210,6 @@ public class Functions {
 
         //Slide to the Up
         ExpandControl.setPower(0.8);
+        */
     }
 }
