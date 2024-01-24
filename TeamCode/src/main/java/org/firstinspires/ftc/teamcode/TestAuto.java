@@ -77,11 +77,12 @@ public class TestAuto extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         boolean Start = false;
-        boolean DriveTest = false;
+        boolean DriveTest = true;
         boolean CameraTest = false;
         boolean DistanceTest = false;
         boolean testMode = true;
-        boolean armTest = true;
+        boolean armTest = false;
+        boolean turnTest = false;
 
         while (Start = false) {
             if (gamepad1.dpad_down)
@@ -114,6 +115,7 @@ public class TestAuto extends LinearOpMode {
             telemetry.addData("Camera Test == ", CameraTest);
             telemetry.addData("Distance Test == ", DistanceTest);
             telemetry.addData("Arm Test == ", armTest);
+            telemetry.addData("Turn Test == ", turnTest);
 
             telemetry.update();
         }
@@ -140,6 +142,13 @@ public class TestAuto extends LinearOpMode {
         if(DriveTest == true) {
             // 16in = 1000
 
+
+            // Drive to pixel
+            Functions.drive(this, hardwareMap, telemetry, 25, 25, 0.5, 25, 25, testMode);
+
+            Functions.drive(this, hardwareMap, telemetry, -430, 430, 0.5, 430, -430, testMode);
+
+            /*
             Functions.drive(this, hardwareMap, telemetry, 2000, 2000, 0.5, 2000, 2000, testMode);
 
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
@@ -157,15 +166,32 @@ public class TestAuto extends LinearOpMode {
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
 
             Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000, testMode);
+        */
         }
+
 
         if(armTest == true)
         {
-            //Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700, testMode);
-
-            //Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
+            Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
             //Functions.drive(this, hardwareMap, telemetry, 3000, 3000, 0.1, 3000, 3000, testMode);
+            Functions.pause(4);
+            Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
+            Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2, 1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
+            Functions.pause(4);
+            Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
+        }
+
+        if (turnTest == true)
+        {
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
             Functions.pause(2);
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
+            Functions.pause(2);
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
+            Functions.pause(2);
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
+            Functions.pause(2);
+
         }
 
         /*

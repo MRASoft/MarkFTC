@@ -160,7 +160,7 @@ public class Functions {
     }
 
     public static void dropYellow(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String Direction, double speed, double time, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
-/*
+
         //Define CRServos
         CRServo BackDropControl = null;
         CRServo ExpandControl = null;
@@ -174,16 +174,24 @@ public class Functions {
         ExpansionHub2_ServoController.pwmDisable();
 
         //Slide to the Up
-        ExpandControl.setPower(0.7);
-        Functions.pause(3.5);
+        //ExpandControl.setPower(0.7);
+        //Functions.pause(3.5);
 
         // Drop Pixel
+
+        telemetry.addData("Currently going: ", "Up");
+        telemetry.update();
+
         BackDropControl.setPower(0.7);
         Functions.pause(1.5);
         BackDropControl.setPower(0);
 
         // Wait
         Functions.pause(0.6);
+
+
+        telemetry.addData("Currently going: ", "Down");
+        telemetry.update();
 
         // Bring down Dropigimigigy6
         BackDropControl.setPower(-0.7);
@@ -192,12 +200,10 @@ public class Functions {
 
         //Slide to the down
         ExpandControl.setPower(0);
-        */
-
     }
 
     public static void slideUp(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
-/*
+
         //Define CRServos
         CRServo ExpandControl = null;
 
@@ -210,6 +216,27 @@ public class Functions {
 
         //Slide to the Up
         ExpandControl.setPower(0.8);
-        */
+
+        telemetry.addData("ExpandControl power: ", ExpandControl.getPower());
+        telemetry.update();
+    }
+
+    public static void slideStop(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
+
+        //Define CRServos
+        CRServo ExpandControl = null;
+
+        //Set servos
+        ExpandControl = hardwareMap.get(CRServo.class, "ExpandControl");
+
+        //Disable pwm
+        ControlHub_ServoController.pwmDisable();
+        ExpansionHub2_ServoController.pwmDisable();
+
+        //Slide to the Up
+        ExpandControl.setPower(0);
+
+        telemetry.addData("ExpandControl power: ", ExpandControl.getPower());
+        telemetry.update();
     }
 }
