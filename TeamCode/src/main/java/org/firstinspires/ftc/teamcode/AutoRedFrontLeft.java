@@ -195,7 +195,8 @@ public class AutoRedFrontLeft extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, 125, 125, 0.7, 125, 125, testMode);
 
             //Strafe left to parking
-            Functions.drive(this, hardwareMap, telemetry, 1000, -1000, 0.5, -1000, 1000, testMode);
+            Functions.drive(this, hardwareMap, telemetry, -2000, 2000, 0.5, 2000, -2000, testMode);
+
 
             // Wait
             Functions.pause(0.1);
@@ -255,7 +256,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
                 Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000, testMode);
 
                 // Strafe to center backdrop
-                Functions.drive(this, hardwareMap, telemetry, -350, 350, 0.5, 350, -350, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -100, 100, 0.5, 100, -100, testMode);
 
 
                 // Back uoi
@@ -269,7 +270,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
                 Functions.drive(this, hardwareMap, telemetry, 225, 225, 0.7, 225, 225, testMode);
 
                 //Strafe left to parking
-                Functions.drive(this, hardwareMap, telemetry, 1700, -1700, 0.5, -1700, 1700, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -1700, 1700, 0.5, 1700, -1700, testMode);
 
                 // Wait
                 Functions.pause(0.1);
@@ -317,7 +318,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, -2500, -2500, 0.5, -2500, -2500, testMode);
 
             // Strafe to drop pixel on the backdrop
-            Functions.drive(this, hardwareMap, telemetry, -725, 725, 0.5, 725, -725, testMode);
+            Functions.drive(this, hardwareMap, telemetry, -625, 625, 0.5, 625, -625, testMode);
 
             // Back uoi
             Functions.drive(this, hardwareMap, telemetry, -300, -300, 0.5, -300, -300, testMode);
@@ -330,7 +331,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, 150, 150, 0.05, 150, 150, testMode);
 
             //Strafe left to parking
-            Functions.drive(this, hardwareMap, telemetry, 2000, -2000, 0.5, -2000, 2000, testMode);
+            Functions.drive(this, hardwareMap, telemetry, -1000, 1000, 0.5, 1000, -1000, testMode);
 
             // Wait
             Functions.pause(0.1);
