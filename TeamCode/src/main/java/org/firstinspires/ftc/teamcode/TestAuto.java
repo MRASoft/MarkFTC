@@ -77,11 +77,11 @@ public class TestAuto extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         boolean Start = false;
-        boolean DriveTest = true;
+        boolean DriveTest = false;
         boolean CameraTest = false;
         boolean DistanceTest = false;
         boolean testMode = true;
-        boolean armTest = false;
+        boolean armTest = true;
         boolean turnTest = false;
 
         while (Start = false) {
@@ -175,10 +175,9 @@ public class TestAuto extends LinearOpMode {
             Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
             //Functions.drive(this, hardwareMap, telemetry, 3000, 3000, 0.1, 3000, 3000, testMode);
             Functions.pause(4);
-            Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
+            //Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
             Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2, 1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
             Functions.pause(4);
-            Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
         }
 
         if (turnTest == true)

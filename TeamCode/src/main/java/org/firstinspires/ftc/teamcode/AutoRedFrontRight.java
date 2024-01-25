@@ -479,3 +479,5 @@ public class AutoRedFrontRight extends LinearOpMode {
         return String.valueOf(fixedValue);
     }
 }
+
+//Red Right

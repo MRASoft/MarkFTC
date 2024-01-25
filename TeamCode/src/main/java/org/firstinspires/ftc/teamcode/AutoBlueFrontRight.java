@@ -35,8 +35,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@Autonomous(name = "AutoRedFrontLeft")
-public class AutoRedFrontLeft extends LinearOpMode {
+@Autonomous(name = "AutoBlueFrontRight")
+public class AutoBlueFrontRight extends LinearOpMode {
 
     private String action;
     private final int waitTime = 5;
@@ -130,18 +130,18 @@ public class AutoRedFrontLeft extends LinearOpMode {
 
         // Define Var
         boolean isFound;
-        // 0 = Normal, 1 = Right, 2 = Center, 3 = Left.
+        // 0 = Normal, 1 = Left, 2 = Center, 3 = Right.
         int typeOfRun = 0;
-        String whereFound = "Right";
+        String whereFound = "Left";
 
-        Functions.drive(this, hardwareMap, telemetry, 25, 25, 0.5, 25, 25, testMode);
+        Functions.drive(this, hardwareMap, telemetry, 50, 50, 0.5, 50, 50, testMode);
 
-        Functions.drive(this, hardwareMap, telemetry, -430, 430, 0.5, 430, -430, testMode);
+        Functions.drive(this, hardwareMap, telemetry, 430, -430, 0.5, -430, 430, testMode);
 
 
         if(typeOfRun == 0)
         {
-            isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5, 0.7);
+            isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.7);
             telemetry.addData("Center Results: ", String.valueOf(isFound));
             telemetry.update();
         }
@@ -150,18 +150,19 @@ public class AutoRedFrontLeft extends LinearOpMode {
             isFound = typeOfRun == 1;
         }
 
-        // If pixel found, set it to have been in on the Right
+        // If pixel found, set it to have been in on the Left
         if (isFound == true) {
-            whereFound = "Right";
+            whereFound = "Left";
 
             telemetry.addData("Found in: ", whereFound);
             telemetry.update();
 
             //if (true){return;}
 
-            // Drive to pixel
+            // Push prop out of way
             Functions.drive(this, hardwareMap, telemetry, 1800, 1800, 0.5, 1800, 1800, testMode);
 
+            // go back to place purple pixel
             Functions.drive(this, hardwareMap, telemetry, -200, -200, 0.5, -200, -200, testMode);
 
             // Drop Purple Pixel
@@ -177,11 +178,14 @@ public class AutoRedFrontLeft extends LinearOpMode {
             // Stop motor
             Lightning.setPower(0);
 
-            // Turn Left
-            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
+            // Turn Right
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
 
             // Go to Backdrop
             Functions.drive(this, hardwareMap, telemetry, -1800, -1800, 0.75, -1800, -1800, testMode);
+
+            //Strafe left to parking
+            Functions.drive(this, hardwareMap, telemetry, 200, -200, 0.5, -200, 200, testMode);
 
             // Go a bit backward
             Functions.drive(this, hardwareMap, telemetry, -250, -250, 0.2, -250, -250, testMode);
@@ -195,8 +199,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, 125, 125, 0.7, 125, 125, testMode);
 
             //Strafe left to parking
-            Functions.drive(this, hardwareMap, telemetry, -2000, 2000, 0.5, 2000, -2000, testMode);
-
+            Functions.drive(this, hardwareMap, telemetry, 2000, -2000, 0.5, -2000, 2000, testMode);
 
             // Wait
             Functions.pause(0.1);
@@ -207,18 +210,18 @@ public class AutoRedFrontLeft extends LinearOpMode {
             if (true){return;}
         }
 
-        // If pixel found on right, skip looking on center
+        // If pixel found on left, skip looking on center
         if (isFound == false) {
 
             // Go tforward
             Functions.drive(this, hardwareMap, telemetry, 300, 300, 0.5, 300, 300, testMode);
 
             // Strafe to center
-            Functions.drive(this, hardwareMap, telemetry, 600, -600, 0.5, -600, 600, testMode);
+            Functions.drive(this, hardwareMap, telemetry, -600, 600, 0.5, 600, -600, testMode);
 
             // Check for pixel
             if (typeOfRun == 0) {
-                isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5, 0.7);
+                isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.7);
                 telemetry.addData("Right Results: ", String.valueOf(isFound));
                 telemetry.update();
             }
@@ -250,17 +253,17 @@ public class AutoRedFrontLeft extends LinearOpMode {
                 Lightning.setPower(0);
 
                 // Turn Right
-                Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
+                Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
 
                 // Go to Backdrop
                 Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000, testMode);
 
                 // Strafe to center backdrop
-                Functions.drive(this, hardwareMap, telemetry, -100, 100, 0.5, 100, -100, testMode);
+                Functions.drive(this, hardwareMap, telemetry, 350, -350, 0.5, -350, 350, testMode);
 
 
                 // Back uoi
-                Functions.drive(this, hardwareMap, telemetry, -450, -450, 0.3, -450, -450, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -550, -550, 0.3, -550, -550, testMode);
 
                 // Drop Pixel
                 Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.2,1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
@@ -270,7 +273,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
                 Functions.drive(this, hardwareMap, telemetry, 225, 225, 0.7, 225, 225, testMode);
 
                 //Strafe left to parking
-                Functions.drive(this, hardwareMap, telemetry, -1700, 1700, 0.5, 1700, -1700, testMode);
+                Functions.drive(this, hardwareMap, telemetry, 1700, -1700, 0.5, -1700, 1700, testMode);
 
                 // Wait
                 Functions.pause(0.1);
@@ -287,22 +290,25 @@ public class AutoRedFrontLeft extends LinearOpMode {
             isFound = false;
         }
 
-        // If pixel is NOT found, show that it is not, and default to Left
+        // If pixel is NOT found, show that it is not, and default to Right
         if (isFound == false) {
-            whereFound = "Left";
+            whereFound = "Right";
             telemetry.addData("***PIXEL FOUND == ", String.valueOf(isFound), ", DEFAULTING TO LEFT***");
             telemetry.update();
 
             Functions.pause(0);
 
             // Drive to Left tape
-            Functions.drive(this, hardwareMap, telemetry, 1100, 1100, 0.5, 1100, 1100, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 1200, 1200, 0.5, 1200, 1200, testMode);
 
             // Turn left
-            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
 
             // Drive to prop
             Functions.drive(this, hardwareMap, telemetry, 285, 285, 0.5, 285, 285, testMode);
+
+            // Drive to prop
+            Functions.drive(this, hardwareMap, telemetry, -100, -100, 0.5, -100, -100, testMode);
 
             // Drop Purple Pixel
             Lightning.setPower(0.25);
@@ -318,7 +324,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, -2500, -2500, 0.5, -2500, -2500, testMode);
 
             // Strafe to drop pixel on the backdrop
-            Functions.drive(this, hardwareMap, telemetry, -625, 625, 0.5, 625, -625, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 725, -725, 0.5, -725, 725, testMode);
 
             // Back uoi
             Functions.drive(this, hardwareMap, telemetry, -300, -300, 0.5, -300, -300, testMode);
@@ -331,7 +337,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, 150, 150, 0.05, 150, 150, testMode);
 
             //Strafe left to parking
-            Functions.drive(this, hardwareMap, telemetry, -1000, 1000, 0.5, 1000, -1000, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 1200, -1200, 0.5, -1200, 1200, testMode);
 
             // Wait
             Functions.pause(0.1);
@@ -481,4 +487,4 @@ public class AutoRedFrontLeft extends LinearOpMode {
     }
 }
 
-//Red Left
+//Blue Right

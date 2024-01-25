@@ -199,11 +199,15 @@ public class Functions {
         BackDropControl.setPower(0);
 
         //Slide to the down
-        ExpandControl.setPower(0);
+        //ExpandControl.setPower(0);
+
+        telemetry.addData("Currently going: ", "to");
+        telemetry.update();
     }
 
     public static void slideUp(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
 
+        /*
         //Define CRServos
         CRServo ExpandControl = null;
 
@@ -219,6 +223,7 @@ public class Functions {
 
         telemetry.addData("ExpandControl power: ", ExpandControl.getPower());
         telemetry.update();
+         */
     }
 
     public static void slideStop(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
@@ -234,7 +239,7 @@ public class Functions {
         ExpansionHub2_ServoController.pwmDisable();
 
         //Slide to the Up
-        ExpandControl.setPower(0);
+        //ExpandControl.setPower(0);
 
         telemetry.addData("ExpandControl power: ", ExpandControl.getPower());
         telemetry.update();
