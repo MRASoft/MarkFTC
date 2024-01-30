@@ -2,12 +2,25 @@ package org.firstinspires.ftc.teamcode;
 
 //Importing
 
+import static com.qualcomm.hardware.rev.RevHubOrientationOnRobot.xyzOrientation;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.IMU;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 //##################################
 //#                                #
@@ -42,6 +55,7 @@ public class AutoRedBack extends LinearOpMode {
     private final int waitTime = 5;
 
     // Declare OpMode members.
+    IMU imu;
     private ColorSensor backColorSensor;
     private ColorSensor leftColorSensor;
     private ColorSensor rightColorSensor;
@@ -97,6 +111,7 @@ public class AutoRedBack extends LinearOpMode {
         //***VERY IMPORTANT**
         //Replace the device name (ex frontLeft) with the NAME OF THE
         //MOTORS DEFINED IN THE DRIVER HUB
+        imu = hardwareMap.get(IMU.class, "imu");
         frontLeftWheel = hardwareMap.get(DcMotor.class, "FrontLeft");
         frontRightWheel = hardwareMap.get(DcMotor.class, "FrontRight");
         backLeftWheel  = hardwareMap.get(DcMotor.class, "BackLeft");
@@ -116,10 +131,19 @@ public class AutoRedBack extends LinearOpMode {
         frontRightWheel.setDirection(DcMotor.Direction.FORWARD);
         backLeftWheel.setDirection(DcMotor.Direction.REVERSE);
         backRightWheel.setDirection(DcMotor.Direction.FORWARD);
-            /*
-            Drop1.setDirection(CRServo.Direction.FORWARD);
-            Drop2.setDirection(CRServo.Direction.FORWARD);
-            */
+
+        // The next three lines define the desired axis rotations.
+        // Edit these values to match YOUR mounting configuration.
+        double xRotation = 90;  // enter the desired X rotation angle here.
+        double yRotation = 0;  // enter the desired Y rotation angle here.
+        double zRotation = 0;  // enter the desired Z rotation angle here.
+
+        Orientation hubRotation = xyzOrientation(xRotation, yRotation, zRotation);
+
+        // Now initialize the IMU with this mounting orientation
+        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(hubRotation);
+        imu.initialize(new IMU.Parameters(orientationOnRobot));
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -127,6 +151,11 @@ public class AutoRedBack extends LinearOpMode {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving starts here//////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        double basleLineYaw = Functions.getBaseLine(this, hardwareMap, telemetry);
+
+        telemetry.addData("Ort :", basleLineYaw);
+        telemetry.update();
 
         // Define Var
         boolean isFound;
@@ -166,23 +195,29 @@ public class AutoRedBack extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, -200, -200, 0.5, -200, -200, testMode);
 
             // Drop Purple Pixel
-            Lightning.setPower(0.25);
+            //Lightning.setPower(0.25);
 
             // Wait
             //Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
             Functions.pause(2);
 
+            // Straighten out
+            Functions.straighten(this, hardwareMap, telemetry, basleLineYaw);
+
             // Back uoi
             Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.5, -400, -400, testMode);
 
             // Stop motor
-            Lightning.setPower(0);
+            //Lightning.setPower(0);
 
-            /* Turn Right
+            // Turn Right
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
 
+            // Straighten out
+            Functions.straighten(this, hardwareMap, telemetry, basleLineYaw);
+
             // Go to Backdrop
-            Functions.drive(this, hardwareMap, telemetry, -1800, -1800, 0.75, -1800, -1800, testMode);
+            Functions.drive(this, hardwareMap, telemetry, -1800, -1800, 0.25, -1800, -1800, testMode);
 
             //Strafe left to parking
             Functions.drive(this, hardwareMap, telemetry, 200, -200, 0.5, -200, 200, testMode);
@@ -206,8 +241,6 @@ public class AutoRedBack extends LinearOpMode {
 
             //Park
             Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.2, -400, -400, testMode);
-
-*/
 
             if (true){return;}
         }
@@ -248,21 +281,29 @@ public class AutoRedBack extends LinearOpMode {
                 //Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
                 Functions.pause(2);
 
+                // Straighten out
+                Functions.straighten(this, hardwareMap, telemetry, basleLineYaw);
+                Functions.pause(2);
+
                 // Back uoi
-                Functions.drive(this, hardwareMap, telemetry, -1650, -1650, 0.5, -1650, -1650, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -1600, -1600, 0.5, -1600, -1600, testMode);
 
                 // Stop motor
                 Lightning.setPower(0);
 
+                // Straighten out
+                Functions.straighten(this, hardwareMap, telemetry, basleLineYaw);
+                Functions.pause(2);
+
                 // Go to Backdrop
-                /* Functions.drive(this, hardwareMap, telemetry, -4200, 4200, 0.5, 4200, -4200, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -4200, 4200, 0.15, 4200, -4200, testMode);
 
                 // Turn Left
                 Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
 
                 // Strafe to center backdrop
-                Functions.drive(this, hardwareMap, telemetry, -1500, 1500, 0.5, 1500, -1500, testMode);
-*/
+                Functions.drive(this, hardwareMap, telemetry, -1600, 1600, 0.5, 1600, -1600, testMode);
+
                 // Back uoi
                 //Functions.drive(this, hardwareMap, telemetry, -850, -850, 0.3, -850, -850, testMode);
 

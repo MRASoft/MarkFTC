@@ -4,9 +4,14 @@
     import com.qualcomm.robotcore.hardware.DcMotor;
     import com.qualcomm.robotcore.hardware.CRServo;
     import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+    import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+    import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
+    import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
     import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
     import org.firstinspires.ftc.vision.VisionPortal;
     import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+
+    import com.qualcomm.robotcore.hardware.IMU;
     import com.qualcomm.robotcore.util.ElapsedTime;
 
     import java.util.List;
@@ -245,5 +250,91 @@
 
             telemetry.addData("ExpandControl power: ", ExpandControl.getPower());
             telemetry.update();
+        }
+
+        public static void straighten(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double baseLine) {
+
+            DcMotor BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
+            DcMotor FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
+            DcMotor FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
+            DcMotor BackRight = hardwareMap.get(DcMotor.class, "BackRight");
+
+
+            FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+            FrontRight.setDirection(DcMotor.Direction.FORWARD);
+            BackLeft.setDirection(DcMotor.Direction.REVERSE);
+            BackRight.setDirection(DcMotor.Direction.FORWARD);
+
+            BackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            FrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            FrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            BackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            IMU imu = hardwareMap.get(IMU.class, "imu");
+
+            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+
+            double newangle = orientation.getYaw(AngleUnit.DEGREES);
+
+            double difference = baseLine - newangle;
+            difference = difference;
+
+            if(difference > 0) {
+                FrontLeft.setPower(-0.3);
+                FrontRight.setPower(0.3);
+                BackLeft.setPower(-0.3);
+                BackRight.setPower(0.3);
+            } else { //if(difference < 0)
+                FrontLeft.setPower(0.3);
+                FrontRight.setPower(-0.3);
+                BackLeft.setPower(0.3);
+                BackRight.setPower(-0.3);
+            }
+
+            telemetry.addData("Difference", difference);
+            telemetry.update();
+
+
+            while (opMode.opModeIsActive() && Math.abs(difference) > 1) {
+
+                orientation = imu.getRobotYawPitchRollAngles();
+
+                newangle = orientation.getYaw(AngleUnit.DEGREES);
+
+                difference = baseLine - newangle;
+
+                if(difference > 90)
+                {
+                    difference = difference - 90;
+                }
+                else if(difference < -90)
+                {
+                    difference = difference + 90;
+                }
+
+
+                telemetry.addData("Baseline", baseLine);
+                telemetry.addData("Difference", difference);
+                telemetry.addData("Newangle", newangle);
+                telemetry.update();
+            }
+
+            telemetry.addData("Finish", "Fish ish");
+            telemetry.update();
+
+            // turn the motors off.
+            FrontLeft.setPower(0);
+            FrontRight.setPower(0);
+            BackLeft.setPower(0);
+            BackRight.setPower(0);
+        }
+
+        public static double getBaseLine(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry) {
+
+            IMU imu = hardwareMap.get(IMU.class, "imu");
+
+            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+
+            return orientation.getYaw(AngleUnit.DEGREES);
         }
     }
