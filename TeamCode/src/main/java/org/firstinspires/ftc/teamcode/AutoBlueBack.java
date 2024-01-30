@@ -186,10 +186,10 @@ public class AutoBlueBack extends LinearOpMode {
             //Functions.drive(this, hardwareMap, telemetry, -2400, 2400, 0.25, 2400, -2400);
 
             // Go to center
-            driveSeconds(slowForward, 4.4);
+            //driveSeconds(slowForward, 4.4);
 
             // Turn to drop pixel on the backdrop
-            driveSeconds(strafeRight, 0.7);
+            //driveSeconds(strafeRight, 0.7);
         }
 
 
@@ -236,13 +236,13 @@ public class AutoBlueBack extends LinearOpMode {
                 //Functions.drive(this, hardwareMap, telemetry, -1800, 1800, 0.5, 1800, -1800);
 
                 // Go to center
-                driveSeconds(slowForward, 0.8);
+                //driveSeconds(slowForward, 0.8);
 
                 // Go to center
-                driveSeconds(slowForward, 4.7);
+                //driveSeconds(slowForward, 4.7);
 
                 // Turn to drop pixel on the backdrop
-                driveSeconds(strafeRight, 0.7);
+                //driveSeconds(strafeRight, 0.7);
 
             }
         }

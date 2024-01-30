@@ -249,40 +249,39 @@ public class AutoRedBack extends LinearOpMode {
                 Functions.pause(2);
 
                 // Back uoi
-                Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.5, -400, -400, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -1650, -1650, 0.5, -1650, -1650, testMode);
 
                 // Stop motor
                 Lightning.setPower(0);
-/*
-                // Turn Right
-                Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
 
                 // Go to Backdrop
-                Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000, testMode);
+                /* Functions.drive(this, hardwareMap, telemetry, -4200, 4200, 0.5, 4200, -4200, testMode);
+
+                // Turn Left
+                Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
 
                 // Strafe to center backdrop
-                Functions.drive(this, hardwareMap, telemetry, 350, -350, 0.5, -350, 350, testMode);
-
-
+                Functions.drive(this, hardwareMap, telemetry, -1500, 1500, 0.5, 1500, -1500, testMode);
+*/
                 // Back uoi
-                Functions.drive(this, hardwareMap, telemetry, -550, -550, 0.3, -550, -550, testMode);
+                //Functions.drive(this, hardwareMap, telemetry, -850, -850, 0.3, -850, -850, testMode);
 
                 // Drop Pixel
-                Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.2,1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
-                Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
+                //Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.2,1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
+                //Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
 
                 // Go a bit forward
-                Functions.drive(this, hardwareMap, telemetry, 225, 225, 0.7, 225, 225, testMode);
+                //Functions.drive(this, hardwareMap, telemetry, 225, 225, 0.7, 225, 225, testMode);
 
                 //Strafe left to parking
-                Functions.drive(this, hardwareMap, telemetry, -1600, 1600, 0.5, 1600, -1600, testMode);
+                //Functions.drive(this, hardwareMap, telemetry, -1600, 1600, 0.5, 1600, -1600, testMode);
 
                 // Wait
                 Functions.pause(0.1);
 
                 //Park
-                Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.2, -400, -400, testMode);
-*/
+                //Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.2, -400, -400, testMode);
+
                 if (true){return;}
             }
         }

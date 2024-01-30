@@ -172,16 +172,18 @@ public class TestAuto extends LinearOpMode {
 
         if(armTest == true)
         {
-            Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
+            //Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
             //Functions.drive(this, hardwareMap, telemetry, 3000, 3000, 0.1, 3000, 3000, testMode);
-            Functions.pause(4);
+            //Functions.pause(4);
             //Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
             Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2, 1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
-            Functions.pause(4);
+            Functions.pause(1);
+
         }
 
         if (turnTest == true)
         {
+            //IMU.getRobotYawPitchRollAngles;
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
             Functions.pause(2);
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
