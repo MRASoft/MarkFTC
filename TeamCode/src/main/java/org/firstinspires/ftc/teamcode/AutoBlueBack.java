@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.ServoController;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 
@@ -54,12 +55,14 @@ public class AutoBlueBack extends LinearOpMode {
     private DcMotor backLeftWheel  = null;
     private DcMotor backRightWheel = null;
     private DcMotor Lightning = null;
-    /*
-    private CRServo Drop1 = null;
-    private CRServo Drop2 = null;
-    private CRServo Drop3 = null;
-    private CRServo Drop4 = null;
-    */
+    public ServoController ControlHub_ServoController;
+    public ServoController ExpansionHub2_ServoController;
+        /*
+        private CRServo Drop1 = null;
+        private CRServo Drop2 = null;
+        private CRServo Drop3 = null;
+        private CRServo Drop4 = null;
+        */
 
     // Initialize directions
     private final robotDirection goForward = new robotDirection(1, 1, 1, 1, "Forward");
@@ -90,7 +93,7 @@ public class AutoBlueBack extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        Boolean testMode = false;
+        Boolean testMode = true;
 
         // Initialize the hardware variables
 
@@ -102,22 +105,24 @@ public class AutoBlueBack extends LinearOpMode {
         backLeftWheel  = hardwareMap.get(DcMotor.class, "BackLeft");
         backRightWheel = hardwareMap.get(DcMotor.class, "BackRight");
         Lightning = hardwareMap.get(DcMotor.class, "Lightning");
-        /*
-        Drop1 = hardwareMap.get(CRServo.class, "Drop1");
-        Drop2 = hardwareMap.get(CRServo.class, "Drop2");
-        Drop3 = hardwareMap.get(CRServo.class, "Drop3");
-        Drop4 = hardwareMap.get(CRServo.class, "Drop4");
-        */
+        ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
+        ExpansionHub2_ServoController = hardwareMap.get(ServoController.class, "Expansion Hub 2");
+            /*
+            Drop1 = hardwareMap.get(CRServo.class, "Drop1");
+            Drop2 = hardwareMap.get(CRServo.class, "Drop2");
+            Drop3 = hardwareMap.get(CRServo.class, "Drop3");
+            Drop4 = hardwareMap.get(CRServo.class, "Drop4");
+            */
 
         // Set the wheel directions
         frontLeftWheel.setDirection(DcMotor.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotor.Direction.FORWARD);
         backLeftWheel.setDirection(DcMotor.Direction.REVERSE);
         backRightWheel.setDirection(DcMotor.Direction.FORWARD);
-        /*
-        Drop1.setDirection(CRServo.Direction.FORWARD);
-        Drop2.setDirection(CRServo.Direction.FORWARD);
-        */
+            /*
+            Drop1.setDirection(CRServo.Direction.FORWARD);
+            Drop2.setDirection(CRServo.Direction.FORWARD);
+            */
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -127,169 +132,223 @@ public class AutoBlueBack extends LinearOpMode {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Define Var
-        boolean isFound = false;
+        boolean isFound;
+        // 0 = Normal, 1 = Right, 2 = Center, 3 = Left.
+        int typeOfRun = 3;
         String whereFound = "Right";
 
-        // Starting on center, backdrop on left, facing towards middle
-/*
-        Drop1.setPower(0.5);
-        Drop2.setPower(0.5);
-        Functions.pause(2);
-        Drop1.setPower(0);
-        Drop2.setPower(0);
-        Functions.pause(0.5);
+        Functions.drive(this, hardwareMap, telemetry, 25, 25, 0.5, 25, 25, testMode);
 
-                Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700);
+        Functions.drive(this, hardwareMap, telemetry, -430, 430, 0.5, 430, -430, testMode);
 
-        isFound = ImageDetection.findRed(this, hardwareMap, telemetry, 3.5);
-        telemetry.addData("Red Results: ", String.valueOf(isFound));
-        telemetry.update();
-        Functions.pause(2);
 
-        Functions.drive(this, hardwareMap, telemetry, -750, -750, 0.5, -750, -750);
-        */
+        if(typeOfRun == 0)
+        {
+            isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.7);
+            telemetry.addData("Center Results: ", String.valueOf(isFound));
+            telemetry.update();
+        }
+        else
+        {
+            isFound = typeOfRun == 1;
+            Functions.pause(3.5);
+        }
 
-        // Go close to pixel
-        Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700, testMode);
-
-        // Check for pixel
-        isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.8);
-        telemetry.addData("Center Results: ", String.valueOf(isFound));
-        telemetry.update();
-
-        //Functions.pause(2);
-
-        // If pixel found, set it to have been in the Center
+        // If pixel found, set it to have been in on the Right
         if (isFound == true) {
-            whereFound = "Center";
+            whereFound = "Right";
 
             telemetry.addData("Found in: ", whereFound);
             telemetry.update();
-            Functions.pause(1);
+
+            //if (true){return;}
 
             // Drive to pixel
-            Functions.drive(this, hardwareMap, telemetry, 1000, 1000, 0.5, 1000, 1000, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 1800, 1800, 0.5, 1800, 1800, testMode);
+
+            Functions.drive(this, hardwareMap, telemetry, -200, -200, 0.5, -200, -200, testMode);
 
             // Drop Purple Pixel
             Lightning.setPower(0.25);
 
             // Wait
+            //Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
             Functions.pause(2);
 
             // Back uoi
-            Functions.drive(this, hardwareMap, telemetry, -1550, -1550, 0.5, -1550, -1550, testMode);
+            Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.5, -400, -400, testMode);
 
             // Stop motor
             Lightning.setPower(0);
+/*
+            // Turn Left
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
 
-            // Strafe to backdrop
-            //Functions.drive(this, hardwareMap, telemetry, -2400, 2400, 0.25, 2400, -2400);
+            // Go to Backdrop
+            Functions.drive(this, hardwareMap, telemetry, -1800, -1800, 0.75, -1800, -1800, testMode);
 
-            // Go to center
-            //driveSeconds(slowForward, 4.4);
+            // Go a bit backward
+            Functions.drive(this, hardwareMap, telemetry, -250, -250, 0.2, -250, -250, testMode);
 
-            // Turn to drop pixel on the backdrop
-            //driveSeconds(strafeRight, 0.7);
+            // Drop Pixel
+            Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2, 1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
+            Functions.pause(0.2);
+            Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
+
+            // Go a bit forward
+            Functions.drive(this, hardwareMap, telemetry, 125, 125, 0.7, 125, 125, testMode);
+
+            //Strafe left to parking
+            Functions.drive(this, hardwareMap, telemetry, 1000, -1000, 0.5, -1000, 1000, testMode);
+
+            // Wait
+            Functions.pause(0.1);
+
+            //Park
+            Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.2, -400, -400, testMode);
+*/
+            if (true){return;}
         }
 
-
-        // If pixel found, skip looking on RIght
+        // If pixel found on right, skip looking on center
         if (isFound == false) {
-            // Back up
-            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700, testMode);
 
-            // Strafe to Left tape
-            Functions.drive(this, hardwareMap, telemetry, -800, 8800, 0.5, 800, -800, testMode);
-
-            // Go to pixel
+            // Go tforward
             Functions.drive(this, hardwareMap, telemetry, 300, 300, 0.5, 300, 300, testMode);
 
-            // Check for pixel
-            isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.7);
-            telemetry.addData("Right Results: ", String.valueOf(isFound));
-            telemetry.update();
+            // Strafe to center
+            Functions.drive(this, hardwareMap, telemetry, 600, -600, 0.5, -600, 600, testMode);
 
-            Functions.pause(2);
+            // Check for pixel
+            if (typeOfRun == 0) {
+                isFound = ImageDetection.findBlue(this, hardwareMap, telemetry, 3.5, 0.7);
+                telemetry.addData("Right Results: ", String.valueOf(isFound));
+                telemetry.update();
+            }
+            else
+            {
+                isFound = typeOfRun == 2;
+                Functions.pause(3.5);
+            }
 
             // If pixel found, set it to have been in the center
             if (isFound == true) {
-                whereFound = "Right";
-                // Drive to pixel
-                Functions.drive(this, hardwareMap, telemetry, 900, 900, 0.5, 900, 900, testMode);
+                whereFound = "Center";
+
+                // Drive to prop
+                Functions.drive(this, hardwareMap, telemetry, 1800, 1800, 0.5, 1800, 1800, testMode);
+
+                Functions.drive(this, hardwareMap, telemetry, -300, -300, 0.5, -300, -300, testMode);
 
                 // Drop Purple Pixel
                 Lightning.setPower(0.25);
 
                 // Wait
+                //Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
                 Functions.pause(2);
 
                 // Back uoi
-                Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.5, -400, -400, testMode);
 
                 // Stop motor
                 Lightning.setPower(0);
+/*
+                // Turn Right
+                Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
 
-                // Drive back
-                Functions.drive(this, hardwareMap, telemetry, -500, -500, 0.5, -500, -500, testMode);
+                // Go to Backdrop
+                Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000, testMode);
 
-                // Drive to backdrop
-                //Functions.drive(this, hardwareMap, telemetry, -1800, 1800, 0.5, 1800, -1800);
+                // Strafe to center backdrop
+                Functions.drive(this, hardwareMap, telemetry, -350, 350, 0.5, 350, -350, testMode);
 
-                // Go to center
-                //driveSeconds(slowForward, 0.8);
 
-                // Go to center
-                //driveSeconds(slowForward, 4.7);
+                // Back uoi
+                Functions.drive(this, hardwareMap, telemetry, -450, -450, 0.3, -450, -450, testMode);
 
-                // Turn to drop pixel on the backdrop
-                //driveSeconds(strafeRight, 0.7);
+                // Drop Pixel
+                Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.2,1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
+                Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
 
+                // Go a bit forward
+                Functions.drive(this, hardwareMap, telemetry, 225, 225, 0.7, 225, 225, testMode);
+
+                //Strafe left to parking
+                Functions.drive(this, hardwareMap, telemetry, 1700, -1700, 0.5, -1700, 1700, testMode);
+
+                // Wait
+                Functions.pause(0.1);
+
+                //Park
+                Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.2, -400, -400, testMode);
+*/
+                if (true){return;}
             }
         }
 
+        if(typeOfRun == 3)
+        {
+            isFound = false;
+        }
 
         // If pixel is NOT found, show that it is not, and default to Left
         if (isFound == false) {
-            whereFound = "Right";
+            whereFound = "Left";
             telemetry.addData("***PIXEL FOUND == ", String.valueOf(isFound), ", DEFAULTING TO LEFT***");
             telemetry.update();
 
             Functions.pause(0);
 
-            // Drive to Right tape
-            Functions.drive(this, hardwareMap, telemetry, 1400, 1400, 0.5, 1400, 1400, testMode);
+            // Drive to Left tape
+            Functions.drive(this, hardwareMap, telemetry, 1250, 1250, 0.5, 1250, 1250, testMode);
 
             // Turn left
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
 
             // Drive to prop
-            Functions.drive(this, hardwareMap, telemetry, 800, 800, 0.5, 800, 800, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 285, 285, 0.5, 285, 285, testMode);
+
+            // Drive to prop
+            Functions.drive(this, hardwareMap, telemetry, -200, -200, 0.5, -200, -200, testMode);
 
             // Drop Purple Pixel
             Lightning.setPower(0.25);
 
             // Wait
+            //Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
             Functions.pause(2);
-
-
-            // Back uoi
-            Functions.drive(this, hardwareMap, telemetry, -500, -500, 0.5, -500, -500, testMode);
 
             // Stop motor
             Lightning.setPower(0);
-/*
-            // Turn right
-            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5);
 
-            // Drive Back
-            Functions.drive(this, hardwareMap, telemetry, -1400, -1400, 0.5, -1400, -1400);
+            // Go back a bit
+            Functions.drive(this, hardwareMap, telemetry, -200, -200, 0.5, -200, -200, testMode);
 
-            // Drive to backdrop
-            //Functions.drive(this, hardwareMap, telemetry, -1800, 1800, 0.5, 1800, -1800);
+            /* Go to Backdrop
+            Functions.drive(this, hardwareMap, telemetry, -2500, -2500, 0.5, -2500, -2500, testMode);
 
-            driveSeconds(halfBackward, 0.5);
-            */
+            // Strafe to drop pixel on the backdrop
+            Functions.drive(this, hardwareMap, telemetry, -725, 725, 0.5, 725, -725, testMode);
 
+            // Back uoi
+            Functions.drive(this, hardwareMap, telemetry, -300, -300, 0.5, -300, -300, testMode);
+
+            // Drop Pixel
+            Functions.dropYellow(this, hardwareMap, telemetry, "Down", 0.2, 1.5,ControlHub_ServoController, ExpansionHub2_ServoController);
+            Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
+
+            // Go a bit forward
+            Functions.drive(this, hardwareMap, telemetry, 150, 150, 0.05, 150, 150, testMode);
+
+            //Strafe left to parking
+            Functions.drive(this, hardwareMap, telemetry, 2000, -2000, 0.5, -2000, 2000, testMode);
+
+            // Wait
+            Functions.pause(0.1);
+
+            //Park
+            Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.2, -400, -400, testMode);
+*/
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -364,45 +423,45 @@ public class AutoBlueBack extends LinearOpMode {
 
         return colorFound;
     }
-    /*
-    private boolean driveUntilDistanceAway(robotDirection newDirection, double distance, double searchTime) {
-        // Will keep going until is true
-        boolean distanceReached = false;
+        /*
+        private boolean driveUntilDistanceAway(robotDirection newDirection, double distance, double searchTime) {
+            // Will keep going until is true
+            boolean distanceReached = false;
 
-        // Set the current direction
-        currentDirection = newDirection;
+            // Set the current direction
+            currentDirection = newDirection;
 
-        // Set the drive time
-        ElapsedTime driveTime = new ElapsedTime();
+            // Set the drive time
+            ElapsedTime driveTime = new ElapsedTime();
 
-        while (opModeIsActive() && driveTime.seconds() < searchTime && distanceReached == false) {
+            while (opModeIsActive() && driveTime.seconds() < searchTime && distanceReached == false) {
 
-            // Get current distance
-            double currentDistance = distanceSensor.getDistance(DistanceUnit.CM);
+                // Get current distance
+                double currentDistance = distanceSensor.getDistance(DistanceUnit.CM);
 
-            if (distance > currentDistance) {
-                distanceReached = true;
+                if (distance > currentDistance) {
+                    distanceReached = true;
+                }
+
+                if (distanceReached) {
+                    telemetry.addData("Got to ", distance);
+                } else {
+                    telemetry.addData("Distance:", currentDistance + "/" + distance);
+                    telemetry.addData("In Direction:", currentDirection.direction);
+                    telemetry.addData("Time remaining until return", formatSeconds(driveTime.seconds()) + "/" + searchTime);
+                    telemetry.update();
+                    setPower();
+                }
             }
 
-            if (distanceReached) {
-                telemetry.addData("Got to ", distance);
-            } else {
-                telemetry.addData("Distance:", currentDistance + "/" + distance);
-                telemetry.addData("In Direction:", currentDirection.direction);
-                telemetry.addData("Time remaining until return", formatSeconds(driveTime.seconds()) + "/" + searchTime);
-                telemetry.update();
-                setPower();
-            }
+            // Stop the robot
+            currentDirection = fullStop;
+
+            setPower();
+
+            return distanceReached;
         }
-
-        // Stop the robot
-        currentDirection = fullStop;
-
-        setPower();
-
-        return distanceReached;
-    }
-    */
+        */
 
     private void setArmPower() {
         frontLeftWheel.setPower(currentDirection.frontLeftPower);

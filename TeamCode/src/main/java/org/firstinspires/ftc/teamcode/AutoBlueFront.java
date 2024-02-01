@@ -38,7 +38,7 @@ import org.firstinspires.ftc.robotcore.external.Func;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@Autonomous(name = "AutoBlueFront")
+@Autonomous(name = "AutoBlueFrontOld")
 public class AutoBlueFront extends LinearOpMode {
 
     private String action;
@@ -151,6 +151,7 @@ public class AutoBlueFront extends LinearOpMode {
         else
         {
             isFound = typeOfRun == 1;
+            Functions.pause(3.5);
         }
 
         // If pixel found, set it to have been in on the Left
@@ -231,6 +232,7 @@ public class AutoBlueFront extends LinearOpMode {
             else
             {
                 isFound = typeOfRun == 2;
+                Functions.pause(3.5);
             }
 
             // If pixel found, set it to have been in the center

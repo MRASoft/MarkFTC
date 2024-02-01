@@ -151,6 +151,7 @@ public class AutoRedFront extends LinearOpMode {
         else
         {
             isFound = typeOfRun == 1;
+            Functions.pause(3.5);
         }
 
         // If pixel found, set it to have been in on the Right
@@ -227,6 +228,7 @@ public class AutoRedFront extends LinearOpMode {
             else
             {
                 isFound = typeOfRun == 2;
+                Functions.pause(3.5);
             }
 
             // If pixel found, set it to have been in the center

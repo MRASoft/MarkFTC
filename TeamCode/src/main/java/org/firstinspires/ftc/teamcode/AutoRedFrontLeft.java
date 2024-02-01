@@ -131,7 +131,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
         // Define Var
         boolean isFound;
         // 0 = Normal, 1 = Right, 2 = Center, 3 = Left.
-        int typeOfRun = 0;
+        int typeOfRun = 3;
         String whereFound = "Right";
 
         Functions.drive(this, hardwareMap, telemetry, 25, 25, 0.5, 25, 25, testMode);
@@ -148,6 +148,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
         else
         {
             isFound = typeOfRun == 1;
+            Functions.pause(3.5);
         }
 
         // If pixel found, set it to have been in on the Right
@@ -225,6 +226,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
             else
             {
                 isFound = typeOfRun == 2;
+                Functions.pause(3.5);
             }
 
             // If pixel found, set it to have been in the center

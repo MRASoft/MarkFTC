@@ -160,11 +160,13 @@ public class AutoRedBack extends LinearOpMode {
         // Define Var
         boolean isFound;
         // 0 = Normal, 1 = Left, 2 = Center, 3 = Right.
-        int typeOfRun = 2;
+        int typeOfRun = 3;
         String whereFound = "Left";
 
+        // Go forward a bit
         Functions.drive(this, hardwareMap, telemetry, 50, 50, 0.5, 50, 50, testMode);
 
+        // Strafe left a bit
         Functions.drive(this, hardwareMap, telemetry, 430, -430, 0.5, -430, 430, testMode);
 
 
@@ -177,6 +179,7 @@ public class AutoRedBack extends LinearOpMode {
         else
         {
             isFound = typeOfRun == 1;
+            Functions.pause(3.5);
         }
 
         // If pixel found, set it to have been in on the Left
@@ -195,22 +198,22 @@ public class AutoRedBack extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, -200, -200, 0.5, -200, -200, testMode);
 
             // Drop Purple Pixel
-            //Lightning.setPower(0.25);
+            Lightning.setPower(0.25);
 
             // Wait
             //Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
             Functions.pause(2);
 
             // Straighten out
-            Functions.straighten(this, hardwareMap, telemetry, basleLineYaw);
+            //Functions.straighten(this, hardwareMap, telemetry, basleLineYaw);
 
             // Back uoi
             Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.5, -400, -400, testMode);
 
             // Stop motor
-            //Lightning.setPower(0);
+            Lightning.setPower(0);
 
-            // Turn Right
+            /* Turn Right
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
 
             // Straighten out
@@ -241,7 +244,7 @@ public class AutoRedBack extends LinearOpMode {
 
             //Park
             Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.2, -400, -400, testMode);
-
+*/
             if (true){return;}
         }
 
@@ -263,6 +266,7 @@ public class AutoRedBack extends LinearOpMode {
             else
             {
                 isFound = typeOfRun == 2;
+                Functions.pause(3.5);
             }
 
             // If pixel found, set it to have been in the center
@@ -272,7 +276,7 @@ public class AutoRedBack extends LinearOpMode {
                 // Drive to prop
                 Functions.drive(this, hardwareMap, telemetry, 1800, 1800, 0.5, 1800, 1800, testMode);
 
-                Functions.drive(this, hardwareMap, telemetry, -300, -300, 0.5, -300, -300, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.5, -400, -400, testMode);
 
                 // Drop Purple Pixel
                 Lightning.setPower(0.25);
@@ -282,8 +286,8 @@ public class AutoRedBack extends LinearOpMode {
                 Functions.pause(2);
 
                 // Straighten out
-                Functions.straighten(this, hardwareMap, telemetry, basleLineYaw);
-                Functions.pause(2);
+                //Functions.straighten(this, hardwareMap, telemetry, basleLineYaw);
+                //Functions.pause(2);
 
                 // Back uoi
                 Functions.drive(this, hardwareMap, telemetry, -1600, -1600, 0.5, -1600, -1600, testMode);
@@ -292,10 +296,10 @@ public class AutoRedBack extends LinearOpMode {
                 Lightning.setPower(0);
 
                 // Straighten out
-                Functions.straighten(this, hardwareMap, telemetry, basleLineYaw);
+                //Functions.straighten(this, hardwareMap, telemetry, basleLineYaw);
                 Functions.pause(2);
 
-                // Go to Backdrop
+                /* Go to Backdrop
                 Functions.drive(this, hardwareMap, telemetry, -4200, 4200, 0.15, 4200, -4200, testMode);
 
                 // Turn Left
@@ -303,7 +307,7 @@ public class AutoRedBack extends LinearOpMode {
 
                 // Strafe to center backdrop
                 Functions.drive(this, hardwareMap, telemetry, -1600, 1600, 0.5, 1600, -1600, testMode);
-
+        */
                 // Back uoi
                 //Functions.drive(this, hardwareMap, telemetry, -850, -850, 0.3, -850, -850, testMode);
 
