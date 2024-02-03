@@ -131,7 +131,7 @@ public class AutoRedFrontRight extends LinearOpMode {
         // Define Var
         boolean isFound;
         // 0 = Normal, 1 = Right, 2 = Center, 3 = Left.
-        int typeOfRun = 3;
+        int typeOfRun = 0;
         String whereFound = "Right";
 
         Functions.drive(this, hardwareMap, telemetry, 25, 25, 0.5, 25, 25, testMode);
@@ -342,6 +342,9 @@ public class AutoRedFrontRight extends LinearOpMode {
 
         }
 
+        telemetry.addData("Finish", "Fish ish");
+        telemetry.update();
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving stop here////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -482,4 +485,4 @@ public class AutoRedFrontRight extends LinearOpMode {
     }
 }
 
-//Red Right
+//Red Front Right

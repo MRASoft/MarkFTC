@@ -160,7 +160,7 @@ public class AutoRedBack extends LinearOpMode {
         // Define Var
         boolean isFound;
         // 0 = Normal, 1 = Left, 2 = Center, 3 = Right.
-        int typeOfRun = 3;
+        int typeOfRun = 0;
         String whereFound = "Left";
 
         // Go forward a bit
@@ -392,6 +392,9 @@ public class AutoRedBack extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, -400, -400, 0.2, -400, -400, testMode);
 */
         }
+
+        telemetry.addData("Finish", "Fish ish");
+        telemetry.update();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving stop here////////////////////////////////////////////////

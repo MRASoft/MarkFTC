@@ -134,7 +134,7 @@ public class AutoBlueFront extends LinearOpMode {
         // Define Var
         boolean isFound;
         // 0 = Normal, 1 = Left, 2 = Center, 3 = Right.
-        int typeOfRun = 3;
+        int typeOfRun = 0;
         String whereFound = "Left";
 
         Functions.drive(this, hardwareMap, telemetry, 50, 50, 0.5, 50, 50, testMode);
@@ -352,6 +352,9 @@ public class AutoBlueFront extends LinearOpMode {
 
         }
 
+        telemetry.addData("Finish", "Fish ish");
+        telemetry.update();
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving stop here////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -491,3 +494,4 @@ public class AutoBlueFront extends LinearOpMode {
         return String.valueOf(fixedValue);
     }
 }
+//Blue Front WRONG

@@ -131,7 +131,7 @@ public class AutoRedFrontLeft extends LinearOpMode {
         // Define Var
         boolean isFound;
         // 0 = Normal, 1 = Right, 2 = Center, 3 = Left.
-        int typeOfRun = 3;
+        int typeOfRun = 0;
         String whereFound = "Right";
 
         Functions.drive(this, hardwareMap, telemetry, 25, 25, 0.5, 25, 25, testMode);
@@ -343,6 +343,9 @@ public class AutoRedFrontLeft extends LinearOpMode {
 
         }
 
+        telemetry.addData("Finish", "Fish ish");
+        telemetry.update();
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////// Driving stop here////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -365,7 +368,6 @@ public class AutoRedFrontLeft extends LinearOpMode {
             telemetry.update();
             setPower();
         }
-
 
         // Stop the robot
         currentDirection = fullStop;
@@ -483,4 +485,4 @@ public class AutoRedFrontLeft extends LinearOpMode {
     }
 }
 
-//Red Left
+//Red Front Left

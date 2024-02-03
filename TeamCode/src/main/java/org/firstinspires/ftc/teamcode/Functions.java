@@ -170,15 +170,15 @@
 
             //Define CRServos
             CRServo BackDropControl = null;
-            CRServo ExpandControl = null;
+            //CRServo ExpandControl = null;
 
             //Set servos
             BackDropControl = hardwareMap.get(CRServo.class, "BackDropControl");
-            ExpandControl = hardwareMap.get(CRServo.class, "ExpandControl");
+            //ExpandControl = hardwareMap.get(CRServo.class, "ExpandControl");
 
             //Disable pwm
             ControlHub_ServoController.pwmDisable();
-            ExpansionHub2_ServoController.pwmDisable();
+            //ExpansionHub2_ServoController.pwmDisable();
 
             //Slide to the Up
             //ExpandControl.setPower(0.7);
@@ -213,7 +213,7 @@
         }
 
         public static void slideUp(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
-
+/*
 
             //Define CRServos
             CRServo ExpandControl = null;
@@ -230,11 +230,11 @@
 
             telemetry.addData("ExpandControl power: ", ExpandControl.getPower());
             telemetry.update();
-
+*/
         }
 
         public static void slideStop(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
-
+/*
             //Define CRServos
             CRServo ExpandControl = null;
 
@@ -250,6 +250,8 @@
 
             telemetry.addData("ExpandControl power: ", ExpandControl.getPower());
             telemetry.update();
+
+ */
         }
 
         public static void straighten(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double baseLine) {
