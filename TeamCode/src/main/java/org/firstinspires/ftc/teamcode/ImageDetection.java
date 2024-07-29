@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.util.List;
 public class ImageDetection {
 
+    // TO ADD; Catch Function. If detection fails, try again, and if it fails again, move to next line.
+
     public static boolean findBlue(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double searchTime, double confidence) {
         ElapsedTime elapsedTime = new ElapsedTime();
 
