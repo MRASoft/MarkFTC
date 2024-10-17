@@ -5,7 +5,7 @@
 // simulate touch sensor press and supports left as well as right turn.
 //
 // Also uses IMU to drive in a straight line when not avoiding an obstacle.
-
+/*
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -120,7 +120,7 @@ public class DriveAvoidImu extends LinearOpMode
 
     /**
      * Resets the cumulative angle tracking to zero.
-     */
+     *
     private void resetAngle()
     {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -131,7 +131,7 @@ public class DriveAvoidImu extends LinearOpMode
     /**
      * Get current cumulative angle rotation from last reset.
      * @return Angle in degrees. + = left, - = right.
-     */
+     *
     private double getAngle()
     {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
@@ -159,7 +159,7 @@ public class DriveAvoidImu extends LinearOpMode
     /**
      * See if we are moving in a straight line and if not return a power correction value.
      * @return Power adjustment, + is adjust left - is adjust right.
-     */
+     *
     private double checkDirection()
     {
         // The gain value determines how sensitive the correction is to direction changes.
@@ -183,7 +183,7 @@ public class DriveAvoidImu extends LinearOpMode
     /**
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
      * @param degrees Degrees to turn, + is left - is right
-     */
+     *
     private void rotate(int degrees, double power)
     {
         double  leftPower, rightPower;
@@ -237,3 +237,4 @@ public class DriveAvoidImu extends LinearOpMode
         resetAngle();
     }
 }
+*/

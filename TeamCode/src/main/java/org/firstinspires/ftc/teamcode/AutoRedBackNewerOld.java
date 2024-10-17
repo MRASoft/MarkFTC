@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@Autonomous(name = "AutoRedBack")
+@Autonomous(name = "AutoRedBackNewerOlds")
 public class AutoRedBackNewerOld extends LinearOpMode {
 
     private String action;

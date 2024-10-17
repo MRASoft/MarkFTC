@@ -43,12 +43,6 @@ public class TestAuto2 extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor Drone = null;
-    private CRServo Drop1 = null;
-    private CRServo Drop2 = null;
-    private CRServo Drop3 = null;
-    private CRServo Drop4 = null;
-    private DcMotor Lightning = null;
     public ServoController ControlHub_ServoController;
     public ServoController ExpansionHub2_ServoController;
 
@@ -60,18 +54,11 @@ public class TestAuto2 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        // Initialize the hardware variables
-
         //***VERY IMPORTANT**
         //Replace the device name (ex frontLeft) with the NAME OF THE
         //MOTORS DEFINED IN THE DRIVER HUB
-        Drone = hardwareMap.get(DcMotor.class, "Drone");
-        Lightning = hardwareMap.get(DcMotor.class, "Lightning");
         ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
         ExpansionHub2_ServoController = hardwareMap.get(ServoController.class, "Expansion Hub 2");
-
-        // Set the wheel directions
-        Drone.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         boolean Start = false;
@@ -124,18 +111,6 @@ public class TestAuto2 extends LinearOpMode {
         //////////////////////////////////////////// Driving starts here//////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        double LeftSensorValue;
-        double RightSensorValue;
-        if(DistanceTest == true) {
-            while (opModeIsActive()) {
-                LeftSensorValue = Distance.GetDisance(this, hardwareMap, telemetry, "leftDistanceSensor");
-                RightSensorValue = Distance.GetDisance(this, hardwareMap, telemetry, "rightDistanceSensor");
-
-                telemetry.addData("Left Distance: ", LeftSensorValue);
-                telemetry.addData("Right Distance: ", RightSensorValue);
-                telemetry.update();
-            }
-        }
 
         if(DriveTest == true) {
             // 16in = 1000
@@ -154,10 +129,6 @@ public class TestAuto2 extends LinearOpMode {
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
             Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700, testMode);
 
-            Lightning.setPower(0.25);
-            Functions.pause(2);
-            Lightning.setPower(0);
-
             Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700, testMode);
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
             Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700, testMode);
@@ -174,8 +145,8 @@ public class TestAuto2 extends LinearOpMode {
             //Functions.drive(this, hardwareMap, telemetry, 3000, 3000, 0.1, 3000, 3000, testMode);
             //Functions.pause(4);
             //Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
-            Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2, 1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
-            Functions.pause(1);
+            //Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2, 1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
+            //Functions.pause(1);
 
         }
 
