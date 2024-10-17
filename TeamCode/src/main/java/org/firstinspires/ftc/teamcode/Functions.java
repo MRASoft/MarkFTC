@@ -30,7 +30,12 @@
             return String.valueOf(fixedValue);
         }
 
-        public static void drive(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, int BackLeft_target, int BackRight_target, double Speed, int FrontLeft_target, int FrontRight_target, boolean testMode) {
+        public static void drive(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double BackLeft_target, double BackRight_target, double Speed, double FrontLeft_target, double FrontRight_target, boolean testMode) {
+            // 10in = 600
+            // 1in = 60
+
+            final double unitsPerInch = 60;
+
             DcMotor BackLeft;
             DcMotor BackRight;
             DcMotor FrontLeft;
@@ -51,10 +56,10 @@
             FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            BackLeft.setTargetPosition(BackLeft_target);
-            BackRight.setTargetPosition(BackRight_target);
-            FrontLeft.setTargetPosition(FrontLeft_target);
-            FrontRight.setTargetPosition(FrontRight_target);
+            BackLeft.setTargetPosition((int)(BackLeft_target * unitsPerInch));
+            BackRight.setTargetPosition((int)(BackRight_target * unitsPerInch));
+            FrontLeft.setTargetPosition((int)(FrontLeft_target * unitsPerInch));
+            FrontRight.setTargetPosition((int)(FrontRight_target * unitsPerInch));
 
             BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);

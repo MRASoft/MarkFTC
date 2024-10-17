@@ -37,7 +37,7 @@ import org.firstinspires.ftc.robotcore.external.Func;
 //Replace ' name = "OpMode3" ' with the name you want
 //to display on control hub, and ' class OpMode3 ' with
 //the name of the file.
-@Autonomous(name = "AutoBlueFront")
+@Autonomous(name = "AutoBlueFront2")
 public class AutoBlueFrontBackUp2 extends LinearOpMode {
 
     private String action;
