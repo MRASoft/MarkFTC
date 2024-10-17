@@ -79,7 +79,7 @@ public class SensorIMUNonOrthogonal extends LinearOpMode
     //----------------------------------------------------------------------------------------------
     // Main logic
     //----------------------------------------------------------------------------------------------
-+
+
     @Override public void runOpMode() throws InterruptedException {
 
         // Retrieve and initialize the IMU.
