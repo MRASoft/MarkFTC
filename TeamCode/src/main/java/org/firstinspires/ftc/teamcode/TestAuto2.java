@@ -117,9 +117,79 @@ public class TestAuto2 extends LinearOpMode {
 
 
             // Drive to pixel
-            Functions.drive(this, hardwareMap, telemetry, 25, 25, 0.5, 25, 25, testMode);
+            //Fix Strafe
+            Functions.drive(this, hardwareMap, telemetry, -0.5, 0.5, 0.5, 0.5, -0.5, testMode);
+            Functions.pause(0.25);
 
-            Functions.drive(this, hardwareMap, telemetry, -430, 430, 0.5, 430, -430, testMode);
+            //Drive forward
+            Functions.drive(this, hardwareMap, telemetry, 39, 39, 0.5, 39, 39,  testMode);
+            Functions.drive(this, hardwareMap, telemetry, 1, 1, 0.25, 1, 1, testMode);
+            Functions.pause(0.25);
+
+            //go back
+            Functions.drive(this, hardwareMap, telemetry, -16, -18, 0.5, -16, -16,  testMode);
+            Functions.pause(0.25);
+
+            //strafe to 1
+            Functions.drive(this, hardwareMap, telemetry, -55, 55, 0.5, 55, -55, testMode);
+            Functions.pause(0.25);
+
+            //drive forward
+            Functions.drive(this, hardwareMap, telemetry, 12, 12, 0.5, 12, 12, testMode);
+            Functions.pause(0.25);
+
+            //Turn
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
+            Functions.pause(0.25);
+
+            //go Go front
+            Functions.drive(this, hardwareMap, telemetry, 48, 48, 0.5, 48, 48, testMode);
+            Functions.pause(0.25);
+
+            //Strafe right
+            Functions.drive(this, hardwareMap, telemetry, -6, 6, 0.5, 6, -6, testMode);
+            Functions.pause(0.25);
+
+            //Functions.drive(this, hardwareMap, telemetry, -1, 1, 0.5, 1, -1, testMode);
+            //Shimmy
+            //Functions.drive(this, hardwareMap, telemetry, 1, -1, 0.5, -1, 1, testMode);
+            //Functions.pause(0.25);
+
+            //Go back to position
+            Functions.drive(this, hardwareMap, telemetry, -12, -12,  0.5, -12, -12,  testMode);
+            Functions.pause(0.25);
+
+            //Strafe right
+            Functions.drive(this, hardwareMap, telemetry, 6, -6, 0.5, -6, 6, testMode);
+
+            //Go back to position
+            Functions.drive(this, hardwareMap, telemetry, -34, -34,  0.5, -34, -34,  testMode);
+            Functions.pause(0.25);
+
+            //Strafe for 2
+            Functions.drive(this, hardwareMap, telemetry, -12.5, 12.5, 0.5, 12.5, -12.5, testMode); //Strafe for 2
+            Functions.pause(0.25);
+
+            Functions.drive(this, hardwareMap, telemetry, 43, 43,  0.5, 43, 43,  testMode);
+            Functions.pause(0.25);
+
+            //Go back
+            Functions.drive(this, hardwareMap, telemetry, -43, -43,  0.5, -43, -43,  testMode);
+
+            //Drift to the side for 3
+            Functions.drive(this, hardwareMap, telemetry, -7, 7, 0.5, 7, -7, testMode); //Strafe for 2
+            Functions.pause(0.25);
+
+            //Go forward
+            Functions.drive(this, hardwareMap, telemetry, 40, 40,  0.5, 40, 40,  testMode);
+            Functions.pause(0.25);
+
+            //go back
+            Functions.drive(this, hardwareMap, telemetry, -40, -40,  0.5, -40, -40,  testMode);
+            Functions.pause(0.25);
+
+
+            //Functions.drive(this, hardwareMap, telemetry, -430, 430, 0.5, 430, -430, testMode);
 
             /*
             Functions.drive(this, hardwareMap, telemetry, 2000, 2000, 0.5, 2000, 2000, testMode);
