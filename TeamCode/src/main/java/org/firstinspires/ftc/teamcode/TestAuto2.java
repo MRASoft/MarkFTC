@@ -116,6 +116,17 @@ public class TestAuto2 extends LinearOpMode {
             // 16in = 1000
 
 
+            ///
+            //NOTE TO KIRO M/ANYONE PROGRAMMING!!!
+            //THE AUTO CODE HAS BEEN MOVED TO IntoTheDeepAuto1
+            //DO NOT USE THIS FOR COMPETITION!!!
+            ///
+
+
+
+
+
+
             // Drive to pixel
             //Fix Strafe
             Functions.drive(this, hardwareMap, telemetry, -0.5, 0.5, 0.5, 0.5, -0.5, testMode);
