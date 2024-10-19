@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "IntoTheDeepAuto1")
+@Autonomous(name = "IntoTheDeepAuto1Wall")
 public class IntoTheDeepAuto1 extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -49,7 +49,7 @@ public class IntoTheDeepAuto1 extends LinearOpMode {
             Functions.pause(0.25);
 
             //go back
-            Functions.drive(this, hardwareMap, telemetry, -16, -18, 0.65, -16, -16,  testMode);
+            Functions.drive(this, hardwareMap, telemetry, -16, -16, 0.65, -16, -16,  testMode);
             Functions.pause(0.25);
 
             //strafe to 1
@@ -95,7 +95,7 @@ public class IntoTheDeepAuto1 extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, -10, 10, 0.6, 10, -10, testMode); //Strafe for 2
 
             //Go forward
-            Functions.drive(this, hardwareMap, telemetry, 40, 40,  0.65, 40, 40,  testMode);
+            Functions.drive(this, hardwareMap, telemetry, 42, 42,  0.65, 42, 42,  testMode);
 
             //go back
             Functions.drive(this, hardwareMap, telemetry, -2, -2,  0.6, -2, -2,  testMode);
